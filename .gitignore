@@ -24,6 +24,7 @@ packages/sfp-cli/oclif.manifest.json
 packages/apexlink/tests/resources/core-crm/apexlink.json
 packages/apexlink/tests/resources/feature-mgmt/apexlink.json
 .nx
+.maintenance/
 .idea/
 .sfpowerscripts
 
