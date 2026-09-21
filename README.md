@@ -15,13 +15,13 @@ The immediate priority is compatibility and maintainability. The work is planned
 3. Upgrade Node.js and libraries incrementally, with a tested checkpoint for each dependency group or major migration.
 4. Validate the packaged CLI and container builds, document compatibility changes, and establish repeatable maintenance checks.
 
-The [comprehensive migration plan](maintenance/MIGRATION.md) defines the baseline, test coverage, package integration approach, upgrade order, acceptance gates, and rollback procedure. It is a plan for upcoming implementation; the documentation commit does not complete these phases.
+The [comprehensive migration plan](maintenance/MIGRATION.md) defines the baseline, test coverage, package integration approach, upgrade order, acceptance gates, and rollback procedure. Baseline and offline characterization work has begun; the acceptance gates remain open. See the [baseline evidence](maintenance/BASELINE.md) and [validation ledger](maintenance/VALIDATION.md).
 
 ## Current state
 
 The root package is still the inherited `@flxbl-io/sfp` version `39.8.0`. It declares Node.js `>=18.0.0` and depends on the published logger `5.0.1` and sfprofiles `5.2.2` packages. That engine declaration describes the legacy package and is not a recommendation to use an end-of-life runtime. The migration targets Node.js 24 LTS first, with the current Node.js line evaluated separately.
 
-Package names, upstream links in package metadata, and release workflows have not yet been migrated to a fork-specific distribution. Installing `@flxbl-io/sfp` from npm or using upstream container images does not install this fork. No fork release is established by this documentation update.
+Package names and upstream links in package metadata have not yet been migrated to a fork-specific distribution. Inherited publishing and promotion workflows are [disabled](maintenance/disabled-workflows/README.md). Installing `@flxbl-io/sfp` from npm or using upstream container images does not install this fork. No fork release has been established.
 
 ## Working from source
 
@@ -33,7 +33,7 @@ npm run build
 node ./bin/run --help
 ```
 
-Use the committed lockfile to reproduce dependency resolution. The runtime and build compatibility matrix will be established in the first migration phase; until then, a successful build on a particular machine is not a support guarantee. Native dependencies may require platform build tools when prebuilt binaries are unavailable.
+Use the committed lockfile to reproduce dependency resolution. Clean Windows installs/builds and SQLite probes pass on Node 20.20.2 and 22.23.2; Node 20 is a historical comparison only. Node 24.12.0 installation fails on the validation host at the inherited SQLite dependency. These results are diagnostic, not a completed support matrix. See the baseline for exact npm versions and native build requirements.
 
 Run the existing Jest suite with:
 
@@ -41,11 +41,21 @@ Run the existing Jest suite with:
 npm test -- --runInBand
 ```
 
-The suite's existing failures and environment assumptions must be recorded before upgrading. The dedicated offline characterization command and CI gate are planned work; they are not yet part of the root npm scripts.
+For guarded offline validation after building, run:
+
+```sh
+npm run test:offline-guard
+npm run test:characterization
+npm run test:cli
+npm run test:mutations
+npm run test:offline -- --silent --verbose --coverage --detectOpenHandles
+```
+
+The runner isolates authentication/configuration and blocks network access and real subprocesses. The full inherited suite currently fails; its failures and pre-existing skips are recorded in the baseline. CI runs these commands, including the failing full-suite gate. Linux CI results are still pending. The characterization suite does not yet cover every contract in the migration plan.
 
 After building, `node ./bin/run <command>` runs the local CLI. To expose the local `sfp` and `sfpowerscripts` commands globally during development, run `npm link` from the repository root.
 
-Salesforce operations require the appropriate CLI tooling, authentication, and org permissions. Local characterization tests will use fixtures and mocks without a live org; live deployment validation is tracked separately in the plan.
+Salesforce operations require the appropriate CLI tooling, authentication, and org permissions. Local characterization tests use fixtures and mocks without a live org; live deployment validation is tracked separately in the plan.
 
 ## Repository guide
 

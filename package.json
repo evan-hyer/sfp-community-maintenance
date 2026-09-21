@@ -194,7 +194,12 @@
         "clean": "rimraf ./lib && rimraf tsconfig.tsbuildinfo",
         "compile": "tsc -b tsconfig.json",
         "snyk-protect": "snyk protect",
-        "test": "cross-env FORCE_COLOR=true jest --silent --verbose --coverage --detectOpenHandles"
+        "test": "cross-env FORCE_COLOR=true jest --silent --verbose --coverage --detectOpenHandles",
+        "test:characterization": "node maintenance/run-offline.cjs characterization",
+        "test:offline": "node maintenance/run-offline.cjs jest",
+        "test:offline-guard": "node maintenance/offline-guard.test.cjs",
+        "test:cli": "node maintenance/cli-smoke.test.cjs",
+        "test:mutations": "node maintenance/mutations.test.cjs"
     },
     "snyk": true
 }
