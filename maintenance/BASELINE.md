@@ -3,6 +3,10 @@
 Recorded 2026-09-21. Phases 0 and 1 are **in progress**, not acceptance-complete.
 No runtime, application dependency, lockfile, or application source was changed.
 
+This document preserves the original measurements. The subsequent
+[test-only repairs](TEST-REPAIRS.md) make all 193 Jest tests pass on Windows;
+those results do not replace the historical failures below.
+
 ## Inputs and isolation
 
 - Upstream commit: `3838dd0f6dd72da9ab11a93693758fbaec55ec90`.

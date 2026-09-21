@@ -1,3 +1,4 @@
+import path from 'path';
 import { jest, expect } from '@jest/globals';
 import FTAnalyser from '../../../../src/core/package/analyser/FTAnalyzer';
 import SfpPackage, { PackageType } from '../../../../src/core/package/SfpPackage';
@@ -134,7 +135,7 @@ describe('FT Analyzer', () => {
 
         const virtualFs: VirtualDirectory[] = [
             {
-                dirPath: '/main/default/object/Test__c/fields',
+                dirPath: path.normalize('/main/default/object/Test__c/fields'),
                 children: [
                     {
                         name: 'AccountManager__c.field-meta.xml',
@@ -160,11 +161,11 @@ describe('FT Analyzer', () => {
             {
                 name: 'AccountManager__c',
                 type: registry.types.customobject.children.types.customfield,
-                xml: '/main/default/object/Test__c/fields/AccountManager__c.field-meta.xml',
+                xml: path.normalize('/main/default/object/Test__c/fields/AccountManager__c.field-meta.xml'),
                 parent: SourceComponent.createVirtualComponent({
                     name: 'Test__c',
                     type: registry.types.customobject,
-                    xml: '/main/default/object/Test__c.object-meta.xml',
+                    xml: path.normalize('/main/default/object/Test__c.object-meta.xml'),
                 }),
             },
             virtualFs
@@ -214,7 +215,7 @@ describe('FT Analyzer', () => {
 
         const virtualFs: VirtualDirectory[] = [
             {
-                dirPath: '/main/default/object/Test__c/fields',
+                dirPath: path.normalize('/main/default/object/Test__c/fields'),
                 children: [
                     {
                         name: 'AccountManager__c.field-meta.xml',
@@ -240,11 +241,11 @@ describe('FT Analyzer', () => {
             {
                 name: 'AccountManager__c',
                 type: registry.types.customobject.children.types.customfield,
-                xml: '/main/default/object/Test__c/fields/AccountManager__c.field-meta.xml',
+                xml: path.normalize('/main/default/object/Test__c/fields/AccountManager__c.field-meta.xml'),
                 parent: SourceComponent.createVirtualComponent({
                     name: 'Test__c',
                     type: registry.types.customobject,
-                    xml: '/main/default/object/Test__c.object-meta.xml',
+                    xml: path.normalize('/main/default/object/Test__c.object-meta.xml'),
                 }),
             },
             virtualFs
@@ -294,7 +295,7 @@ describe('FT Analyzer', () => {
 
         const virtualFs: VirtualDirectory[] = [
             {
-                dirPath: '/main/default/object/Test__c/fields',
+                dirPath: path.normalize('/main/default/object/Test__c/fields'),
                 children: [
                     {
                         name: 'AccountManager__c.field-meta.xml',
@@ -320,11 +321,11 @@ describe('FT Analyzer', () => {
             {
                 name: 'AccountManager__c',
                 type: registry.types.customobject.children.types.customfield,
-                xml: '/main/default/object/Test__c/fields/AccountManager__c.field-meta.xml',
+                xml: path.normalize('/main/default/object/Test__c/fields/AccountManager__c.field-meta.xml'),
                 parent: SourceComponent.createVirtualComponent({
                     name: 'Test__c',
                     type: registry.types.customobject,
-                    xml: '/main/default/object/Test__c.object-meta.xml',
+                    xml: path.normalize('/main/default/object/Test__c.object-meta.xml'),
                 }),
             },
             virtualFs

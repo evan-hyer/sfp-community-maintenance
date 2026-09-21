@@ -40,7 +40,7 @@ for (const key of Object.keys(dns.promises)) {
 const childProcess = require('node:child_process');
 for (const key of ['exec', 'execSync', 'execFile', 'execFileSync', 'spawn', 'spawnSync', 'fork']) {
   childProcess[key] = function () {
-    recordViolation('Blocked child process');
+    recordViolation(`Blocked child process (${key})\n${new Error().stack}`);
     throw new Error('Child processes are disabled during offline validation');
   };
 }

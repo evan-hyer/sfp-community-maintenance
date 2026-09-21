@@ -51,7 +51,7 @@ npm run test:mutations
 npm run test:offline -- --silent --verbose --coverage --detectOpenHandles
 ```
 
-The runner isolates authentication/configuration and blocks network access and real subprocesses. The full inherited suite currently fails; its failures and pre-existing skips are recorded in the baseline. CI runs these commands, including the failing full-suite gate. Linux CI results are still pending. The characterization suite does not yet cover every contract in the migration plan.
+The runner isolates authentication/configuration and blocks network access and real subprocesses. The original failures and skips are preserved in the baseline; focused test/harness repairs now make all 193 Jest tests pass on Windows. CI runs these commands without excluding failing suites. Fresh-checkout and Linux results for the repaired checkpoint are still pending. The characterization suite does not yet cover every contract in the migration plan.
 
 After building, `node ./bin/run <command>` runs the local CLI. To expose the local `sfp` and `sfpowerscripts` commands globally during development, run `npm link` from the repository root.
 

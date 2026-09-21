@@ -12,7 +12,7 @@ After `npm ci` and `npm run build`:
 | `npm run test:cli` | Version, command discovery/help, legacy build alias, flag errors and stdout/stderr separation |
 | `npm run test:offline-guard` | Eleven blocked network/process entry points, including swallowed exceptions |
 | `npm run test:mutations` | In-memory logger, merge, and artifact regressions must fail the unchanged contracts |
-| `npm run test:offline -- --silent --verbose --coverage --detectOpenHandles` | Entire inherited Jest suite, including known failures; no new skips |
+| `npm run test:offline -- --silent --verbose --coverage --detectOpenHandles` | Entire Jest suite; all 193 tests now pass on Windows after focused fixture/harness repairs |
 
 Characterization is a separate Node test-runner suite; it is deliberately not
 hidden outside Jest's `testMatch` without a runnable command. CI executes it
@@ -39,6 +39,9 @@ own fixtures, logger state, color state, and method stubs.
 - Full inherited suite: both Node 20 and Node 22 have 173 passed, 18 failed,
   2 pre-existing skips, with the same failed assertions.
   See [baseline classifications](BASELINE.md) and its structured evidence.
+- Subsequent [test-only repairs](TEST-REPAIRS.md): Windows/Node 20 passes all 40
+  suites and 193 tests, with no skips or guard violations. Fresh-checkout
+  reproduction of this checkpoint remains pending.
 - Linux/container execution: unavailable locally and not claimed. CI is defined
   but has not run remotely. Node 20 is a historical diagnostic only; Node 22/24
   CI jobs are explicitly optional probes, not declarations of production support.
@@ -52,8 +55,8 @@ coverage percentage is not used as a substitute for these contracts.
 
 ## Open acceptance work
 
-1. Repair or constrain the inherited tests described in `BASELINE.md`, with
-   independently reviewed test-only changes and reproduced results.
+1. Reproduce the repaired test/harness checkpoint from committed source on
+   Windows and Linux. The primary Windows checkout passes all 193 Jest tests.
 2. Complete phase-1 coverage for malformed profile XML through the package's own
    reader/merge entry point, full profile merge/reconcile workflows, artifact
    package merging, builder/validator/release retries and partial failures.

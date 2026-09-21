@@ -30,7 +30,7 @@ Object.assign(env, {
 });
 let args;
 if (mode === 'characterization') args = ['maintenance/characterization.test.cjs'];
-else if (mode === 'jest') args = ['node_modules/jest/bin/jest.js', '--runInBand', ...process.argv.slice(3)];
+else if (mode === 'jest') args = ['node_modules/jest/bin/jest.js', '--runInBand', '--no-watchman', ...process.argv.slice(3)];
 else if (mode === 'cli') args = ['bin/run', ...process.argv.slice(3)];
 else if (mode === 'mutation') args = ['maintenance/mutation-case.cjs', process.argv[3]];
 else throw new Error(`Unknown offline mode: ${mode}`);
