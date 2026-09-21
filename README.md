@@ -1,191 +1,72 @@
-# ⚠️ End of Life Notice - May 2026
+﻿# sfp Community Maintenance
 
-> **sfp Community Edition will be sunset in May 2026.**
+This repository maintains the open-source sfp Community Edition CLI for teams using modular Salesforce development and artifact-based delivery. Its purpose is to preserve existing workflows while bringing the runtime, dependencies, and maintenance practices up to date in small, verifiable steps.
 
-Thank you for being part of the flxbl community over the last 6 years. It's been a great experience building this out alongside all of you—starting from an Azure DevOps extension put together in a weekend, to a plugin, and eventually to a CLI. Today we have 300+ orgs using it in their CI/CD workflows.
+sfp builds Salesforce metadata and code into versioned artifacts, validates changes, and orchestrates installation and release across environments. It also provides tools for package dependencies, profiles, Apex tests, scratch-org pools, changelogs, and metrics. Keeping the same artifact through successive environments helps teams reproduce releases and understand what was deployed.
 
-Over the last 2 years, as we started building sfp pro (initially as a means to sustain the overall project), we didn't anticipate the extent of changes we'd introduce to support developers with an experience that removes the need to pause and ponder—staying in your natural flow. We introduced codev and sfp server. sfp server is rapidly evolving into our vision of "devhub++", with codev providing the visual interface on web/desktop and sfp pro cli providing the CLI interface. We're hoping to promote sfp server and codev from beta to v1 at the beginning of April.
+## Why this fork exists
 
-All of this means the architecture has changed drastically—community and pro are now two entirely different codebases. The community edition has to be maintained independently, and to be transparent, we haven't been able to ship new features to the community for a while now. It's also become hard to align documentation across both topologies, creating confusion for organisations upgrading or new to the ecosystem.
+The inherited upstream README announced the sunset of Community Edition in May 2026. This fork provides a place to maintain that code independently. It is based on [flxbl-io/sfp](https://github.com/flxbl-io/sfp), retains the upstream MIT license and attribution, and is separate from sfp pro, sfp server, and codev.
 
-We've decided to sunset sfp community edition by May 2026. Issues and PRs are no longer being accepted. The repo will remain available if you want to fork and maintain it internally—see the build instructions below.
+The immediate priority is compatibility and maintainability. The work is planned in this order:
 
-Thanks once again for your understanding and all your contributions.
+1. Establish characterization tests that capture current behavior before changing dependencies.
+2. Bring `@flxbl-io/sfp-logger` and `@flxbl-io/sfprofiles` into the repository as internal dependencies, preserving their behavior and licenses.
+3. Upgrade Node.js and libraries incrementally, with a tested checkpoint for each dependency group or major migration.
+4. Validate the packaged CLI and container builds, document compatibility changes, and establish repeatable maintenance checks.
 
-### Timeline
+The [comprehensive migration plan](maintenance/MIGRATION.md) defines the baseline, test coverage, package integration approach, upgrade order, acceptance gates, and rollback procedure. It is a plan for upcoming implementation; the documentation commit does not complete these phases.
 
-| Date | Milestone |
-|------|-----------|
-| January 2026 | Issues and PR intake closed |
-| Feb - April 2026 | Build instructions and Claude instructions added for users who are forking |
-| Early May 2026 | Repository archived, docs updated to focus on new terminology |
+## Current state
 
----
+The root package is still the inherited `@flxbl-io/sfp` version `39.8.0`. It declares Node.js `>=18.0.0` and depends on the published logger `5.0.1` and sfprofiles `5.2.2` packages. That engine declaration describes the legacy package and is not a recommendation to use an end-of-life runtime. The migration targets Node.js 24 LTS first, with the current Node.js line evaluated separately.
 
+Package names, upstream links in package metadata, and release workflows have not yet been migrated to a fork-specific distribution. Installing `@flxbl-io/sfp` from npm or using upstream container images does not install this fork. No fork release is established by this documentation update.
 
-```
+## Working from source
 
+Run these commands from the repository root, where `package.json` lives:
 
-         .----------------.  .----------------.  .----------------.
-        | .--------------. || .--------------. || .--------------. |
-        | |    _______   | || |  _________   | || |   ______     | |
-        | |   /  ___  |  | || | |_   ___  |  | || |  |_   __ \   | |
-        | |  |  (__ \_|  | || |   | |_  \_|  | || |    | |__) |  | |
-        | |   '.___`-.   | || |   |  _|      | || |    |  ___/   | |
-        | |  |`\____) |  | || |  _| |_       | || |   _| |_      | |
-        | |  |_______.'  | || | |_____|      | || |  |_____|     | |
-        | |              | || |              | || |              | |
-        | '--------------' || '--------------' || '--------------' |
-         '----------------'  '----------------'  '----------------'
-
-
-
-```
-![Version](https://img.shields.io/npm/v/@flxbl-io/sfp.svg)
-[![GitHub stars](https://img.shields.io/github/stars/flxbl-io/sfp)](https://gitHub.com/flxbl-io/sfp/stargazers/)
-[![GitHub contributors](https://img.shields.io/github/contributors/flxbl-io/sfp.svg)](https://github.com/flxbl-io/sfp/graphs/contributors/)
-[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/flxbl-io/sfp/blob/main/LICENSE)
-
-[![DeepScan grade](https://deepscan.io/api/teams/23310/projects/26589/branches/848646/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=23310&pid=26589&bid=848646)
-[![CodeFactor](https://www.codefactor.io/repository/github/flxbl-io/sfp/badge)](https://www.codefactor.io/repository/github/flxbl-io/sfp)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflxbl-io%2Fsfp.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fflxbl-io%2Fsfp?ref=badge_shield&issueType=license) [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/5614/badge)](https://bestpractices.coreinfrastructure.org/projects/5614)
-
-[![Join slack](https://i.imgur.com/FZZmA3g.png)](https://launchpass.com/flxblio)
-
-sfp is an purpose built  cli based tool specifically designed for modular Salesforce development and release management.   sfp is aimed at streamlining and automating the build, test, and deployment processes of Salesforce metadata,  code and data. It extends sf cli functionalities, focusing on artifact-driven development to enhance DevOps practices within Salesforce projects.
-
-## Key Aspects of sfp:
-
-- Artifact-Centric Approach: sfp packages Salesforce code and metadata into artifacts, along with deployment details, ensuring consistent deployments and simplified version management across environments.
-- Best-in-Class Mono Repo Support: Offers robust support for mono repositories, facilitating streamlined development, integration, and collaboration
-- Support for Multiple Package Types: sfp accommodates various Salesforce package types with streamlined commands, enabling modular development, independent versioning, and flexible deployment strategies.
-- Orchestrate Across Entire Lifecycle:  sfp provides an extensive set of functionality across the entire lifecycle of your Salesforce development.
-- End-to-End Observability:  sfp is built with comprehensive metrics that are emitted on every commands providing unparalleled visibility into your ALM process.
-Commands
-
-sfp is comprised of a suite of commands to aid in your end to end development cycle for Salesforce.  Starting with the core commands, you are able to perform  basic work flows to to build and deploy artifacts (locally to start, and to a NPM artifact repository after) across environments through the command line.  As you progress in your understanding of the core commands, you can utilized more advanced commands and flags in your CI/CD platform of choice to drive a more complete release process leveraging release definitions, change logs, metrics and much more.
-
-sfp is constantly evolving and being driven by the passionate community that has embraced our ways of working.  We have introduced key utility commands over the years to solve pain points specific to the Salesforce Platform.  The commands have been successfully tested and used on large enterprise-scale implementations.  As we continue to grow the toolset, we hope to introduced more commands to address the future wave of challenges.
-
-
-#### Installing sfp locally
-
-sfp can be installed on your local device using npm
-
-```
-npm i -g @flxbl-io/sfp
-```
-
-
-#### Docker
-
-Docker images for sfp are available at [GitHub Container Registry](https://github.com/flxbl-io/sfp/pkgs/container/sfp).
-
-We recommend using the sfp docker image to avoid breakages in your CI/CD pipelines due to updates in sfp
-
-#### Build Instructions
-To build sfp execute the following on the terminal:
-```
-cd <sfp directory> # Navigate to the checked out directory
-npm i
+```sh
+npm ci
 npm run build
+node ./bin/run --help
 ```
 
-To run unit tests
+Use the committed lockfile to reproduce dependency resolution. The runtime and build compatibility matrix will be established in the first migration phase; until then, a successful build on a particular machine is not a support guarantee. Native dependencies may require platform build tools when prebuilt binaries are unavailable.
 
-```
-npm run test
-```
+Run the existing Jest suite with:
 
-To debug and test plugin
-
-```
- cd packages/sfp-cli
- npm link
+```sh
+npm test -- --runInBand
 ```
 
-...
-...
+The suite's existing failures and environment assumptions must be recorded before upgrading. The dedicated offline characterization command and CI gate are planned work; they are not yet part of the root npm scripts.
 
-## Building and Testing sfp in Isolation
+After building, `node ./bin/run <command>` runs the local CLI. To expose the local `sfp` and `sfpowerscripts` commands globally during development, run `npm link` from the repository root.
 
-To ensure consistent and reproducible builds and tests of sfp across different environments, you can leverage Docker to create an isolated container. Assuming you have a `Dockerfile` set up in the sfp package directory, follow these steps:
+Salesforce operations require the appropriate CLI tooling, authentication, and org permissions. Local characterization tests will use fixtures and mocks without a live org; live deployment validation is tracked separately in the plan.
 
-1. Build the Docker image:
+## Repository guide
 
-   ```
-   docker build -t sfp .
-   ```
+| Path | Purpose |
+| --- | --- |
+| `src/commands/` | CLI commands and flags |
+| `src/core/`, `src/impl/` | Packaging, validation, release, and supporting implementation |
+| `tests/` | Existing Jest tests and fixtures |
+| `messages/`, `resources/` | Runtime messages and supporting resources |
+| `command-docs/` | Checked-in command reference; verify against local CLI help |
+| `maintenance/MIGRATION.md` | Ordered maintenance plan and completion criteria |
+| `dockerfiles/` | Inherited full and lite container recipes |
 
-   This command will build a Docker image tagged as `sfp` using the `Dockerfile` in the current directory.
+The container recipes currently install a published sfp package. Adapting them to validate and distribute this fork is part of the plan; there is no root Dockerfile for building and testing the checkout.
 
-2. Run the Docker container:
+## Contributing maintenance changes
 
-   ```
-   docker run -it --rm -v $(pwd):/usr/src/app sfp
-   ```
+Start with the migration plan and keep changes small enough to review and revert independently. Add or extend behavior coverage before changing the code it protects. Include the tested Node.js/npm versions, relevant test results, and intentional behavior changes in each change description. Record upstream failures and deferred upgrades explicitly.
 
-   This command does the following:
-   - `-it`: Runs the container in interactive mode, allowing you to see the output and interact with the container if needed.
-   - `--rm`: Automatically removes the container when it exits.
-   - `-v $(pwd):/usr/src/app`: Mounts your current directory (the sfp package directory) to `/usr/src/app` inside the container. This allows you to work on the sfp package files locally while running the build and test processes inside the isolated container environment.
-   - `sfp`: Specifies the name of the Docker image to run.
+Use this fork's issue tracker for maintenance work. Inherited upstream support links and release automation do not establish support or publishing arrangements for this fork.
 
-3. Inside the container, the `CMD` instruction defined in the `Dockerfile` will be executed, running sfp's tests and build process.
+## License and attribution
 
-4. The logs from both the test and build steps will be outputted to the console, allowing you to see the results and any potential issues.
-
-By running the tests and build process inside a Docker container, you ensure that sfp is built and tested in a consistent and isolated environment, regardless of the host machine's setup. This helps prevent issues related to different Node.js versions or system dependencies.
-
-If you want to run the tests and build separately or execute other npm scripts, you can override the default `CMD` instruction by specifying the command after the `docker run` command. For example:
-
-```
-docker run -it --rm -v $(pwd):/usr/src/app sfp npm test
-```
-
-This command will run only the `npm test` command inside the container.
-
-
-...
-
-To simplify building and testing the sfp package inside a Docker container, you can create aliases for the relevant commands. Open your shell configuration file (e.g., `~/.bashrc`, `~/.bash_profile`, or `~/.zshrc`) and add the following lines:
-
-```bash
-alias sfp-build="docker build -t sfp ."
-alias sfp-test="docker run -it --rm -v $(pwd):/usr/src/app sfp 'npm test'"
-alias sfp="docker run -it --rm -v $(pwd):/usr/src/app sfp './bin/run'"
-```
-
-Save the file and reload the shell configuration by running the appropriate command (e.g., `source ~/.bashrc`, `source ~/.bash_profile`, or `source ~/.zshrc`).
-
-Now, you can easily build the sfp package and run the tests inside a Docker container using the defined aliases:
-
-1. Build the sfp package:
-   ```
-   sfp-build
-   ```
-   This command will build the Docker image tagged as `sfp-package` using the `Dockerfile` in the current directory. The `--no-cache` flag ensures that the image is always built from scratch, blowing up the previous image if it exists.
-
-2. Run the sfp tests:
-   ```
-   sfp-test
-   ```
-   This command will execute the `npm test` command inside the sfp Docker container, running the tests in an isolated environment.
-
-By using these aliases, you can quickly build the sfp package and run the tests within a Docker container, ensuring a clean and isolated environment every time.
-
-
-
-...
-
-#### Maintainers
-
-List of Maintainers are available in the [link](https://docs.flxbl.io/about-us)
-
-#### Where do I reach for queries?
-
-Please create an issue in the repo for bugs or utilize GitHub Discussions for other queries. Join our [Slack Community](https://launchpass.com/flxblio) as well.
-
-
-## License
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflxblio%2Fsfp.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fflxblio%2Fsfp?ref=badge_large)
+The project retains the [MIT license](LICENSE), upstream copyright notices, and [Third Party Notices](Third%20Party%20Notices.md). Internalized dependencies must retain their own licenses and provenance records.
