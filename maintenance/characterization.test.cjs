@@ -326,3 +326,220 @@ test('project validation rejects invalid names and source build-number keywords'
   pkg.versionNumber = '1.0.0.NEXT';
   assert.throws(() => validation.validatePackageBuildNumbers(), /NEXT.*LATEST/);
 });
+
+test('published profile merge reads and writes XML, deletes selected stale profiles and rejects malformed XML', async () => {
+  const MetadataFiles = require('@flxbl-io/sfprofiles/lib/impl/metadata/metadataFiles').default;
+  const originalLoad = MetadataFiles.prototype.loadComponents;
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp profile merge '));
+  const file = path.join(dir, 'Admin.profile-meta.xml');
+  const stale = path.join(dir, 'Stale.profile-meta.xml');
+  const input = '<Profile xmlns="http://soap.sforce.com/2006/04/metadata"><classAccesses><apexClass>Local</apexClass><enabled>true</enabled></classAccesses><loginHours><mondayStart>0</mondayStart></loginHours></Profile>';
+  MetadataFiles.prototype.loadComponents = () => {};
+  logger.disableLogs();
+  try {
+    fs.writeFileSync(file, input);
+    fs.writeFileSync(stale, input);
+    const instance = new ProfileMerge({ getConnection: () => ({}) });
+    instance.getRemoteProfilesWithLocalStatus = async () => ({
+      added: [], updated: [{ name: 'Admin', path: file }], deleted: [{ name: 'Stale', path: stale }],
+    });
+    instance.profileRetriever.loadProfiles = async names => {
+      assert.deepEqual(names, ['Admin']);
+      return [{ fullName: 'Admin', classAccesses: [{ apexClass: 'Remote', enabled: false }] }];
+    };
+    instance.reconcileTabs = async () => {};
+    const result = await instance.merge(['fixture'], ['Admin'], undefined, true);
+    assert.equal(result.updated[0].path, file);
+    assert.equal(fs.existsSync(stale), false);
+    const xml = require('xml2js');
+    const profile = (await xml.parseStringPromise(fs.readFileSync(file), { explicitArray: false })).Profile;
+    assert.deepEqual(profile.classAccesses, [
+      { apexClass: 'Local', enabled: 'true' }, { apexClass: 'Remote', enabled: 'false' },
+    ]);
+    assert.equal(profile.loginHours, undefined); // Omission removes existing login restrictions.
+    assert.equal(profile.$.xmlns, 'http://soap.sforce.com/2006/04/metadata');
+    const first = fs.readFileSync(file, 'utf8');
+    await instance.merge(['fixture'], ['Admin'], undefined, false);
+    assert.equal(fs.readFileSync(file, 'utf8'), first);
+    fs.writeFileSync(file, '<Profile><broken></Profile>');
+    await assert.rejects(instance.merge(['fixture'], ['Admin'], undefined, false), /Unexpected close tag/);
+  } finally {
+    MetadataFiles.prototype.loadComponents = originalLoad;
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('build completion schedules dependencies in order and records partial failure without building descendants', async () => {
+  const Build = require('../lib/impl/parallelBuilder/BuildImpl').default;
+  const Stats = require('../lib/core/stats/SFPStatsSender').default;
+  const originalCount = Stats.logCount;
+  const originalCwd = process.cwd();
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp build failure '));
+  const events = [];
+  Stats.logCount = (...args) => events.push(args);
+  logger.disableLogs();
+  try {
+    process.chdir(dir);
+    fs.mkdirSync('.sfpowerscripts/logs', { recursive: true });
+    const build = Object.create(Build.prototype);
+    Object.assign(build, {
+      props: { isQuickBuild: true }, packagesBuilt: [], failedPackages: [], generatedPackages: [],
+      packagesToBeBuilt: ['feature', 'app', 'independent'], packagesInQueue: ['core'], packageCreationPromises: [],
+      parentsToBeFulfilled: { feature: ['core'], app: ['feature'], independent: ['core'] },
+      childs: { feature: ['app'], app: [], independent: [] },
+      printPackageDetails() {}, getPriorityandTypeOfAPackage: () => ({ priority: 5, type: 'source' }),
+      limiter: { schedule: (options, fn) => Promise.resolve().then(fn) },
+      createPackage: async (type, name) => {
+        events.push(['create', name]);
+        if (name === 'feature') throw new Error('fixture build failure');
+        return { packageName: name };
+      },
+    });
+    build.queueChildPackages({ packageName: 'core' });
+    await Promise.all(build.packageCreationPromises);
+    assert.deepEqual(events.filter(e => e[0] === 'create'), [['create', 'feature'], ['create', 'independent']]);
+    assert.deepEqual(build.failedPackages, ['feature', 'app']);
+    assert.deepEqual(build.generatedPackages, [{ packageName: 'independent' }]);
+    assert.deepEqual(build.packagesBuilt, ['core', 'independent']);
+    assert.deepEqual(build.packagesToBeBuilt, []);
+    assert.deepEqual(build.packagesInQueue, []);
+    assert.match(fs.readFileSync('.sfpowerscripts/logs/feature', 'utf8'), /fixture build failure/);
+  } finally {
+    Stats.logCount = originalCount;
+    process.chdir(originalCwd);
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('release generator retries rejected pushes but bails on other Git and non-Git errors', async () => {
+  const Generator = require('../lib/impl/release/ReleaseDefinitionGenerator').default;
+  const { GitError } = require('simple-git');
+  const generator = Object.create(Generator.prototype);
+  generator.logger = new VoidLogger();
+  let attempts = 0;
+  generator.execHandler = async () => {
+    attempts++;
+    if (attempts < 3) throw new GitError(undefined, 'failed to push some refs');
+    return { release: 'local', artifacts: { core: '1.0.0' } };
+  };
+  assert.deepEqual(await generator.exec(), { release: 'local', artifacts: { core: '1.0.0' } });
+  assert.equal(attempts, 3);
+  for (const error of [new GitError(undefined, 'invalid ref'), new Error('invalid release')]) {
+    attempts = 0;
+    generator.execHandler = async () => { attempts++; throw error; };
+    await assert.rejects(generator.exec(), actual => actual === error);
+    assert.equal(attempts, 1);
+  }
+});
+
+test('release handler currently swallows workflow errors and still cleans up its temporary repository', async () => {
+  const Generator = require('../lib/impl/release/ReleaseDefinitionGenerator').default;
+  const Git = require('../lib/core/git/Git').default;
+  const { GitError } = require('simple-git');
+  const original = Git.initiateRepoAtTempLocation;
+  const events = [];
+  Git.initiateRepoAtTempLocation = async () => ({
+    getRepositoryPath: () => '/fixture/repository',
+    deleteTempoRepoIfAny: () => events.push('cleanup'),
+  });
+  try {
+    const generator = Object.create(Generator.prototype);
+    generator.logger = new VoidLogger();
+    generator.fetchFromGitRef = async () => {
+      events.push('fetch');
+      throw new GitError(undefined, 'failed to push some refs');
+    };
+    // Unlike a rejected execHandler, a caught workflow error never reaches the
+    // outer retry loop. This is inherited behavior, not a recommended contract.
+    assert.equal(await generator.exec(), undefined);
+    assert.deepEqual(events, ['fetch', 'cleanup']);
+  } finally { Git.initiateRepoAtTempLocation = original; }
+});
+
+test('Apex validation chooses tests and coverage and preserves remote failure results', async () => {
+  const { ApexTestValidator } = require('../lib/impl/validate/ApexTestValidator');
+  const { ValidationMode } = require('../lib/impl/validate/ValidateImpl');
+  const Trigger = require('../lib/core/apextest/TriggerApexTests').default;
+  const original = Trigger.prototype.exec;
+  const calls = [];
+  let response = { id: 'test-job', result: false, message: 'one test failed' };
+  Trigger.prototype.exec = async function () {
+    calls.push({ target: this.target_org, tests: this.testOptions, coverage: this.coverageOptions });
+    if (response instanceof Error) throw response;
+    return response;
+  };
+  logger.disableLogs();
+  try {
+    const pkg = { packageName: 'core', packageType: 'source', isApexFound: true,
+      packageDescriptor: {}, apexTestClassses: ['CoreTest'], apexClassWithOutTestClasses: ['Core'] };
+    const validator = new ApexTestValidator('fixture-org', pkg, {
+      validationMode: ValidationMode.FAST_FEEDBACK, coverageThreshold: 85, disableParallelTestExecution: true,
+    }, new VoidLogger());
+    assert.equal(await validator.validateApexTests(), response);
+    assert.equal(calls[0].target, 'fixture-org');
+    assert.equal(calls[0].tests.specifiedTests, 'CoreTest');
+    assert.equal(calls[0].tests.synchronous, true);
+    assert.equal(calls[0].coverage.isPackageCoverageToBeValidated, false);
+    pkg.packageType = 'diff';
+    await validator.validateApexTests();
+    assert.equal(calls[1].coverage.isIndividualClassCoverageToBeValidated, true);
+    assert.equal(calls[1].coverage.coverageThreshold, 85);
+    assert.deepEqual(calls[1].coverage.classesToBeValidated, ['Core']);
+    response = new Error('mocked transport failure');
+    await assert.rejects(validator.validateApexTests(), actual => actual === response);
+    pkg.packageDescriptor.skipTesting = true;
+    assert.deepEqual(await validator.validateApexTests(), { id: null, result: true, message: 'No Tests To Run' });
+    assert.equal(calls.length, 3);
+  } finally { Trigger.prototype.exec = original; }
+});
+
+test('package merger converts local source in order and separates data and unlocked artifacts', async () => {
+  const Manager = require('../lib/core/package/packageMerger/PackageMergeManager').default;
+  const Builder = require('../lib/core/package/SfpPackageBuilder').default;
+  const tmp = require('tmp');
+  const originalBuilder = Builder.buildPackageFromProjectDirectory;
+  const originalTemp = tmp.dirSync;
+  const originalCwd = process.cwd();
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp package merge '));
+  const tempDirs = [];
+  const built = [];
+  tmp.dirSync = options => { const result = originalTemp(options); tempDirs.push(result); return result; };
+  Builder.buildPackageFromProjectDirectory = async (sink, project, name) => {
+    built.push({ name, a: fs.readFileSync(path.join(project, 'force-app/main/default/classes/A.cls'), 'utf8'),
+      b: fs.readFileSync(path.join(project, 'force-app/main/default/classes/B.cls'), 'utf8') });
+    return { packageName: name };
+  };
+  logger.disableLogs();
+  try {
+    process.chdir(dir);
+    for (const [project, classes] of [['one', { A: 'public class A {}' }],
+      ['two', { A: 'public class A { public Integer value; }', B: 'public class B {}' }]]) {
+      fs.mkdirSync(`${project}/force-app/main/default/classes`, { recursive: true });
+      fs.mkdirSync(`${project}/forceignores`);
+      fs.writeFileSync(`${project}/forceignores/.buildignore`, '');
+      for (const [name, body] of Object.entries(classes)) {
+        fs.writeFileSync(`${project}/force-app/main/default/classes/${name}.cls`, body);
+        fs.writeFileSync(`${project}/force-app/main/default/classes/${name}.cls-meta.xml`,
+          '<ApexClass xmlns="http://soap.sforce.com/2006/04/metadata"><apiVersion>61.0</apiVersion><status>Active</status></ApexClass>');
+      }
+    }
+    const one = { packageType: 'source', projectDirectory: 'one', packageDirectory: 'force-app', packageDescriptor: {} };
+    const two = { ...one, projectDirectory: 'two' };
+    const data = { packageType: 'data' };
+    const unlocked = { packageType: 'unlocked' };
+    const result = await new Manager([one, data, two, unlocked], new VoidLogger()).mergePackages();
+    assert.deepEqual(result.mergedPackages, [one, two]);
+    assert.deepEqual(result.skippedPackages, [data, unlocked]);
+    assert.deepEqual(result.unlockedPackages, [unlocked]);
+    assert.deepEqual(built, [{ name: 'merged', a: 'public class A { public Integer value; }', b: 'public class B {}' }]);
+    assert.deepEqual(result.mergedPackage, { packageName: 'merged' });
+    // Existing behavior removes the returned project directory before returning.
+    assert.equal(fs.existsSync(result.mergedProjectDirectory), false);
+  } finally {
+    Builder.buildPackageFromProjectDirectory = originalBuilder;
+    tmp.dirSync = originalTemp;
+    for (const temp of tempDirs) temp.removeCallback();
+    process.chdir(originalCwd);
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});

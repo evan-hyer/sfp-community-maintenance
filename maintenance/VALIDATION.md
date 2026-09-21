@@ -2,13 +2,17 @@
 
 Updated 2026-09-21. This is a phase-0/1 progress record, not release readiness.
 
+Checkpoints: `e1cd67dc` disables inherited publishing; `df1b3e19` records the
+original baseline; `1dba3220` repairs the offline test fixtures. The expanded
+workflow contracts build on `1dba3220` without application or dependency edits.
+
 ## Executable checks
 
 After `npm ci` and `npm run build`:
 
 | Command | Contract |
 | --- | --- |
-| `npm run test:characterization` | Published logger/profile behavior, mocked profile retrieval/reconciliation, artifact ZIP/tar contents and errors, project validation, build selection/dependency batches, release YAML and ordering |
+| `npm run test:characterization` | Published logger/profile behavior, actual profile XML merge and malformed input, mocked retrieval/reconciliation, ZIP/tar contents, local metadata merging, project validation, build selection/dependencies/partial failure, Apex test selection and error propagation, release YAML/ordering/retries/cleanup |
 | `npm run test:cli` | Version, command discovery/help, legacy build alias, flag errors and stdout/stderr separation |
 | `npm run test:offline-guard` | Eleven blocked network/process entry points, including swallowed exceptions |
 | `npm run test:mutations` | In-memory logger, merge, and artifact regressions must fail the unchanged contracts |
@@ -42,6 +46,9 @@ own fixtures, logger state, color state, and method stubs.
 - Subsequent [test-only repairs](TEST-REPAIRS.md): Windows/Node 20 passes all 40
   suites and 193 tests, with no skips or guard violations. Fresh-checkout
   reproduction of this checkpoint remains pending.
+- Expanded workflow contracts: 28 cases cover the remaining representative
+  phase-1 workflow surfaces. Reproduction from committed source is recorded
+  separately below; these tests still execute the original published packages.
 - Linux/container execution: unavailable locally and not claimed. CI is defined
   but has not run remotely. Node 20 is a historical diagnostic only; Node 22/24
   CI jobs are explicitly optional probes, not declarations of production support.
@@ -57,11 +64,11 @@ coverage percentage is not used as a substitute for these contracts.
 
 1. Reproduce the repaired test/harness checkpoint from committed source on
    Windows and Linux. The primary Windows checkout passes all 193 Jest tests.
-2. Complete phase-1 coverage for malformed profile XML through the package's own
-   reader/merge entry point, full profile merge/reconcile workflows, artifact
-   package merging, builder/validator/release retries and partial failures.
-   Current tests cover local selection/order and mocked profile boundaries, not
-   those entire workflows. The inherited builder suite is skipped.
+2. Keep the representative workflow assertions when internalizing dependencies.
+   The contracts now exercise actual profile XML merge/read/write, malformed XML,
+   metadata merge precedence, build partial failure, Apex selection, and release
+   retries/cleanup. Salesforce boundaries remain mocked; no live-org result is
+   implied. Both inherited builder tests have been restored.
 3. Obtain two clean Windows/Linux runs from committed source and exercise fresh
    consumer tarballs after internalization. No consumer packaging is claimed yet.
 4. Resolve Node 24 native installation at its dedicated compatibility checkpoint;
@@ -71,3 +78,18 @@ Phase 2 and dependency upgrades remain unstarted because the earlier gates have
 not passed. The pre-existing vendor/registry scripts and `packages/` drafts remain
 untracked and unmodified. No npm package, container, branch, or release was
 pushed/published, and no live Salesforce operations were performed.
+
+## Observed behavior retained by the expanded contracts
+
+- Merging a remote profile that omits login restrictions removes the existing
+  `loginHours` and `loginIpRanges`; explicit false permission values survive XML.
+- Failed build packages and their descendants are marked failed; independently
+  queued packages can still complete.
+- The release retry wrapper retries rejected Git push errors and bails on other
+  errors. Its current inner workflow handler catches errors and returns
+  `undefined` after cleanup, so those caught errors do **not** reach the retry
+  loop. The tests preserve this distinction instead of claiming reliable retries
+  for all release failures. Correcting that is a separate behavior change.
+- Metadata package merging applies source packages in order, separates data and
+  unlocked packages, and deletes the returned temporary project before returning.
+  The contract reads merged contents at the builder boundary before that cleanup.
