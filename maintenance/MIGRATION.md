@@ -6,6 +6,7 @@ Updated 2026-09-21. Status: phases 0/1 in progress; implementation gates below r
 
 - `e1cd67dc`: inherited publishing/promotion workflows moved out of GitHub's executable workflow directory, without modifying their contents.
 - `df1b3e19`: reproducible baseline plus initial offline contracts; `1dba3220`: test/harness repairs make all 40 Jest suites and 193 tests pass on Windows with zero skips or guard violations.
+- `9c1c212b`: expanded 28-case workflow contracts. A fresh committed Windows checkout on Node 22.23.2/npm 10.9.8 passes install, build, real SQLite, 193 Jest tests, characterization twice, guard, mutations, and CLI checks; see [evidence](evidence/windows-clean-checkpoint.json). All 142 published vendor-draft files match verified locked archives; this does not complete internalization.
 - Clean upstream Windows baselines use Node 20.20.2/npm 10.8.2 and Node 22.23.2/npm 10.9.8. Install/build and real SQLite probes pass; the full guarded Jest suite reproduces 173 passes, 18 failures, and 2 pre-existing skips on both runtimes.
 - Offline runner, guard self-tests, published-package contracts, CLI smoke checks, and representative mutation probes are now exposed through npm scripts and CI. See [BASELINE.md](BASELINE.md) and [VALIDATION.md](VALIDATION.md) for scope, evidence, and remaining coverage.
 - The Node 24.12.0 diagnostic install fails at inherited `better-sqlite3@11.5.0` (no prebuilt binary; no local Visual Studio C++ tools). Linux/container execution is unavailable on this host and no remote checks have been dispatched.

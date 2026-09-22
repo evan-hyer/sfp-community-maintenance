@@ -4,7 +4,7 @@ Updated 2026-09-21. This is a phase-0/1 progress record, not release readiness.
 
 Checkpoints: `e1cd67dc` disables inherited publishing; `df1b3e19` records the
 original baseline; `1dba3220` repairs the offline test fixtures. The expanded
-workflow contracts build on `1dba3220` without application or dependency edits.
+workflow contracts are committed as `9c1c212b`, without application or dependency edits.
 
 ## Executable checks
 
@@ -44,11 +44,18 @@ own fixtures, logger state, color state, and method stubs.
   2 pre-existing skips, with the same failed assertions.
   See [baseline classifications](BASELINE.md) and its structured evidence.
 - Subsequent [test-only repairs](TEST-REPAIRS.md): Windows/Node 20 passes all 40
-  suites and 193 tests, with no skips or guard violations. Fresh-checkout
-  reproduction of this checkpoint remains pending.
+  suites and 193 tests, with no skips or guard violations.
 - Expanded workflow contracts: 28 cases cover the remaining representative
   phase-1 workflow surfaces. Reproduction from committed source is recorded
   separately below; these tests still execute the original published packages.
+- Fresh committed checkout at `9c1c212b`, Windows/Node 22.23.2/npm 10.9.8:
+  clean install with scripts, build, real SQLite probe, all 40 Jest suites/193
+  tests, 28 characterization cases twice, 11 guard probes, 3 mutation probes,
+  and 4 CLI checks pass. Git status stays clean. See
+  [structured evidence](evidence/windows-clean-checkpoint.json).
+- Draft provenance preparation: [142 published files match the locked archives](VENDOR-REVIEW.md),
+  including licenses. This read-only audit does not import or reconfigure either
+  package; both root dependencies still resolve to npm releases.
 - Linux/container execution: unavailable locally and not claimed. CI is defined
   but has not run remotely. Node 20 is a historical diagnostic only; Node 22/24
   CI jobs are explicitly optional probes, not declarations of production support.
@@ -63,7 +70,9 @@ coverage percentage is not used as a substitute for these contracts.
 ## Open acceptance work
 
 1. Reproduce the repaired test/harness checkpoint from committed source on
-   Windows and Linux. The primary Windows checkout passes all 193 Jest tests.
+   Linux. Windows reproduction is complete. The host exposes only WSL setup
+   help; DISM feature inspection requires an elevated process (error 740).
+   Firmware virtualization is available, but no Linux runtime is usable yet.
 2. Keep the representative workflow assertions when internalizing dependencies.
    The contracts now exercise actual profile XML merge/read/write, malformed XML,
    metadata merge precedence, build partial failure, Apex selection, and release

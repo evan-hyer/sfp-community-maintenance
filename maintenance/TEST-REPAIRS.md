@@ -37,7 +37,8 @@ discovery run found exactly 40 suites, and the subsequent full run passed in
 because copying it required symlink privileges; no production behavior was
 changed to accommodate it.
 
-Fresh committed-source reproduction and Linux checks remain required before the
-phase-1 matrix gate is accepted. Revert this test/harness checkpoint as a unit
+Fresh committed-source reproduction passes on Windows/Node 22.23.2 at
+`9c1c212b`; see [clean-checkout evidence](evidence/windows-clean-checkpoint.json).
+Linux checks remain required before the phase-1 matrix gate is accepted. Revert this test/harness checkpoint as a unit
 to restore the precisely recorded baseline; there are no dependency changes to
 roll back.

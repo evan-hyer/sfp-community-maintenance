@@ -1,0 +1,26 @@
+{
+  "captured": "2026-09-21",
+  "method": "Fetched locked npm tarballs, verified SHA-512, extracted and compared SHA-256 for every file in draft provenance against both archive and draft. No draft file was changed.",
+  "records": [
+    {
+      "name": "@flxbl-io/sfp-logger",
+      "version": "5.0.1",
+      "integrity": "sha512-cGgQP5vGiA5ltJvBoMGWfjJlgPJ59EjWHAIqZPV8MYKV4daCVEkzIWRSbsnJIj4yAVOul95iRiwMfi6AI/FhTg==",
+      "files": 6,
+      "differences": [],
+      "license": "MIT License\n\nCopyright (c) 2024 flxbl.io\n",
+      "resolved": "https://registry.npmjs.org/@flxbl-io/sfp-logger/-/sfp-logger-5.0.1.tgz",
+      "publishedFileCount": 6
+    },
+    {
+      "name": "@flxbl-io/sfprofiles",
+      "version": "5.2.2",
+      "integrity": "sha512-xjxk5RQeX3XkSNMcsV7X9ii6SCoxxqAgMev5oB3YrS5oT6cxYcwqYBMxYxppJbiJCVTH/ZPqy88nU1agcaZcdw==",
+      "files": 136,
+      "differences": [],
+      "license": "MIT License\n\nCopyright (c) 2024 flxbl\n",
+      "resolved": "https://registry.npmjs.org/@flxbl-io/sfprofiles/-/sfprofiles-5.2.2.tgz",
+      "publishedFileCount": 136
+    }
+  ]
+}
