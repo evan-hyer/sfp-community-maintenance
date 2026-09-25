@@ -39,6 +39,7 @@ changed to accommodate it.
 
 Fresh committed-source reproduction passes on Windows/Node 22.23.2 at
 `9c1c212b`; see [clean-checkout evidence](evidence/windows-clean-checkpoint.json).
-Linux checks remain required before the phase-1 matrix gate is accepted. Revert this test/harness checkpoint as a unit
+Linux reproduction also passes all 193 tests at `4dfec8b7`; see
+[Linux evidence](evidence/linux-clean-checkpoint.json). Revert this test/harness checkpoint as a unit
 to restore the precisely recorded baseline; there are no dependency changes to
 roll back.

@@ -1,6 +1,6 @@
 # Maintenance checkpoint validation
 
-Updated 2026-09-21. This is a phase-0/1 progress record, not release readiness.
+Updated 2026-09-25. Phases 0/1 pass on Windows and Linux; release readiness remains open.
 
 Checkpoints: `e1cd67dc` disables inherited publishing; `df1b3e19` records the
 original baseline; `1dba3220` repairs the offline test fixtures. The expanded
@@ -56,8 +56,10 @@ own fixtures, logger state, color state, and method stubs.
 - Draft provenance preparation: [142 published files match the locked archives](VENDOR-REVIEW.md),
   including licenses. This read-only audit does not import or reconfigure either
   package; both root dependencies still resolve to npm releases.
-- Linux/container execution: unavailable locally and not claimed. CI is defined
-  but has not run remotely. Node 20 is a historical diagnostic only; Node 22/24
+- Linux: a fresh committed Ubuntu 26.04.1 LTS/WSL2 checkout on Node 22.23.2
+  passes install/build/SQLite, all 193 Jest tests, 28 contracts twice, 11 guard
+  probes, 3 mutations, and 4 CLI checks. See [evidence](evidence/linux-clean-checkpoint.json).
+  Container checks have not run. CI is defined but has not run remotely. Node 20 is a historical diagnostic only; Node 22/24
   CI jobs are explicitly optional probes, not declarations of production support.
 
 Coverage expectations are semantic: filtering/output and singleton contracts for
@@ -69,10 +71,8 @@ coverage percentage is not used as a substitute for these contracts.
 
 ## Open acceptance work
 
-1. Reproduce the repaired test/harness checkpoint from committed source on
-   Linux. Windows reproduction is complete. The host exposes only WSL setup
-   help; DISM feature inspection requires an elevated process (error 740).
-   Firmware virtualization is available, but no Linux runtime is usable yet.
+1. Windows and Linux committed-source reproduction are complete. Preserve this
+   passing baseline while internalizing the packages.
 2. Keep the representative workflow assertions when internalizing dependencies.
    The contracts now exercise actual profile XML merge/read/write, malformed XML,
    metadata merge precedence, build partial failure, Apex selection, and release
@@ -83,8 +83,7 @@ coverage percentage is not used as a substitute for these contracts.
 4. Resolve Node 24 native installation at its dedicated compatibility checkpoint;
    refresh exact supported release versions before selecting the runtime target.
 
-Phase 2 and dependency upgrades remain unstarted because the earlier gates have
-not passed. The pre-existing vendor/registry scripts and `packages/` drafts remain
+Phase 2 can now proceed; dependency upgrades remain unstarted. The pre-existing vendor/registry scripts and `packages/` drafts remain
 untracked and unmodified. No npm package, container, branch, or release was
 pushed/published, and no live Salesforce operations were performed.
 

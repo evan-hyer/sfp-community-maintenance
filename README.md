@@ -51,7 +51,7 @@ npm run test:mutations
 npm run test:offline -- --silent --verbose --coverage --detectOpenHandles
 ```
 
-The runner isolates authentication/configuration and blocks network access and real subprocesses. The original failures and skips are preserved in the baseline; focused test/harness repairs now make all 193 Jest tests pass on Windows. CI runs these commands without excluding failing suites. A fresh committed checkout on Windows/Node 22.23.2 also passes all checks, including both runs of the 28-case characterization suite. Linux validation remains pending. The characterization suite does not yet cover every contract in the migration plan.
+The runner isolates authentication/configuration and blocks network access and real subprocesses. The original failures and skips are preserved in the baseline; focused test/harness repairs now make all 193 Jest tests pass on Windows. CI runs these commands without excluding failing suites. A fresh committed checkout on Windows/Node 22.23.2 also passes all checks, including both runs of the 28-case characterization suite. A fresh Ubuntu WSL2 checkout also passes the full matrix; see maintenance/VALIDATION.md. The characterization suite does not yet cover every contract in the migration plan.
 
 After building, `node ./bin/run <command>` runs the local CLI. To expose the local `sfp` and `sfpowerscripts` commands globally during development, run `npm link` from the repository root.
 
