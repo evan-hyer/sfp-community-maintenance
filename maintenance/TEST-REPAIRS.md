@@ -43,3 +43,15 @@ Linux reproduction also passes all 193 tests at `4dfec8b7`; see
 [Linux evidence](evidence/linux-clean-checkpoint.json). Revert this test/harness checkpoint as a unit
 to restore the precisely recorded baseline; there are no dependency changes to
 roll back.
+
+## Deterministic delay checks (2026-09-25)
+
+During the logger packaging work, the inherited real-time delay assertion failed
+on a busy Windows host: a requested 100 ms delay took 200 ms, above its arbitrary
+150 ms wall-clock bound. The other 192 tests passed. This is scheduler sensitivity,
+not evidence of a changed delay implementation (the implementation is unchanged).
+
+The same 17 cases now use restored Jest fake timers. Assertions verify timeout
+arguments, promise behavior, no resolution before the deadline, independent
+concurrent ordering and summed sequential delays. No timing bound was widened and
+no test was skipped. The focused guarded suite passes all 17 cases on Node22.23.2.
