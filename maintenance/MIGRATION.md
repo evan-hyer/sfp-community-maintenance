@@ -1,6 +1,6 @@
 ﻿# Community maintenance migration plan
 
-Updated 2026-09-25. Status: phases 0/1 validated on Windows and Linux; phase 2 is next.
+Updated 2026-09-25. Status: phases 0/1 validated on Windows and Linux; phase 2 is in progress.
 
 ## Implementation checkpoint
 
@@ -10,7 +10,7 @@ Updated 2026-09-25. Status: phases 0/1 validated on Windows and Linux; phase 2 i
 - Clean upstream Windows baselines use Node 20.20.2/npm 10.8.2 and Node 22.23.2/npm 10.9.8. Install/build and real SQLite probes pass; the full guarded Jest suite reproduces 173 passes, 18 failures, and 2 pre-existing skips on both runtimes.
 - Offline runner, guard self-tests, published-package contracts, CLI smoke checks, and representative mutation probes are now exposed through npm scripts and CI. See [BASELINE.md](BASELINE.md) and [VALIDATION.md](VALIDATION.md) for scope, evidence, and remaining coverage.
 - The Node 24.12.0 diagnostic install fails at inherited `better-sqlite3@11.5.0` (no prebuilt binary; no local Visual Studio C++ tools). Linux validation now runs locally in Ubuntu WSL2; container and remote checks have not run.
-- Expanded contracts exercise profile XML merge/malformed input, artifact package merging, build partial failure, Apex selection, and release retries/cleanup against unchanged dependencies. The phase-1 Windows/Linux gate now passes; see [Linux evidence](evidence/linux-clean-checkpoint.json). No dependency upgrades or internalization have been attempted; the pre-existing vendor drafts remain untracked and unchanged.
+- Expanded contracts exercise profile XML merge/malformed input, artifact package merging, build partial failure, Apex selection, and release retries/cleanup against unchanged dependencies. The phase-1 Windows/Linux gate now passes; see [Linux evidence](evidence/linux-clean-checkpoint.json). Logger 5.0.1 is now a private workspace with unchanged implementation bytes. Windows source and isolated consumer checks pass; fresh committed-source and Linux import checks remain pending. sfprofiles source and helper drafts remain untracked; no dependency upgrades have been attempted.
 
 ## Objective and scope
 

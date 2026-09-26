@@ -31,3 +31,7 @@ packages/apexlink/tests/resources/feature-mgmt/apexlink.json
 
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
+
+# Published implementation maintained as source for the internal logger.
+!packages/sfp-logger/lib/
+!packages/sfp-logger/lib/**

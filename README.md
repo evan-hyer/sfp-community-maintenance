@@ -80,3 +80,13 @@ Use this fork's issue tracker for maintenance work. Inherited upstream support l
 ## License and attribution
 
 The project retains the [MIT license](LICENSE), upstream copyright notices, and [Third Party Notices](Third%20Party%20Notices.md). Internalized dependencies must retain their own licenses and provenance records.
+
+## Maintenance artifact packaging
+
+Logger 5.0.1 is maintained as a private workspace under `packages/sfp-logger`.
+Build with `npm run build`, generate the manifest with `npm run manifest`, and
+create an artifact with `npm run pack:maintenance`. The staging pack bundles
+the locked runtime graph for reproducible consumers; bare workspace `npm pack`
+is not the validated distribution path. See [packaging details](maintenance/PACKAGING.md)
+and [validation status](maintenance/VALIDATION.md). Linux validation of the logger
+import remains pending; this is not a release-readiness declaration.

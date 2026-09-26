@@ -1,0 +1,1 @@
+A simple logger used by sfp to log into console, file or void

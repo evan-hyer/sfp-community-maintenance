@@ -34,3 +34,11 @@ Before importing:
 Phase-1 Linux validation remains a prerequisite under `MIGRATION.md`. No workspace
 links, bundling prototype, vendored source commit, or packed-consumer result is
 claimed by this audit.
+
+## Subsequent logger import (2026-09-25)
+
+The Linux phase-1 gate subsequently passed. Logger is now imported with its
+original non-manifest bytes and a private workspace manifest. The advertised
+GitHub repositories for logger and sfprofiles returned HTTP404 on this date.
+See packages/sfp-logger/MAINTENANCE.md, PACKAGING.md and VALIDATION.md for current
+import changes and consumer evidence; the audit above records the original drafts.

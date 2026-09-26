@@ -1,0 +1,56 @@
+{
+  "captured": "2026-09-25",
+  "parent": "6e7786fd",
+  "node": "22.23.2",
+  "npm": "10.9.8",
+  "platform": "win32-x64",
+  "sourceForm": "Published logger5.0.1 JavaScript/declarations, unchanged non-manifest bytes",
+  "externalVersions": "Compared version/integrity of every pre-existing non-logger lock entry; unchanged",
+  "checks": {
+    "workspaceSyntax": 0,
+    "rootBuild": 0,
+    "characterization": {
+      "passed": 28,
+      "failed": 0
+    },
+    "jest": {
+      "suites": 40,
+      "passed": 193,
+      "failed": 0,
+      "skipped": 0
+    },
+    "guard": 11,
+    "mutations": 3,
+    "consumerInstall": {
+      "exitCode": 0,
+      "flags": "--omit=dev --offline --no-audit --no-fund",
+      "outsideCheckout": true,
+      "scriptsEnabled": true
+    },
+    "consumerIdentityAndSqlite": 0,
+    "consumerCli": {
+      "passed": 4,
+      "failed": 0
+    },
+    "executableAliases": [
+      "sfp --version",
+      "sfpowerscripts --version"
+    ]
+  },
+  "artifact": {
+    "command": "npm run build && npm run manifest && npm run pack:maintenance",
+    "bytes": 45687926,
+    "sha512": "9ebe65f8e35af55c032e98071e72e1bb1f0572c7c546ee7c6783d02ab0b5e9608635f4e270a0ec2a4ce82c695d56506398c65f978feac099abd0ae21172af8fb",
+    "runtimeBundled": true
+  },
+  "limitations": [
+    "Fresh committed-source reproduction for this import is pending.",
+    "Linux source and cross-platform consumer validation for this import are pending.",
+    "sfprofiles source internalization and runtime/dependency upgrades remain separate checkpoints."
+  ],
+  "packagingFindings": [
+    "Bare npm workspace pack misplaces logger nested fs-extra. Staging materializes its correct consumer path.",
+    "External logger importers may resolve a duplicate registry logger.",
+    "Shrinkwrap alone did not retain oclif4.5.2 in the tested partially bundled install. Full locked runtime bundling passed offline consumer validation."
+  ]
+}

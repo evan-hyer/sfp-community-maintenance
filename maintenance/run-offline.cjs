@@ -5,7 +5,9 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const mode = process.argv[2] || 'characterization';
-const root = path.resolve(__dirname, '..');
+// Consumer CLI checks reuse the exact same guard and assertions outside checkout.
+const root = mode === 'cli' && process.env.SFP_OFFLINE_CLI_ROOT
+  ? path.resolve(process.env.SFP_OFFLINE_CLI_ROOT) : path.resolve(__dirname, '..');
 const home = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp offline '));
 // find-java-home eagerly probes the Windows registry merely on import. A local
 // discovery fixture avoids that subprocess; the guard still forbids Java execution.

@@ -1,0 +1,21 @@
+{
+  "name": "@flxbl-io/sfp-logger",
+  "version": "5.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flxbl-io/sfplogger.git"
+  },
+  "resolved": "https://registry.npmjs.org/@flxbl-io/sfp-logger/-/sfp-logger-5.0.1.tgz",
+  "integrity": "sha512-cGgQP5vGiA5ltJvBoMGWfjJlgPJ59EjWHAIqZPV8MYKV4daCVEkzIWRSbsnJIj4yAVOul95iRiwMfi6AI/FhTg==",
+  "retrieved": "2026-09-20",
+  "sourceForm": "Published JavaScript and TypeScript declarations; original TypeScript is absent, including sourcesContent. Advertised GitHub repository unavailable.",
+  "originalFilesSha256": {
+    "package.json": "63cd8433eff0258cf45d6a5c3c15c2a61b4c0c44bf8156eb4087925edaedb06b",
+    "LICENSE": "9eb6afdcacbf329dc91170d3385afe5e93e888f2a2f6baff6612e64fe5cf1434",
+    "README.md": "b26b74dcf7a7e1a763d00fca12751fc0372fb0e2a0edee547be94e198aff2f33",
+    "lib/SFPLogger.d.ts": "e51e641bfeb771a44505f7b707ba0f108fa80e5e060e5511a78bd2de142b3a66",
+    "lib/SFPLogger.d.ts.map": "28e6ffae0d116effd486e5f4b7810a17a095af950c86930ada6bfea6e4807257",
+    "lib/SFPLogger.js": "4fa044ea162646e70e2f559aa5d2212a3692da08463c47fb1b99cb53e0838431"
+  }
+}
