@@ -12,6 +12,35 @@ const initialColor = chalk.level;
 const initialLevel = logger.logLevel;
 const initialDisabled = logger.isLogsDisabled;
 
+test('profile SQLite cache preserves JSON values, replaces keys and persists across connections', () => {
+  const { default: SQLiteKeyValue } = require('@flxbl-io/sfprofiles/lib/utils/sqlitekv');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp-sqlite-contract-'));
+  const database = path.join(dir, 'cache.db');
+  let cache;
+  try {
+    cache = new SQLiteKeyValue(database);
+    cache.init();
+    assert.equal(cache.get('missing'), null);
+    const key = "profile'; DROP TABLE kv; --";
+    const value = { enabled: false, count: 0, label: 'caf\u00e9', entries: ['one', null] };
+    cache.set(key, value);
+    assert.deepEqual(cache.get(key), value);
+    cache.set(key, { enabled: true });
+    cache.set('false', false);
+    cache.set('zero', 0);
+    cache.sqlite.close();
+    cache = new SQLiteKeyValue(database);
+    cache.init();
+    assert.deepEqual(cache.get(key), { enabled: true });
+    assert.equal(cache.get('false'), false);
+    assert.equal(cache.get('zero'), 0);
+    assert.equal(cache.sqlite.prepare('SELECT COUNT(*) AS count FROM kv').get().count, 3);
+  } finally {
+    if (cache?.sqlite?.open) cache.sqlite.close();
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 afterEach(() => {
   logger.logLevel = initialLevel;
   logger.isLogsDisabled = initialDisabled;

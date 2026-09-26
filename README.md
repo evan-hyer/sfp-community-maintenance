@@ -19,7 +19,7 @@ The [comprehensive migration plan](maintenance/MIGRATION.md) defines the baselin
 
 ## Current state
 
-The root package is still the inherited `@flxbl-io/sfp` version `39.8.0`. It declares Node.js `>=18.0.0` and now maintains logger `5.0.1` and sfprofiles `5.2.2` as private local workspaces, preserving their published implementation. That engine declaration describes the legacy package and is not a recommendation to use an end-of-life runtime. The migration targets Node.js 24 LTS first, with the current Node.js line evaluated separately.
+The root package is still the inherited `@flxbl-io/sfp` version `39.8.0`. It maintains logger `5.0.1` and sfprofiles `5.2.2` as private local workspaces, preserving their published implementation. The SQLite compatibility change raises the dependency engine floor to Node.js 20; this is not a production support recommendation. Source validation passes on Node 22.23.2 and Node 24.21.0, while the full runtime-policy and container gates remain open. See the [Node 24 checkpoint](maintenance/NODE24.md).
 
 Package names and upstream links in package metadata have not yet been migrated to a fork-specific distribution. Inherited publishing and promotion workflows are [disabled](maintenance/disabled-workflows/README.md). Installing `@flxbl-io/sfp` from npm or using upstream container images does not install this fork. No fork release has been established.
 

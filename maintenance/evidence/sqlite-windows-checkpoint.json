@@ -1,0 +1,66 @@
+﻿{
+    "captured":  "2026-09-26",
+    "parent":  "d06c850c",
+    "change":  "better-sqlite3 11.5.0 to 12.1.0; no other dependency versions/integrity changed",
+    "npm":  "10.9.8",
+    "platform":  "win32-x64",
+    "baselineCacheContract":  {
+                                  "node":  "22.23.2",
+                                  "sqlite":  "11.5.0",
+                                  "passed":  29
+                              },
+    "node22":  {
+                   "install":  0,
+                   "build":  0,
+                   "characterization":  29,
+                   "guard":  11,
+                   "mutations":  3,
+                   "cli":  4,
+                   "jest":  {
+                                "passed":  193,
+                                "failed":  0,
+                                "skipped":  0,
+                                "suites":  40
+                            }
+               },
+    "node24":  {
+                   "node":  "24.21.0",
+                   "install":  0,
+                   "build":  0,
+                   "characterizationRuns":  [
+                                                29,
+                                                29
+                                            ],
+                   "guard":  11,
+                   "mutations":  3,
+                   "cli":  4,
+                   "jest":  {
+                                "suites":  40,
+                                "passed":  193,
+                                "failed":  0,
+                                "skipped":  0
+                            }
+               },
+    "consumer":  {
+                     "installation":  "Upgrade of existing isolated production consumer; lifecycle scripts enabled; dev dependencies omitted",
+                     "node":  "24.21.0",
+                     "npm":  "10.9.8",
+                     "artifact":  "flxbl-io-sfp-39.8.0.tgz",
+                     "artifactBytes":  45622858,
+                     "artifactSha512":  "177b994fe53bf93e71b23a12ca28317eda2448606cfa1a3092333604a3dcac13b48f9f335cb4aa60a2048803f2779f2e686fb04c61eaddbb681e1dcf19c6cc8f",
+                     "checkerExit":  0,
+                     "cliPassed":  4,
+                     "aliases":  [
+                                     "sfp",
+                                     "sfpowerscripts"
+                                 ],
+                     "guardViolations":  0,
+                     "checks":  [
+                                    "Published implementation/resource hashes",
+                                    "Shared logger identity",
+                                    "Locked oclif and SQLite versions",
+                                    "Profile merge",
+                                    "Real SQLite database and cache operations"
+                                ]
+                 }
+}

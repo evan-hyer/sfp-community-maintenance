@@ -81,13 +81,13 @@ coverage percentage is not used as a substitute for these contracts.
 3. Internalization now passes fresh committed-source Windows/Linux checks with
    two characterization runs per platform and isolated consumer installation of
    the same Windows-built tarball. Preserve these packaging gates during upgrades.
-4. Resolve Node 24 native installation at its dedicated compatibility checkpoint;
-   refresh exact supported release versions before selecting the runtime target.
+4. Native compatibility now passes the candidate source and consumer gates;
+   reproduce the committed checkpoint and complete runtime policy/CI/container checks.
 
 Phase 2 is complete. Logger 5.0.1 is imported as a private workspace;
 [Windows source and consumer evidence](evidence/logger-windows-checkpoint.json)
 passes, including both executable aliases. [Fresh Windows checks](evidence/logger-windows-clean-checkpoint.json) and
-[Linux source/consumer checks](evidence/logger-linux-checkpoint.json) now pass. Dependency upgrades remain unstarted.
+[Linux source/consumer checks](evidence/logger-linux-checkpoint.json) now pass. This records the pre-upgrade phase-2 baseline.
 The sfprofiles5.2.2 source import now passes Windows build, both 28-case contract
 runs, all193 Jest tests, guard/mutation checks and isolated offline consumer
 installation, source/resource hashes, profile merge, SQLite, CLI and both aliases.
@@ -116,3 +116,18 @@ pushed/published, and no live Salesforce operations were performed.
 - Metadata package merging applies source packages in order, separates data and
   unlocked packages, and deletes the returned temporary project before returning.
   The contract reads merged contents at the builder boundary before that cleanup.
+
+## First native compatibility upgrade
+
+Only better-sqlite3 changes version, from 11.5.0 to 12.1.0. The additional real
+cache contract passed before the upgrade. Node 22 Windows regression checks and
+Node 24.21.0 Windows/Linux fresh dependency installation, build, 29 contracts,
+11 guard probes, 3 mutations, 4 CLI checks and 193 Jest tests pass. Node 24 runs
+the contracts twice per platform. Both platforms also pass production consumer
+upgrade installation of the same Windows-built tarball, native cache operations,
+source/resource hashes and both aliases. Consumer prefixes were reused due to
+disk constraints; these are explicitly upgrade-installation results.
+
+See [Node 24 scope and pending gates](NODE24.md), [Windows evidence](evidence/sqlite-windows-checkpoint.json)
+and [Linux evidence](evidence/sqlite-linux-checkpoint.json). Exact runtime policy,
+CI alignment, Node 26 diagnostics and container validation remain open.

@@ -20,6 +20,7 @@ const loggerRequire = createRequire(logger);
 assert.equal(loggerRequire('fs-extra/package.json').version, '9.1.0');
 assert.equal(consumer('@oclif/core/package.json').version, sourceLock.packages['node_modules/@oclif/core'].version);
 const profileRequire = createRequire(consumer.resolve('@flxbl-io/sfprofiles'));
+assert.equal(profileRequire('better-sqlite3/package.json').version, sourceLock.packages['node_modules/better-sqlite3'].version);
 for (const name of ['@flxbl-io/sfp-logger', '@flxbl-io/sfprofiles']) {
   const directory = path.dirname(consumer.resolve(`${name}/package.json`));
   const provenance = JSON.parse(fs.readFileSync(path.join(directory, 'PROVENANCE.json')));
@@ -38,6 +39,16 @@ assert.deepEqual(profile.classAccesses, [{ apexClass: 'Alpha', enabled: 'true' }
 const db = profileRequire('better-sqlite3')(':memory:');
 try { assert.equal(db.prepare('select 1 as value').get().value, 1); }
 finally { db.close(); }
+const { default: SQLiteKeyValue } = consumer('@flxbl-io/sfprofiles/lib/utils/sqlitekv');
+const cache = new SQLiteKeyValue(':memory:');
+cache.init();
+try {
+  assert.equal(cache.get('missing'), null);
+  cache.set('profile', { enabled: false, count: 0 });
+  assert.deepEqual(cache.get('profile'), { enabled: false, count: 0 });
+  cache.set('profile', { enabled: true });
+  assert.deepEqual(cache.get('profile'), { enabled: true });
+} finally { cache.sqlite.close(); }
 const metadata = consumer('./package.json');
 assert.equal(metadata.workspaces, undefined);
 for (const name of metadata.bundleDependencies) assert.doesNotMatch(metadata.dependencies[name], /^(file:|workspace:)/);
