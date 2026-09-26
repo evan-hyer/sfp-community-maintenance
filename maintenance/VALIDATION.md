@@ -85,8 +85,8 @@ coverage percentage is not used as a substitute for these contracts.
 
 Phase 2 is in progress. Logger 5.0.1 is imported as a private workspace;
 [Windows source and consumer evidence](evidence/logger-windows-checkpoint.json)
-passes, including both executable aliases. Fresh committed-source and Linux
-checks for this import remain pending. Dependency upgrades remain unstarted.
+passes, including both executable aliases. [Fresh Windows checks](evidence/logger-windows-clean-checkpoint.json) and
+[Linux source/consumer checks](evidence/logger-linux-checkpoint.json) now pass. Dependency upgrades remain unstarted.
 The pre-existing vendor/registry scripts and sfprofiles source draft remain
 untracked and unmodified. No npm package, container, branch, or release was
 pushed/published, and no live Salesforce operations were performed.
