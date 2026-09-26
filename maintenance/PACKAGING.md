@@ -25,12 +25,12 @@ materializes nested dependencies beside their bundled importers, and packs that
 tree. It never changes the development links. Temporary staging is removed on
 success or failure. Use this staging command for consumer artifacts.
 
-Logger implementation bytes remain those of published 5.0.1. sfprofiles remains
-the published dependency until its separate source import checkpoint. Its unchanged
-installed package is already bundled to keep its logger import in the same module
-tree; leaving sfprofiles external lets npm hoist it beside a second registry logger. A successful
-workspace build alone does not establish consumer compatibility; validate the
-actual artifact outside the checkout with development dependencies omitted.
+Logger 5.0.1 and sfprofiles 5.2.2 are both private workspaces maintained from
+their original published implementation bytes. The staging copy translates local
+dependencies inside both manifests and the shrinkwrap into version references.
+Consumer checks verify original source/resource hashes, deep profile imports,
+merge behavior, shared singleton identity, locked versions and real SQLite.
+Validate the actual artifact outside the checkout with development dependencies omitted.
 
 The staged artifact includes a shrinkwrap derived from the committed lockfile,
 with workspace paths translated into bundled module paths. The shrinkwrap alone did not prevent npm10 from re-resolving external dependencies

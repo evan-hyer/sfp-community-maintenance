@@ -35,3 +35,7 @@ packages/apexlink/tests/resources/feature-mgmt/apexlink.json
 # Published implementation maintained as source for the internal logger.
 !packages/sfp-logger/lib/
 !packages/sfp-logger/lib/**
+
+# Published sfprofiles implementation is maintained source.
+!packages/sfprofiles/lib/
+!packages/sfprofiles/lib/**

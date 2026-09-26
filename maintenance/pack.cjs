@@ -27,6 +27,10 @@ try {
   tar.x({ file: path.join(stage, first.filename), cwd: content, strip: 1, sync: true });
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'package.json')));
   const lock = JSON.parse(fs.readFileSync(path.join(root, 'package-lock.json')));
+  const localVersions = Object.fromEntries(manifest.workspaces.map(workspace => {
+    const internal = JSON.parse(fs.readFileSync(path.join(root, workspace, 'package.json')));
+    return [internal.name, internal.version];
+  }));
   for (const workspace of manifest.workspaces) {
     const source = path.join(root, workspace);
     const internal = JSON.parse(fs.readFileSync(path.join(source, 'package.json')));
@@ -34,9 +38,14 @@ try {
     if (!fs.existsSync(path.join(target, 'package.json'))) throw new Error(`Missing bundle: ${internal.name}`);
     const nested = path.join(source, 'node_modules');
     if (fs.existsSync(nested)) fs.cpSync(nested, path.join(target, 'node_modules'), { recursive: true, dereference: true });
+    for (const name of Object.keys(internal.dependencies || {})) {
+      if (localVersions[name]) internal.dependencies[name] = localVersions[name];
+    }
+    delete internal.scripts;
+    fs.writeFileSync(path.join(target, 'package.json'), JSON.stringify(internal, null, 4) + '\n');
     manifest.dependencies[internal.name] = internal.version;
     const installedPath = `node_modules/${internal.name}`;
-    lock.packages[installedPath] = { ...lock.packages[workspace], inBundle: true };
+    lock.packages[installedPath] = { ...lock.packages[workspace], dependencies: internal.dependencies, inBundle: true };
     for (const key of Object.keys(lock.packages)) {
       if (key.startsWith(workspace + '/')) {
         lock.packages[installedPath + key.slice(workspace.length)] = { ...lock.packages[key], inBundle: true };

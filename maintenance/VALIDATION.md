@@ -1,6 +1,6 @@
 # Maintenance checkpoint validation
 
-Updated 2026-09-25. Phases 0/1 pass on Windows and Linux; release readiness remains open.
+Updated 2026-09-26. Phases 0/1 pass on Windows and Linux; release readiness remains open.
 
 Checkpoints: `e1cd67dc` disables inherited publishing; `df1b3e19` records the
 original baseline; `1dba3220` repairs the offline test fixtures. The expanded
@@ -87,7 +87,11 @@ Phase 2 is in progress. Logger 5.0.1 is imported as a private workspace;
 [Windows source and consumer evidence](evidence/logger-windows-checkpoint.json)
 passes, including both executable aliases. [Fresh Windows checks](evidence/logger-windows-clean-checkpoint.json) and
 [Linux source/consumer checks](evidence/logger-linux-checkpoint.json) now pass. Dependency upgrades remain unstarted.
-The pre-existing vendor/registry scripts and sfprofiles source draft remain
+The sfprofiles5.2.2 source import now passes Windows build, both 28-case contract
+runs, all193 Jest tests, guard/mutation checks and isolated offline consumer
+installation, source/resource hashes, profile merge, SQLite, CLI and both aliases.
+See [evidence](evidence/profiles-windows-checkpoint.json). Its fresh committed-source
+and Linux checks remain pending. The pre-existing vendor/registry scripts remain
 untracked and unmodified. No npm package, container, branch, or release was
 pushed/published, and no live Salesforce operations were performed.
 

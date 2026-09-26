@@ -22,6 +22,10 @@ Date generated | Revision ID
 declarations under `packages/sfp-logger`. Copyright (c) 2024 flxbl.io; MIT.
 Its original license and per-file provenance are retained in that directory.
 
+`@flxbl-io/sfprofiles` 5.2.2 is maintained from published JavaScript, declarations
+and resources under `packages/sfprofiles`. Copyright (c) 2024 flxbl; MIT.
+Its original license and per-file provenance are retained in that directory.
+
 ## Dependencies
 
 

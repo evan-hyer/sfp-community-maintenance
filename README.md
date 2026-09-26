@@ -83,10 +83,10 @@ The project retains the [MIT license](LICENSE), upstream copyright notices, and 
 
 ## Maintenance artifact packaging
 
-Logger 5.0.1 is maintained as a private workspace under `packages/sfp-logger`.
+Logger 5.0.1 and sfprofiles 5.2.2 are maintained as private workspaces under `packages/`.
 Build with `npm run build`, generate the manifest with `npm run manifest`, and
 create an artifact with `npm run pack:maintenance`. The staging pack bundles
 the locked runtime graph for reproducible consumers; bare workspace `npm pack`
 is not the validated distribution path. See [packaging details](maintenance/PACKAGING.md)
-and [validation status](maintenance/VALIDATION.md). Logger source and consumer validation pass on Windows and Linux; sfprofiles
-source internalization is next. This is not a release-readiness declaration.
+and [validation status](maintenance/VALIDATION.md). Logger source and consumer validation pass on Windows and Linux. The sfprofiles
+import passes Windows checks; its fresh committed-source and Linux checks are pending. This is not a release-readiness declaration.

@@ -1,0 +1,1 @@
+{"version":3,"file":"profileWriter.d.ts","sourceRoot":"","sources":["../../../../src/impl/metadata/writer/profileWriter.ts"],"names":[],"mappings":"AAAA,OAAO,OAAO,MAAM,WAAW,CAAC;AAShC,MAAM,CAAC,OAAO,OAAO,aAAa;IACvB,YAAY,CAAC,UAAU,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM;IAgClD,KAAK,CAAC,UAAU,EAAE,OAAO;IA2BzB,SAAS,CAAC,UAAU,EAAE,GAAG,GAAG,OAAO;IA+B1C,OAAO,CAAC,wBAAwB;CAYnC"}

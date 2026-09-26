@@ -18,7 +18,7 @@
         "@flxbl-io/apexlink": "4.0.1",
         "@flxbl-io/sfdx-process-wrapper": "3.0.0",
         "@flxbl-io/sfp-logger": "file:packages/sfp-logger",
-        "@flxbl-io/sfprofiles": "5.2.2",
+        "@flxbl-io/sfprofiles": "file:packages/sfprofiles",
         "@jsforce/jsforce-node": "^3.2.0",
         "@newrelic/telemetry-sdk": "^0.6.0",
         "@oclif/core": "^4.5.2",
@@ -204,7 +204,8 @@
     },
     "snyk": true,
     "workspaces": [
-        "packages/sfp-logger"
+        "packages/sfp-logger",
+        "packages/sfprofiles"
     ],
     "bundleDependencies": [
         "@apexdevtools/apex-parser",

@@ -1,2 +1,3 @@
 # Preserve the exact published source bytes across Windows/Linux checkouts.
 packages/sfp-logger/** -text
+packages/sfprofiles/** -text
