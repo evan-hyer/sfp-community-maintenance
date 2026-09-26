@@ -1,6 +1,6 @@
 ﻿# Community maintenance migration plan
 
-Updated 2026-09-26. Status: phases 0/1 validated on Windows and Linux; phase 2 is in progress.
+Updated 2026-09-26. Status: phases 0–2 validated on Windows and Linux; runtime alignment is next.
 
 ## Implementation checkpoint
 
@@ -10,7 +10,7 @@ Updated 2026-09-26. Status: phases 0/1 validated on Windows and Linux; phase 2 i
 - Clean upstream Windows baselines use Node 20.20.2/npm 10.8.2 and Node 22.23.2/npm 10.9.8. Install/build and real SQLite probes pass; the full guarded Jest suite reproduces 173 passes, 18 failures, and 2 pre-existing skips on both runtimes.
 - Offline runner, guard self-tests, published-package contracts, CLI smoke checks, and representative mutation probes are now exposed through npm scripts and CI. See [BASELINE.md](BASELINE.md) and [VALIDATION.md](VALIDATION.md) for scope, evidence, and remaining coverage.
 - The Node 24.12.0 diagnostic install fails at inherited `better-sqlite3@11.5.0` (no prebuilt binary; no local Visual Studio C++ tools). Linux validation now runs locally in Ubuntu WSL2; container and remote checks have not run.
-- Expanded contracts exercise profile XML merge/malformed input, artifact package merging, build partial failure, Apex selection, and release retries/cleanup against unchanged dependencies. The phase-1 Windows/Linux gate now passes; see [Linux evidence](evidence/linux-clean-checkpoint.json). Logger 5.0.1 is now a private workspace with unchanged implementation bytes. Clean committed-source checks and the same consumer artifact pass on Windows and Linux. sfprofiles5.2.2 is now also a private workspace with unchanged implementation/resources and passing Windows source/consumer checks; its fresh committed-source/Linux gates remain pending. Helper drafts remain untracked; no runtime dependency upgrades have been accepted.
+- Expanded contracts exercise profile XML merge/malformed input, artifact package merging, build partial failure, Apex selection, and release retries/cleanup against unchanged dependencies. Logger 5.0.1 and sfprofiles 5.2.2 are private workspaces with unchanged implementation/resources. Fresh committed-source [Windows](evidence/profiles-windows-clean-checkpoint.json) and [Linux](evidence/profiles-linux-checkpoint.json) checks pass, including 193 Jest tests and two 28-case contract runs per platform. The same Windows-built artifact passes isolated offline consumer installation on both platforms, source/resource hashes, profile merge, shared logger, real SQLite, CLI checks and both aliases. Phase 2 is complete. Helper drafts remain untracked; no runtime dependency upgrades have been accepted.
 
 ## Objective and scope
 
@@ -166,7 +166,7 @@ Reproduce the preceding checkpoint in a separate checkout with fresh dependencie
 
 - [ ] Baseline and inherited failures are reproducible and documented.
 - [ ] Offline characterization protects the CLI, logger, profiles, and representative artifact/release contracts.
-- [ ] Logger and sfprofiles are committed internal dependencies with verified provenance and working consumer packaging.
+- [x] Logger and sfprofiles are committed internal dependencies with verified provenance and working consumer packaging.
 - [ ] Supported Node/npm policy is consistent across development, CI, and containers.
 - [ ] Direct and internal dependencies reach verified latest stable releases, or have explicit justified deferrals.
 - [ ] Required tests, native-module checks, packed installation, and container checks pass from committed source.

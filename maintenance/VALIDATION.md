@@ -78,20 +78,27 @@ coverage percentage is not used as a substitute for these contracts.
    metadata merge precedence, build partial failure, Apex selection, and release
    retries/cleanup. Salesforce boundaries remain mocked; no live-org result is
    implied. Both inherited builder tests have been restored.
-3. Obtain two clean Windows/Linux runs from committed source and exercise fresh
-   consumer tarballs after internalization. No consumer packaging is claimed yet.
+3. Internalization now passes fresh committed-source Windows/Linux checks with
+   two characterization runs per platform and isolated consumer installation of
+   the same Windows-built tarball. Preserve these packaging gates during upgrades.
 4. Resolve Node 24 native installation at its dedicated compatibility checkpoint;
    refresh exact supported release versions before selecting the runtime target.
 
-Phase 2 is in progress. Logger 5.0.1 is imported as a private workspace;
+Phase 2 is complete. Logger 5.0.1 is imported as a private workspace;
 [Windows source and consumer evidence](evidence/logger-windows-checkpoint.json)
 passes, including both executable aliases. [Fresh Windows checks](evidence/logger-windows-clean-checkpoint.json) and
 [Linux source/consumer checks](evidence/logger-linux-checkpoint.json) now pass. Dependency upgrades remain unstarted.
 The sfprofiles5.2.2 source import now passes Windows build, both 28-case contract
 runs, all193 Jest tests, guard/mutation checks and isolated offline consumer
 installation, source/resource hashes, profile merge, SQLite, CLI and both aliases.
-See [evidence](evidence/profiles-windows-checkpoint.json). Its fresh committed-source
-and Linux checks remain pending. The pre-existing vendor/registry scripts remain
+See [Windows source/consumer evidence](evidence/profiles-windows-checkpoint.json).
+Fresh committed-source [Windows](evidence/profiles-windows-clean-checkpoint.json)
+and [Linux](evidence/profiles-linux-checkpoint.json) checks also pass: 40 suites,
+193 tests, zero failures or skips, two 28-case contracts, 11 guard probes,
+3 mutation probes and 4 CLI checks on each platform. Linux installs the same
+Windows-built artifact with development dependencies omitted and verifies both
+packages' source/resources, profile merge, shared logger, real SQLite and aliases.
+The pre-existing vendor/registry scripts remain
 untracked and unmodified. No npm package, container, branch, or release was
 pushed/published, and no live Salesforce operations were performed.
 

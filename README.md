@@ -19,7 +19,7 @@ The [comprehensive migration plan](maintenance/MIGRATION.md) defines the baselin
 
 ## Current state
 
-The root package is still the inherited `@flxbl-io/sfp` version `39.8.0`. It declares Node.js `>=18.0.0` and depends on the published logger `5.0.1` and sfprofiles `5.2.2` packages. That engine declaration describes the legacy package and is not a recommendation to use an end-of-life runtime. The migration targets Node.js 24 LTS first, with the current Node.js line evaluated separately.
+The root package is still the inherited `@flxbl-io/sfp` version `39.8.0`. It declares Node.js `>=18.0.0` and now maintains logger `5.0.1` and sfprofiles `5.2.2` as private local workspaces, preserving their published implementation. That engine declaration describes the legacy package and is not a recommendation to use an end-of-life runtime. The migration targets Node.js 24 LTS first, with the current Node.js line evaluated separately.
 
 Package names and upstream links in package metadata have not yet been migrated to a fork-specific distribution. Inherited publishing and promotion workflows are [disabled](maintenance/disabled-workflows/README.md). Installing `@flxbl-io/sfp` from npm or using upstream container images does not install this fork. No fork release has been established.
 
@@ -88,5 +88,4 @@ Build with `npm run build`, generate the manifest with `npm run manifest`, and
 create an artifact with `npm run pack:maintenance`. The staging pack bundles
 the locked runtime graph for reproducible consumers; bare workspace `npm pack`
 is not the validated distribution path. See [packaging details](maintenance/PACKAGING.md)
-and [validation status](maintenance/VALIDATION.md). Logger source and consumer validation pass on Windows and Linux. The sfprofiles
-import passes Windows checks; its fresh committed-source and Linux checks are pending. This is not a release-readiness declaration.
+and [validation status](maintenance/VALIDATION.md). Both internal packages pass fresh committed-source validation on Windows and Linux, and the same Windows-built artifact passes isolated consumer checks on both platforms. Runtime alignment, dependency upgrades and release-readiness gates remain open.
