@@ -19,7 +19,7 @@ The [comprehensive migration plan](maintenance/MIGRATION.md) defines the baselin
 
 ## Current state
 
-The root package is still the inherited `@flxbl-io/sfp` version `39.8.0`. It maintains logger `5.0.1` and sfprofiles `5.2.2` as private local workspaces, preserving their published implementation. The SQLite compatibility change raises the dependency engine floor to Node.js 20; this is not a production support recommendation. Source validation passes on Node 22.23.2 and Node 24.21.0, while the full runtime-policy and container gates remain open. See the [Node 24 checkpoint](maintenance/NODE24.md).
+The root package is still the inherited `@flxbl-io/sfp` version `39.8.0`. It maintains logger `5.0.1` and sfprofiles `5.2.2` as private local workspaces, preserving their published implementation. The runtime target is Node 24.21.0 with npm 10.9.8. Source and packaged-consumer SQLite compatibility checks pass on Windows and Linux; runtime-policy and container validation remain in progress. See the [Node 24 checkpoint](maintenance/NODE24.md) and [runtime policy](maintenance/RUNTIME.md).
 
 Package names and upstream links in package metadata have not yet been migrated to a fork-specific distribution. Inherited publishing and promotion workflows are [disabled](maintenance/disabled-workflows/README.md). Installing `@flxbl-io/sfp` from npm or using upstream container images does not install this fork. No fork release has been established.
 
@@ -28,12 +28,15 @@ Package names and upstream links in package metadata have not yet been migrated 
 Run these commands from the repository root, where `package.json` lives:
 
 ```sh
+# Select Node 24.21.0 using .nvmrc or .node-version first.
+npm install --global npm@10.9.8
 npm ci
+npm run build --workspaces
 npm run build
 node ./bin/run --help
 ```
 
-Use the committed lockfile to reproduce dependency resolution. Clean Windows installs/builds and SQLite probes pass on Node 20.20.2 and 22.23.2; Node 20 is a historical comparison only. Node 24.12.0 installation fails on the validation host at the inherited SQLite dependency. These results are diagnostic, not a completed support matrix. See the baseline for exact npm versions and native build requirements.
+Use the committed lockfile to reproduce dependency resolution. Historical Node 20/22 results and the old Node 24 native-install failure are recorded in the baseline. The focused better-sqlite3 12.1.0 checkpoint resolves native installation on Node 24.21.0. Node 26 is a diagnostic lane outside the declared support policy.
 
 Run the existing Jest suite with:
 

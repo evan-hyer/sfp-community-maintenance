@@ -17,3 +17,8 @@ Consumer artifact: run npm run build, npm run manifest, then npm run pack:mainte
 The staging pack materializes nested runtime dependencies at their consumer paths,
 removes workspace-only metadata and replaces bundled file references with versions.
 Bare npm pack is diagnostic only: npm10 misplaces nested workspace dependencies.
+
+2026-09-27 runtime-policy candidate: the private workspace engine declaration
+aligns with the root Node 24.21.0 target. Implementation bytes are unchanged;
+this is a maintenance support policy, not a claim that the original code
+requires Node 24 features. See ../../maintenance/RUNTIME.md.

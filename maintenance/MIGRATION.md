@@ -1,6 +1,6 @@
 # Community maintenance migration plan
 
-Updated 2026-09-26. Status: phases 0–2 validated on Windows and Linux; runtime alignment is next.
+Updated 2026-09-26. Status: phases 0–2 validated; Node 24 source/consumer and lite-container gates pass; full-container validation is blocked by host storage.
 
 ## Implementation checkpoint
 
@@ -12,6 +12,7 @@ Updated 2026-09-26. Status: phases 0–2 validated on Windows and Linux; runtime
 - The Node 24.12.0 diagnostic install fails at inherited `better-sqlite3@11.5.0` (no prebuilt binary; no local Visual Studio C++ tools). Linux validation now runs locally in Ubuntu WSL2; container and remote checks have not run.
 - Expanded contracts exercise profile XML merge/malformed input, artifact package merging, build partial failure, Apex selection, and release retries/cleanup against unchanged dependencies. Logger 5.0.1 and sfprofiles 5.2.2 are private workspaces with unchanged implementation/resources. Fresh committed-source [Windows](evidence/profiles-windows-clean-checkpoint.json) and [Linux](evidence/profiles-linux-checkpoint.json) checks pass, including 193 Jest tests and two 28-case contract runs per platform. The same Windows-built artifact passes isolated offline consumer installation on both platforms, source/resource hashes, profile merge, shared logger, real SQLite, CLI checks and both aliases. Phase 2 is complete. Helper drafts remain untracked. The first focused runtime dependency checkpoint upgrades only better-sqlite3 11.5.0 to 12.1.0: Node 22 Windows regression checks, fresh Node 24.21.0 Windows/Linux dependency installs and complete offline suites pass. The same packed artifact passes production consumer upgrade installation on both platforms. See [native compatibility evidence](NODE24.md); committed-source reproduction and the runtime-policy/container gates remain open.
 
+- Runtime alignment pins Node 24.21.0/npm 10.9.8 and Node 24 declarations; Windows/Linux candidate source and fresh same-artifact consumer checks pass. The lite Docker image passes build and offline native/CLI checks. See [runtime evidence and remaining gates](RUNTIME.md). Full-image validation is blocked by 1.56 GiB free on C:; phase 3 is not complete, and broad dependency upgrades remain queued.
 ## Objective and scope
 
 Maintain sfp Community Edition as a usable Salesforce artifact and release CLI while incrementally adopting current libraries and supported Node.js versions. Preserve observed behavior first, internalize the logger and sfprofiles second, and then upgrade in independently reviewable steps.

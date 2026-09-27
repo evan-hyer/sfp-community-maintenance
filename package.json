@@ -96,10 +96,12 @@
         "ts-node": "10.9.2",
         "ts-patch": "^3.2.0",
         "ts-retry-promise": "0.8.1",
-        "typescript": "^5.4.5"
+        "typescript": "^5.4.5",
+        "@types/node": "24.0.0"
     },
     "engines": {
-        "node": ">=20.0.0"
+        "node": ">=24.21.0 <25",
+        "npm": "10.9.8"
     },
     "files": [
         "/lib",
@@ -200,7 +202,8 @@
         "test:offline-guard": "node maintenance/offline-guard.test.cjs",
         "test:cli": "node maintenance/cli-smoke.test.cjs",
         "test:mutations": "node maintenance/mutations.test.cjs",
-        "pack:maintenance": "node maintenance/pack.cjs"
+        "pack:maintenance": "node maintenance/pack.cjs",
+        "test:consumer": "node maintenance/test-consumer.cjs"
     },
     "snyk": true,
     "workspaces": [
@@ -259,5 +262,6 @@
         "tar",
         "tmp",
         "xml2js"
-    ]
+    ],
+    "packageManager": "npm@10.9.8"
 }

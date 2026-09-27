@@ -1,0 +1,10 @@
+﻿{
+    "node":  "26.10.0",
+    "npm":  "10.9.8",
+    "platform":  "win32-x64",
+    "dependency":  "better-sqlite3@12.1.0",
+    "installExit":  1,
+    "scope":  "Isolated native-dependency installation; not a complete application matrix",
+    "date":  "2026-09-27",
+    "classification":  "Unsupported dependency engine; no matching prebuilt binary; fallback fails because Visual Studio C++ toolchain is absent. Source compilation on an equipped host is not established."
+}

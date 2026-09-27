@@ -131,3 +131,20 @@ disk constraints; these are explicitly upgrade-installation results.
 See [Node 24 scope and pending gates](NODE24.md), [Windows evidence](evidence/sqlite-windows-checkpoint.json)
 and [Linux evidence](evidence/sqlite-linux-checkpoint.json). Exact runtime policy,
 CI alignment, Node 26 diagnostics and container validation remain open.
+## Runtime-policy and lite-container checkpoint (2026-09-27)
+
+Node 24.21.0/npm 10.9.8 candidate source and fresh production consumer checks
+pass on Windows and Linux, including 193 Jest tests with no skips, 29 contracts
+twice, guard11, mutations3, CLI4, native cache, hashes and both executable aliases.
+The same Windows-built artifact passes offline validation in the Ubuntu 24.04
+lite container. The first Windows alias-harness path failure and successful
+retry remain in the evidence. Earlier committed-source reproduction of the
+SQLite change is complete on both platforms.
+
+See [runtime policy and evidence](RUNTIME.md). The full image has not been built:
+host C: has 1.56 GiB free, and more space or another Docker data location is
+required. Apt simulation indicates the inherited browser dependency resolves
+through Snap; it does not establish an actual full-build failure. Browser
+packaging, actual full-image validation, container CI coverage and final
+committed-source reproduction remain open. Remote CI and live Salesforce
+validation have not run. Phase 3 remains incomplete.

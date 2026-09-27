@@ -1,0 +1,63 @@
+﻿{
+    "recordedAt":  "2026-09-27T22:15:24.9466790Z",
+    "checkout":  "060cea7fac54970575fe5e380e89a388ecfa0ab4 plus uncommitted runtime candidate",
+    "scope":  "Local Docker on Ubuntu 26.04 WSL2; Linux amd64; no remote CI or live Salesforce",
+    "docker":  "29.8.1",
+    "containerd":  "2.3.6",
+    "runc":  "1.5.1",
+    "base":  "ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3",
+    "artifact":  {
+                     "sha512":  "83d5991090dc3e41de1207cb1a04b0524f2f980e582a4f256ee87cd7079ac3cb36e609237ea30368b7b9b7dcc1e4f30b8bed9b57f72eed0f840a7b831d0c1a3a",
+                     "path":  ".maintenance/flxbl-io-sfp-39.8.0.tgz",
+                     "bytes":  45626125
+                 },
+    "runtime":  {
+                    "nodeArchiveSha256":  "fd8e59d5a511510f6a298afb548f18c7d2b1be404d8b4a27d94fbe49f56cb2d6",
+                    "node":  "24.21.0",
+                    "npm":  "10.9.8"
+                },
+    "lite":  {
+                 "testedImage":  "sha256:105f46fda016ac7ffd236c07b838a6614b74b2aee68703045cc3f2ea042783be",
+                 "checks":  [
+                                "network none",
+                                "consumer locked versions and shared logger",
+                                "original source/resource SHA256 hashes",
+                                "profile merge",
+                                "real SQLite and native cache",
+                                "4 CLI tests, zero failures/skips",
+                                "sfp and sfpowerscripts aliases"
+                            ],
+                 "originalWrapperNote":  "PowerShell wrapper exit differs from completed Docker log; cached confirmation captured native exit explicitly",
+                 "build":  "All stages and image export completed; cached confirmation Docker exit 0",
+                 "warning":  "8 inherited legacy LABEL-format warnings",
+                 "checksExit":  0,
+                 "originalWrapperExit":  1,
+                 "logs":  [
+                              ".maintenance/docker-lite-build.log",
+                              ".maintenance/docker-lite-build-confirm.log",
+                              ".maintenance/docker-lite-check.log",
+                              ".maintenance/docker-lite-inspect.json"
+                          ],
+                 "cachedConfirmationImage":  "sha256:6887d41832f629aca9839aaecbacee6518e1e1830f20ff2af02281d414bf141b",
+                 "imageConfig":  "sha256:93d5a67b8642de82d53bef7d5c97e332a2d95f3199708e2be143b38a3194dde9",
+                 "result":  "pass"
+             },
+    "full":  {
+                 "retainedVersions":  {
+                                          "browserforce":  "5.0.0",
+                                          "scanner":  "4.7.0",
+                                          "salesforceCli":  "2.100.4",
+                                          "sfdmu":  "4.38.0",
+                                          "yarn":  "1.22.22"
+                                      },
+                 "log":  ".maintenance/docker-full-apt-diagnostic.log",
+                 "hostFreeBytes":  1674215424,
+                 "result":  "not built: host storage blocker",
+                 "aptDiagnostic":  "Simulation only on same Ubuntu24.04 lite base. chromium-driver has no direct candidate but resolves to chromium-chromedriver 2:1snap1-0ubuntu2 and chromium-browser/snapd/systemd; simulation exit0. No full recipe apt failure observed.",
+                 "remaining":  [
+                                   "browser recipe decision and actual build",
+                                   "offline consumer/CLI/native checks",
+                                   "Salesforce CLI/plugin/Java/browser/driver startup checks without authentication"
+                               ]
+             }
+}
