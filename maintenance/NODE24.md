@@ -50,8 +50,11 @@ Node 22.23.2 Windows regression validation passes install/build, 29 contracts,
 Node 24.21.0 Windows and Linux both pass clean dependency installation with scripts
 enabled, build, two 29-contract runs, guard/mutation/CLI checks and all 193 Jest
 tests with zero skips. Linux additionally runs both workspace syntax checks.
-These runs apply the focused candidate files to the phase-2 validation checkouts;
-committed-source reproduction follows the checkpoint commit.
+The initial runs applied focused candidate files to phase-2 validation checkouts.
+On 2026-09-27, fresh detached Windows and Linux checkouts of `a9be759b` reproduced
+all source checks with fresh dependency installation and zero failures/skips:
+[Windows](evidence/sqlite-windows-clean-checkpoint.json),
+[Linux](evidence/sqlite-linux-clean-checkpoint.json).
 
 ## Packaged consumer validation
 
@@ -69,5 +72,4 @@ artifact SHA512. Source dependency installations were fresh on both platforms.
 
 ## Pending gates
 
-- Fresh committed-source reproduction of this compatibility checkpoint.
 - Exact runtime/npm policy, CI, Node 26 compatibility lane and container checks.

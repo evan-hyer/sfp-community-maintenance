@@ -1,0 +1,63 @@
+{
+  "commit": "a9be759b",
+  "date": "2026-09-27",
+  "node": "24.21.0",
+  "npm": "10.9.8",
+  "platform": "win32-x64",
+  "source": "Fresh detached worktree; npm ci with lifecycle scripts",
+  "steps": [
+    {
+      "name": "��i\u0000n\u0000s\u0000t\u0000a\u0000l\u0000l\u0000",
+      "exitCode": null
+    },
+    {
+      "name": "\u0000s\u0000y\u0000n\u0000t\u0000a\u0000x\u0000",
+      "exitCode": null
+    },
+    {
+      "name": "\u0000b\u0000u\u0000i\u0000l\u0000d\u0000",
+      "exitCode": null
+    },
+    {
+      "name": "\u0000c\u0000o\u0000n\u0000t\u0000r\u0000a\u0000c\u0000t\u0000s\u0000-\u0000f\u0000i\u0000r\u0000s\u0000t\u0000",
+      "exitCode": null
+    },
+    {
+      "name": "\u0000c\u0000o\u0000n\u0000t\u0000r\u0000a\u0000c\u0000t\u0000s\u0000-\u0000s\u0000e\u0000c\u0000o\u0000n\u0000d\u0000",
+      "exitCode": null
+    },
+    {
+      "name": "\u0000g\u0000u\u0000a\u0000r\u0000d\u0000",
+      "exitCode": null
+    },
+    {
+      "name": "\u0000m\u0000u\u0000t\u0000a\u0000t\u0000i\u0000o\u0000n\u0000s\u0000",
+      "exitCode": null
+    },
+    {
+      "name": "\u0000c\u0000l\u0000i\u0000",
+      "exitCode": null
+    },
+    {
+      "name": "\u0000j\u0000e\u0000s\u0000t\u0000",
+      "exitCode": null
+    },
+    {
+      "name": "\u0000",
+      "exitCode": null
+    }
+  ],
+  "jest": {
+    "suites": 40,
+    "passed": 193,
+    "failed": 0,
+    "skipped": 0
+  },
+  "contracts": [
+    29,
+    29
+  ],
+  "guard": 11,
+  "mutations": 3,
+  "cli": 4
+}
