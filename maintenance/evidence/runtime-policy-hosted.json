@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-09-28T20:44:03.974Z",
+  "recordedAt": "2026-09-28T20:46:59.712Z",
   "scope": "Hosted GitHub Actions results; no live Salesforce authentication",
   "fullContainer": {
     "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479417903",
@@ -115,25 +115,14 @@
   "review": {
     "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543",
     "headSha": "1c80124fbcfdf2dc81db2a91b07f60e0ab594e49",
-    "status": "in_progress",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "failure",
     "jobs": [
       {
         "name": "Required / windows-latest / Node 24",
         "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543/job/109122157959",
-        "status": "in_progress",
-        "conclusion": null,
-        "completedAt": "0001-01-01T00:00:00Z",
-        "currentSteps": [
-          {
-            "completedAt": "0001-01-01T00:00:00Z",
-            "conclusion": "",
-            "name": "Run npm run test:consumer",
-            "number": 16,
-            "startedAt": "2026-09-28T20:40:33Z",
-            "status": "in_progress"
-          }
-        ]
+        "status": "completed",
+        "conclusion": "failure"
       },
       {
         "name": "Diagnostic / ubuntu-latest / Node 26",
@@ -178,7 +167,7 @@
         "currentSteps": []
       }
     ],
-    "windowsRequired": "Node24 source checks and packaging passed; fresh consumer step remains in_progress at observation. No final Windows pass or failure yet.",
+    "windowsRequired": "Source checks and packaging passed. Fresh consumer npm install hit the harness 300-second timeout (ETIMEDOUT); consumer assertions did not run. Underlying installation delay remains undiagnosed.",
     "node26": {
       "ubuntu": {
         "cause": "better-sqlite3 native build fails against Node26 V8: PropertyCallbackInfo<v8::Value> has no member This. This is an observed compilation incompatibility on this runner.",
@@ -211,6 +200,11 @@
         }
       },
       "classification": "Optional continue-on-error diagnostics; Node26 remains outside supported engines."
+    },
+    "windowsFailure": {
+      "localLog": ".maintenance/hosted-job-109122157959.log",
+      "sha256": "e63bc31bf06734e6665367ee674b02ebc9b80cfbe7b30555fe1710d1e47fff42",
+      "next": "Add npm installation diagnostics and review bounded installation timeout before rerunning required Windows validation."
     }
   }
 }
