@@ -16,7 +16,14 @@ function run(command, args, options = {}) {
   if (result.error || result.status !== 0) throw result.error || new Error(`${command} failed: ${result.status}`);
 }
 try {
-  run(process.execPath, [process.env.npm_execpath, 'install', '--prefix', prefix, '--omit=dev', '--no-audit', '--no-fund', artifact]);
+  // Hosted Windows exceeded five minutes before npm emitted installation output.
+  // Keep the longer limit specific to installation; assertions retain five minutes.
+  const installTimeout = process.platform === 'win32' && process.env.GITHUB_ACTIONS === 'true' ? 900000 : 300000;
+  console.log(`Installing fresh consumer (timeout ${installTimeout / 1000}s): ${prefix}`);
+  run(process.execPath, [process.env.npm_execpath, 'install', '--prefix', prefix, '--omit=dev', '--no-audit', '--no-fund', '--foreground-scripts', '--loglevel=info', artifact], {
+    timeout: installTimeout,
+  });
+  console.log('Fresh consumer installation completed; starting assertions.');
   const installed = path.join(prefix, 'node_modules', '@flxbl-io', 'sfp');
   run(process.execPath, [path.join(__dirname, 'check-consumer.cjs'), installed]);
   run(process.execPath, [path.join(__dirname, 'cli-smoke.test.cjs')], {
