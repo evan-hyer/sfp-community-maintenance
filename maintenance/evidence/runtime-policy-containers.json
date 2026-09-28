@@ -1,4 +1,4 @@
-﻿{
+{
     "recordedAt":  "2026-09-27T22:15:24.9466790Z",
     "checkout":  "060cea7fac54970575fe5e380e89a388ecfa0ab4 plus uncommitted runtime candidate",
     "scope":  "Local Docker on Ubuntu 26.04 WSL2; Linux amd64; no remote CI or live Salesforce",
@@ -93,5 +93,14 @@
                                       "cleanup":  "Only four authorized obsolete generated dependency directories and two unused154 research ZIPs removed; no Docker deletion",
                                       "warning":  "8 inherited legacy LABEL-format warnings"
                                   }
-             }
+             },
+    "hostedValidation": {
+    "result": "pass",
+    "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479417903",
+    "headSha": "1c80124fbcfdf2dc81db2a91b07f60e0ab594e49",
+    "job": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479417903/job/109121104407",
+    "completedAt": "2026-09-28T20:33:28Z",
+    "evidence": "runtime-policy-hosted.json",
+    "note": "Hosted full-image build and offline runtime checks passed; local disk-cancelled attempt remains historical."
+}
 }

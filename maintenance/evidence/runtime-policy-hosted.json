@@ -1,0 +1,216 @@
+{
+  "recordedAt": "2026-09-28T20:44:03.974Z",
+  "scope": "Hosted GitHub Actions results; no live Salesforce authentication",
+  "fullContainer": {
+    "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479417903",
+    "headSha": "1c80124fbcfdf2dc81db2a91b07f60e0ab594e49",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "completedAt": "2026-09-28T20:33:28Z",
+        "conclusion": "success",
+        "databaseId": 109121104407,
+        "name": "full-container",
+        "startedAt": "2026-09-28T20:28:18Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-28T20:28:20Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-28T20:28:19Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:28:22Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-09-28T20:28:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:28:24Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-node@v4",
+            "number": 3,
+            "startedAt": "2026-09-28T20:28:22Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:29:25Z",
+            "conclusion": "success",
+            "name": "Build the local fork artifact",
+            "number": 4,
+            "startedAt": "2026-09-28T20:28:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:18Z",
+            "conclusion": "success",
+            "name": "Build full image",
+            "number": 5,
+            "startedAt": "2026-09-28T20:29:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:25Z",
+            "conclusion": "success",
+            "name": "Validate full image without external networking",
+            "number": 6,
+            "startedAt": "2026-09-28T20:33:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:25Z",
+            "conclusion": "success",
+            "name": "Record result",
+            "number": 7,
+            "startedAt": "2026-09-28T20:33:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:25Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-node@v4",
+            "number": 13,
+            "startedAt": "2026-09-28T20:33:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:25Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-09-28T20:33:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:25Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-09-28T20:33:25Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479417903/job/109121104407"
+      }
+    ],
+    "log": {
+      "localLog": ".maintenance/hosted-job-109121104407.log",
+      "sha256": "5becc9ba3813fee47b38a3b192eb1b5aaa4eed2e4856fbe289693c90acc63143",
+      "excerpts": [
+        "2026-09-28T20:29:25.5354683Z 3ae185f4d6b089c67b9fec4df43374384517775ff1180788eb4491ffb54fc78534cfdcb31d1d56e13a6bfccd7272ea190b05fb6151589e816f72387f2b1f2f0a  .maintenance/flxbl-io-sfp-39.8.0.tgz",
+        "2026-09-28T20:33:18.0359046Z         \"Id\": \"sha256:111324e0049a9e5438a2c756a0f6a8c339631e0965cd16ada07356e387e3400f\",",
+        "2026-09-28T20:33:19.9148297Z Consumer paths, shared logger, locked oclif, source/resource hashes, profile merge and real SQLite pass.",
+        "2026-09-28T20:33:21.0091142Z ℹ tests 4",
+        "2026-09-28T20:33:24.5889594Z Puppeteer 24.10.0 data-page PASS: Chrome/137.0.7151.55",
+        "2026-09-28T20:33:24.9366752Z ChromeDriver local status PASS"
+      ]
+    }
+  },
+  "review": {
+    "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543",
+    "headSha": "1c80124fbcfdf2dc81db2a91b07f60e0ab594e49",
+    "status": "in_progress",
+    "conclusion": null,
+    "jobs": [
+      {
+        "name": "Required / windows-latest / Node 24",
+        "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543/job/109122157959",
+        "status": "in_progress",
+        "conclusion": null,
+        "completedAt": "0001-01-01T00:00:00Z",
+        "currentSteps": [
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Run npm run test:consumer",
+            "number": 16,
+            "startedAt": "2026-09-28T20:40:33Z",
+            "status": "in_progress"
+          }
+        ]
+      },
+      {
+        "name": "Diagnostic / ubuntu-latest / Node 26",
+        "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543/job/109122158084",
+        "status": "completed",
+        "conclusion": "failure",
+        "completedAt": "2026-09-28T20:32:13Z",
+        "currentSteps": [
+          {
+            "completedAt": "2026-09-28T20:32:10Z",
+            "conclusion": "failure",
+            "name": "Run npm ci --no-audit --no-fund",
+            "number": 5,
+            "startedAt": "2026-09-28T20:31:09Z",
+            "status": "completed"
+          }
+        ]
+      },
+      {
+        "name": "Diagnostic / windows-latest / Node 26",
+        "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543/job/109122158292",
+        "status": "completed",
+        "conclusion": "failure",
+        "completedAt": "2026-09-28T20:33:25Z",
+        "currentSteps": [
+          {
+            "completedAt": "2026-09-28T20:33:21Z",
+            "conclusion": "failure",
+            "name": "Run npm ci --no-audit --no-fund",
+            "number": 5,
+            "startedAt": "2026-09-28T20:31:33Z",
+            "status": "completed"
+          }
+        ]
+      },
+      {
+        "name": "Required / ubuntu-latest / Node 24",
+        "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543/job/109122158423",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-09-28T20:33:25Z",
+        "currentSteps": []
+      }
+    ],
+    "windowsRequired": "Node24 source checks and packaging passed; fresh consumer step remains in_progress at observation. No final Windows pass or failure yet.",
+    "node26": {
+      "ubuntu": {
+        "cause": "better-sqlite3 native build fails against Node26 V8: PropertyCallbackInfo<v8::Value> has no member This. This is an observed compilation incompatibility on this runner.",
+        "log": {
+          "localLog": ".maintenance/hosted-job-109122158084.log",
+          "sha256": "1a1790f726696a52d28d486d4da5b2e3afad57f11c1c28f1d9f832cbd1d806b8",
+          "excerpts": [
+            "2026-09-28T20:32:10.6200188Z npm error path /home/runner/work/sfp-community-maintenance/sfp-community-maintenance/node_modules/better-sqlite3",
+            "2026-09-28T20:32:10.6229868Z npm error prebuild-install warn install No prebuilt binaries found (target=26.10.0 runtime=node arch=x64 libc= platform=linux)",
+            "2026-09-28T20:32:10.6246896Z npm error ./src/util/binder.lzz:40:37: error: ‘class v8::Object’ has no member named ‘GetPrototype’; did you mean ‘GetPrototypeV2’?",
+            "2026-09-28T20:32:10.6247920Z npm error ./src/util/binder.lzz:49:62: error: ‘class v8::Object’ has no member named ‘GetPrototype’; did you mean ‘GetPrototypeV2’?",
+            "2026-09-28T20:32:10.6257302Z npm error ./src/better_sqlite3.lzz:68:34: error: ‘class v8::Context’ has no member named ‘GetIsolate’",
+            "2026-09-28T20:32:10.6272446Z npm error ./src/objects/database.lzz:416:89: error: ‘const class v8::PropertyCallbackInfo<v8::Value>’ has no member named ‘This’",
+            "2026-09-28T20:32:10.6274257Z npm error ./src/objects/database.lzz:420:77: error: ‘const class v8::PropertyCallbackInfo<v8::Value>’ has no member named ‘This’",
+            "2026-09-28T20:32:10.6282822Z npm error ./src/objects/statement.lzz:322:81: error: ‘const class v8::PropertyCallbackInfo<v8::Value>’ has no member named ‘This’"
+          ]
+        }
+      },
+      "windows": {
+        "cause": "better-sqlite3 has no Node26 prebuilt; node-gyp cannot identify usable Visual Studio. Log reports PowerShell discovery output-buffer RangeError and unknown VS18 Enterprise version. Not proof of source compatibility/incompatibility on a correctly detected Windows compiler.",
+        "log": {
+          "localLog": ".maintenance/hosted-job-109122158292.log",
+          "sha256": "6fa302ff082963df7403d925da17ed42626fcf474bb427f784058a720acf7217",
+          "excerpts": [
+            "2026-09-28T20:33:20.6557813Z npm error prebuild-install warn install No prebuilt binaries found (target=26.10.0 runtime=node arch=x64 libc= platform=win32)\r",
+            "2026-09-28T20:33:20.6570188Z npm error gyp ERR! find VS Failure details: RangeError [ERR_CHILD_PROCESS_STDIO_MAXB\r",
+            "2026-09-28T20:33:20.6571387Z npm error gyp ERR! find VS unknown version \"undefined\" found at \"C:\\Program Files\\Microsoft Visual Studio\\18\\Enterprise\"\r",
+            "2026-09-28T20:33:20.6572234Z npm error gyp ERR! find VS could not find a version of Visual Studio 2017 or newer to use\r"
+          ]
+        }
+      },
+      "classification": "Optional continue-on-error diagnostics; Node26 remains outside supported engines."
+    }
+  }
+}
