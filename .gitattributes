@@ -2,3 +2,4 @@
 packages/sfp-logger/** -text
 packages/sfprofiles/** -text
 dockerfiles/*.sh text eol=lf
+maintenance/*.sh text eol=lf

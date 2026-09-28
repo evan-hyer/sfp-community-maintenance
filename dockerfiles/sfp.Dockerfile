@@ -49,9 +49,7 @@ RUN apt-get update && \
     fonts-kacst \
     fonts-freefont-ttf \
     dbus \
-    dbus-x11 \
-    chromium-bsu \
-    chromium-driver && \
+    dbus-x11 && \
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
@@ -66,6 +64,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       make ca-certificates gcc g++ python3 xz-utils \
     && sh /tmp/install-node.sh && rm /tmp/install-node.sh \
     && rm -rf /var/lib/apt/lists/*
+
+# Standalone browser and matching driver avoid Ubuntu's snap transition.
+# Keep the revision expected by the inherited browserforce/Puppeteer versions.
+COPY dockerfiles/install-browser.sh /tmp/install-browser.sh
+RUN sh /tmp/install-browser.sh && rm /tmp/install-browser.sh
+ENV PUPPETEER_EXECUTABLE_PATH=/opt/chrome-for-testing/chrome-linux64/chrome \
+    PUPPETEER_SKIP_DOWNLOAD=true
 
 # install yarn
 RUN npm install --global yarn@1.22.22 --omit=dev \

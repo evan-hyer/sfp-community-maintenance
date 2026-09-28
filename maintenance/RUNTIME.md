@@ -84,13 +84,52 @@ after the lite build). An apt simulation confirms that `chromium-driver`
 resolves to Ubuntu's `chromium-chromedriver` snap transition, bringing in
 `chromium-browser`, snapd and systemd. This is a simulation, not an observed
 full-build failure. `chromium-bsu` is a game rather than the browser.
-The full recipe is unchanged pending validation. A proposed correction is to
-install a pinned standalone browser and matching driver with verified hashes,
-retaining browserforce and all other pinned tools, then test actual browser and
-driver startup. Its browser distribution/version change requires explicit
-documentation and testing; merely dropping these packages would not validate
-the intended browser capability.
+The unvalidated full-image candidate replaces the game and snap transition
+with standalone Chrome for Testing and ChromeDriver **137.0.7151.55**. This is
+the Chrome revision specified by the published
+[Puppeteer 24.10.0 revisions](https://unpkg.com/puppeteer-core@24.10.0/lib/esm/puppeteer/revisions.js),
+which browserforce 5.0.0 pins. Both archives come from the official
+[version metadata](https://googlechromelabs.github.io/chrome-for-testing/137.0.7151.55.json);
+the installer verifies SHA256 values recorded from those HTTPS downloads.
+These are locally observed checksums, not a separately signed upstream manifest.
+`PUPPETEER_EXECUTABLE_PATH` selects the shared browser; `PUPPETEER_SKIP_DOWNLOAD`
+avoids a duplicate Puppeteer download. Chromium command aliases and a matching
+`chromedriver` remain available. Browserforce and the other pinned tools remain.
+The distribution changes from Ubuntu's Chromium snap to Chrome for Testing.
+Chrome 137 is intentionally the inherited Puppeteer revision, not the latest
+browser; browser/plugin upgrades remain a later dependency batch. Actual
+browser/Puppeteer/driver startup still needs validation.
+
+After additional user cleanup, about 4 GiB was available. A no-install apt
+estimate for the candidate's combined OS/runtime packages required 248 MB of
+archives and 1000 MB installed, before Node, the browser, sfp, Salesforce CLI,
+plugins and image export storage. A complete full-image build was not started
+under that initial capacity constraint. After authorized reclamation of four
+obsolete generated dependency directories and unused research archives, a
+guarded full build started with about 5.45 GiB free. All Dockerfile RUN stages
+passed, including browser archive verification/version checks, sfp aliases and
+pinned external-tool/plugin installation. During image export, the host disk
+watchdog cancelled the recorded build client when free space reached
+1,321,271,296 bytes, below its 1.25 GiB reserve. Docker exited 130; the follow-on
+runtime checks correctly skipped. About 1.34 GiB remained afterward.
+This is a storage cancellation, not a completed full-image build or runtime
+test failure. Full runtime validation remains pending adequate storage.
 
 The full build and external-tool startup gates remain required before this
 policy checkpoint is accepted. Source and packed-consumer checks do not
 establish live Salesforce compatibility.
+
+The dedicated [full-container workflow](../.github/workflows/container-validation.yml)
+is prepared for a standard `ubuntu-24.04` GitHub-hosted runner, with a 60-minute
+limit. It triggers on pushes to `maintenance/container-validation` or manual
+dispatch, builds the fork artifact with Node 24.21.0/npm 10.9.8, builds the full
+image, and runs the reusable checks under `--network none`. It uses read-only
+repository permissions and does not persist checkout credentials. Results and
+digests go to job logs and the job summary; no cache, artifact or image upload
+is configured. No secrets or Salesforce authentication are required.
+
+For this public repository, standard hosted-runner usage is free under
+[GitHub's documented billing policy](https://docs.github.com/en/billing/concepts/product-billing/github-actions).
+Larger paid runners are not selected. This workflow has only been prepared
+locally; no remote run or passing full-container result is implied. Publishing
+the validation branch and arranging authentication remain separate steps.
