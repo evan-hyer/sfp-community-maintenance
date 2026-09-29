@@ -95,12 +95,14 @@
                                   }
              },
     "hostedValidation": {
-    "result": "pass",
-    "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479417903",
-    "headSha": "1c80124fbcfdf2dc81db2a91b07f60e0ab594e49",
-    "job": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479417903/job/109121104407",
-    "completedAt": "2026-09-28T20:33:28Z",
-    "evidence": "runtime-policy-hosted.json",
-    "note": "Hosted full-image build and offline runtime checks passed; local disk-cancelled attempt remains historical."
-}
+        "result": "pass",
+        "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481793994",
+        "headSha": "316d4e440cb02f0d2f1a5b252f6b4cee7a2011e6",
+        "job": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481793994/job/109129457313",
+        "completedAt": "2026-09-28T20:54:27Z",
+        "artifactSha512": "8ad37551a823614fa8ea16c91685aa3e1bfde8f5755a52b1eec74db14237659f1fb5700ac4d037aa1a95114fb2235d14d0307b74199a7879676c3ef74708b8d9",
+        "imageId": "sha256:452f6d67fbd78c3fabfff5acb437f9b5bf4432d0b6df4637fab9f0525869eb76",
+        "evidence": "runtime-policy-hosted.json#latestValidatedCheckpoint",
+        "note": "Hosted full-image build and offline runtime checks pass. Earlier local storage cancellation and hosted results retained as history."
+    }
 }

@@ -1,6 +1,6 @@
 # Runtime alignment
 
-Candidate policy, 2026-09-27; validation is in progress.
+Validated policy checkpoint, 2026-09-28, source head `316d4e44`.
 
 The production target is Node **24.21.0**, with npm **10.9.8**. `.nvmrc`,
 `.node-version`, root package-manager metadata, internal package engines, CI
@@ -29,7 +29,20 @@ manifest generation, packaging and fresh production consumer installation.
 four CLI contracts and both installed executable aliases. Installation enables
 lifecycle scripts so native bindings must actually work.
 
-The workflow has been edited locally; no remote CI run is implied.
+The [hosted review run](https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481800782)
+passes both required Node 24 jobs: Windows in 16m47s and Ubuntu in 3m3s.
+These clean checkouts tested the PR merge `d629d4f` of source head `316d4e44`.
+All 193 Jest tests in 40 suites, both 29-contract runs, guard/mutation/CLI
+checks and fresh production consumers passed. See
+[hosted evidence](evidence/runtime-policy-hosted.json), including retained failures.
+
+The earlier hosted Windows consumer install exceeded the harness's 300-second
+limit. With foreground npm logging and a 900-second installation-only limit on
+hosted Windows, it completed in about 453 seconds and all assertions passed.
+Assertions retain their 300-second limits; no application dependency changed.
+Optional Node 26 jobs still fail during installation: Linux exposes a
+better-sqlite3/V8 compilation incompatibility; Windows fails compiler discovery
+after finding no prebuilt binary. Node 26 remains unsupported.
 
 Local candidate validation passes on Windows and Ubuntu WSL2 with fresh
 dependency installs: workspace syntax checks, build, two 29-contract runs,
@@ -79,12 +92,12 @@ PowerShell build wrapper returned 1 despite completed image export; a cached
 confirmation captured Docker exit 0 explicitly. Eight inherited LABEL-format
 warnings remain.
 
-Full-image validation remains blocked by host disk capacity (about 1.6 GiB free
-after the lite build). An apt simulation confirms that `chromium-driver`
+The initial local full-image attempt was blocked by host disk capacity (about
+1.6 GiB free after the lite build). An apt simulation confirms that `chromium-driver`
 resolves to Ubuntu's `chromium-chromedriver` snap transition, bringing in
 `chromium-browser`, snapd and systemd. This is a simulation, not an observed
 full-build failure. `chromium-bsu` is a game rather than the browser.
-The unvalidated full-image candidate replaces the game and snap transition
+The validated full-image recipe replaces the game and snap transition
 with standalone Chrome for Testing and ChromeDriver **137.0.7151.55**. This is
 the Chrome revision specified by the published
 [Puppeteer 24.10.0 revisions](https://unpkg.com/puppeteer-core@24.10.0/lib/esm/puppeteer/revisions.js),
@@ -97,8 +110,8 @@ avoids a duplicate Puppeteer download. Chromium command aliases and a matching
 `chromedriver` remain available. Browserforce and the other pinned tools remain.
 The distribution changes from Ubuntu's Chromium snap to Chrome for Testing.
 Chrome 137 is intentionally the inherited Puppeteer revision, not the latest
-browser; browser/plugin upgrades remain a later dependency batch. Actual
-browser/Puppeteer/driver startup still needs validation.
+browser; browser/plugin upgrades remain a later dependency batch. Hosted
+Puppeteer data-page and ChromeDriver startup checks pass without external networking.
 
 After additional user cleanup, about 4 GiB was available. A no-install apt
 estimate for the candidate's combined OS/runtime packages required 248 MB of
@@ -113,14 +126,19 @@ watchdog cancelled the recorded build client when free space reached
 1,321,271,296 bytes, below its 1.25 GiB reserve. Docker exited 130; the follow-on
 runtime checks correctly skipped. About 1.34 GiB remained afterward.
 This is a storage cancellation, not a completed full-image build or runtime
-test failure. Full runtime validation remains pending adequate storage.
+test failure. The subsequent hosted validation resolves the full-image gate.
 
-The full build and external-tool startup gates remain required before this
-policy checkpoint is accepted. Source and packed-consumer checks do not
-establish live Salesforce compatibility.
+The [hosted full-container run](https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481793994)
+passes from source head `316d4e44`, including image export, native/cache/hash
+checks, four CLI contracts, aliases, pinned plugin versions, Java/tool startup,
+Puppeteer with Chrome 137 and ChromeDriver. The Linux amd64 container runs with
+`--network none`. Its artifact SHA512 and image ID are in the hosted evidence;
+hosted jobs build independent artifacts, distinct from the earlier shared local
+Windows-built artifact. Phase 3 validation gates pass. Live Salesforce, ARM64,
+dependency modernization and release readiness remain outside this checkpoint.
 
 The dedicated [full-container workflow](../.github/workflows/container-validation.yml)
-is prepared for a standard `ubuntu-24.04` GitHub-hosted runner, with a 60-minute
+runs on a standard `ubuntu-24.04` GitHub-hosted runner, with a 60-minute
 limit. It triggers on pushes to `maintenance/container-validation` or manual
 dispatch, builds the fork artifact with Node 24.21.0/npm 10.9.8, builds the full
 image, and runs the reusable checks under `--network none`. It uses read-only
@@ -130,6 +148,5 @@ is configured. No secrets or Salesforce authentication are required.
 
 For this public repository, standard hosted-runner usage is free under
 [GitHub's documented billing policy](https://docs.github.com/en/billing/concepts/product-billing/github-actions).
-Larger paid runners are not selected. This workflow has only been prepared
-locally; no remote run or passing full-container result is implied. Publishing
-the validation branch and arranging authentication remain separate steps.
+Larger paid runners are not selected. The successful runs above establish this
+checkpoint's hosted results; no package or container release was published.

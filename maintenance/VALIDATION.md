@@ -1,6 +1,6 @@
 # Maintenance checkpoint validation
 
-Updated 2026-09-26. Phases 0/1 pass on Windows and Linux; release readiness remains open.
+Updated 2026-09-28. Phase 3 validation gates pass; dependency modernization and release readiness remain open.
 
 Checkpoints: `e1cd67dc` disables inherited publishing; `df1b3e19` records the
 original baseline; `1dba3220` repairs the offline test fixtures. The expanded
@@ -59,8 +59,9 @@ own fixtures, logger state, color state, and method stubs.
 - Linux: a fresh committed Ubuntu 26.04.1 LTS/WSL2 checkout on Node 22.23.2
   passes install/build/SQLite, all 193 Jest tests, 28 contracts twice, 11 guard
   probes, 3 mutations, and 4 CLI checks. See [evidence](evidence/linux-clean-checkpoint.json).
-  Container checks have not run. CI is defined but has not run remotely. Node 20 is a historical diagnostic only; Node 22/24
-  CI jobs are explicitly optional probes, not declarations of production support.
+  At that checkpoint, container and remote CI checks had not run, and Node22/24
+  jobs were optional probes. The later runtime-policy checkpoint below makes
+  Windows/Linux Node24 required and records hosted container validation.
 
 Coverage expectations are semantic: filtering/output and singleton contracts for
 logger; permission values, duplicate precedence, namespace serialization,
@@ -128,9 +129,9 @@ upgrade installation of the same Windows-built tarball, native cache operations,
 source/resource hashes and both aliases. Consumer prefixes were reused due to
 disk constraints; these are explicitly upgrade-installation results.
 
-See [Node 24 scope and pending gates](NODE24.md), [Windows evidence](evidence/sqlite-windows-checkpoint.json)
+See [Node 24 scope and subsequent gates](NODE24.md), [Windows evidence](evidence/sqlite-windows-checkpoint.json)
 and [Linux evidence](evidence/sqlite-linux-checkpoint.json). Exact runtime policy,
-CI alignment, Node 26 diagnostics and container validation remain open.
+CI alignment, Node 26 diagnostics and container validation are now recorded in the subsequent checkpoints below.
 ## Runtime-policy and lite-container checkpoint (2026-09-27)
 
 Node 24.21.0/npm 10.9.8 candidate source and fresh production consumer checks
@@ -141,10 +142,28 @@ lite container. The first Windows alias-harness path failure and successful
 retry remain in the evidence. Earlier committed-source reproduction of the
 SQLite change is complete on both platforms.
 
-See [runtime policy and evidence](RUNTIME.md). The full image has not been built:
-host C: has 1.56 GiB free, and more space or another Docker data location is
-required. Apt simulation indicates the inherited browser dependency resolves
-through Snap; it does not establish an actual full-build failure. Browser
-packaging, actual full-image validation, container CI coverage and final
-committed-source reproduction remain open. Remote CI and live Salesforce
-validation have not run. Phase 3 remains incomplete.
+See [runtime policy and evidence](RUNTIME.md). The local full-image attempt later passed all RUN stages but was cancelled during export by the disk watchdog. That historical storage limitation was resolved for validation by the hosted runner.
+## Hosted Phase 3 validation (2026-09-28)
+
+Source head `316d4e440cb02f0d2f1a5b252f6b4cee7a2011e6` passes required Windows
+and Ubuntu Node24 jobs in [review run 36481800782](https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481800782).
+The PR workflow checks synthetic merge `d629d4f`; each platform builds its own
+artifact and passes a fresh consumer installation. All 193 Jest tests in 40
+suites, 29 contracts twice, 11 guard probes, 3 mutations, 4 CLI contracts and
+consumer native/cache/hash/alias checks pass. Windows consumer installation took
+about 453 seconds, within the new 900-second installation-only limit; the
+earlier 300-second timeout remains recorded as a failed run.
+
+[Full-container run 36481793994](https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481793994)
+checks the source head directly and passes full image build/export and offline
+native/CLI/tool/plugin/Puppeteer/ChromeDriver checks on Linux amd64. Hosted
+artifact SHA512, image ID, job URLs, exact timings and log hashes/excerpts are in
+[hosted evidence](evidence/runtime-policy-hosted.json). The prior local lite
+build and shared-artifact checks remain in [container evidence](evidence/runtime-policy-containers.json).
+
+Optional Node26 diagnostics fail during installation on both hosts: Linux
+reports better-sqlite3 V8 API compilation errors; Windows reports missing
+prebuilt binaries followed by Visual Studio discovery failure. These results
+do not advertise Node26 support. All Phase3 validation gates pass; live
+Salesforce operations, other architectures and final release readiness remain
+unvalidated. Recheck runtime release currency before merging.

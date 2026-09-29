@@ -1,6 +1,6 @@
 # Community maintenance migration plan
 
-Updated 2026-09-26. Status: phases 0–2 validated; Node 24 source/consumer and lite-container gates pass; full-container validation is blocked by host storage.
+Updated 2026-09-28. Status: phases 0–3 validation gates pass at source head `316d4e44`; controlled dependency upgrades are next.
 
 ## Implementation checkpoint
 
@@ -9,10 +9,10 @@ Updated 2026-09-26. Status: phases 0–2 validated; Node 24 source/consumer and 
 - `9c1c212b`: expanded 28-case workflow contracts. A fresh committed Windows checkout on Node 22.23.2/npm 10.9.8 passes install, build, real SQLite, 193 Jest tests, characterization twice, guard, mutations, and CLI checks; see [evidence](evidence/windows-clean-checkpoint.json). All 142 published vendor-draft files match verified locked archives; this does not complete internalization.
 - Clean upstream Windows baselines use Node 20.20.2/npm 10.8.2 and Node 22.23.2/npm 10.9.8. Install/build and real SQLite probes pass; the full guarded Jest suite reproduces 173 passes, 18 failures, and 2 pre-existing skips on both runtimes.
 - Offline runner, guard self-tests, published-package contracts, CLI smoke checks, and representative mutation probes are now exposed through npm scripts and CI. See [BASELINE.md](BASELINE.md) and [VALIDATION.md](VALIDATION.md) for scope, evidence, and remaining coverage.
-- The Node 24.12.0 diagnostic install fails at inherited `better-sqlite3@11.5.0` (no prebuilt binary; no local Visual Studio C++ tools). Linux validation now runs locally in Ubuntu WSL2; container and remote checks have not run.
-- Expanded contracts exercise profile XML merge/malformed input, artifact package merging, build partial failure, Apex selection, and release retries/cleanup against unchanged dependencies. Logger 5.0.1 and sfprofiles 5.2.2 are private workspaces with unchanged implementation/resources. Fresh committed-source [Windows](evidence/profiles-windows-clean-checkpoint.json) and [Linux](evidence/profiles-linux-checkpoint.json) checks pass, including 193 Jest tests and two 28-case contract runs per platform. The same Windows-built artifact passes isolated offline consumer installation on both platforms, source/resource hashes, profile merge, shared logger, real SQLite, CLI checks and both aliases. Phase 2 is complete. Helper drafts remain untracked. The first focused runtime dependency checkpoint upgrades only better-sqlite3 11.5.0 to 12.1.0: Node 22 Windows regression checks, fresh Node 24.21.0 Windows/Linux dependency installs and complete offline suites pass. The same packed artifact passes production consumer upgrade installation on both platforms. See [native compatibility evidence](NODE24.md); committed-source reproduction and the runtime-policy/container gates remain open.
+- The Node 24.12.0 diagnostic install fails at inherited `better-sqlite3@11.5.0` (no prebuilt binary; no local Visual Studio C++ tools). Linux validation subsequently ran in Ubuntu WSL2; later container and hosted results are recorded below.
+- Expanded contracts exercise profile XML merge/malformed input, artifact package merging, build partial failure, Apex selection, and release retries/cleanup against unchanged dependencies. Logger 5.0.1 and sfprofiles 5.2.2 are private workspaces with unchanged implementation/resources. Fresh committed-source [Windows](evidence/profiles-windows-clean-checkpoint.json) and [Linux](evidence/profiles-linux-checkpoint.json) checks pass, including 193 Jest tests and two 28-case contract runs per platform. The same Windows-built artifact passes isolated offline consumer installation on both platforms, source/resource hashes, profile merge, shared logger, real SQLite, CLI checks and both aliases. Phase 2 is complete. Helper drafts remain untracked. The first focused runtime dependency checkpoint upgrades only better-sqlite3 11.5.0 to 12.1.0: Node 22 Windows regression checks, fresh Node 24.21.0 Windows/Linux dependency installs and complete offline suites pass. The same packed artifact passes production consumer upgrade installation on both platforms. See [native compatibility evidence](NODE24.md); subsequent committed-source reproduction and runtime-policy/container gates are recorded below.
 
-- Runtime alignment pins Node 24.21.0/npm 10.9.8 and Node 24 declarations; Windows/Linux candidate source and fresh same-artifact consumer checks pass. The lite Docker image passes build and offline native/CLI checks. See [runtime evidence and remaining gates](RUNTIME.md). Full-image validation is blocked by 1.56 GiB free on C:; phase 3 is not complete, and broad dependency upgrades remain queued.
+- Runtime alignment pins Node 24.21.0/npm 10.9.8 and Node 24 declarations; Windows/Linux candidate source and fresh same-artifact consumer checks pass. The lite Docker image passes build and offline native/CLI checks. See [runtime evidence and remaining gates](RUNTIME.md). Hosted review run `36481800782` passes required Windows/Linux Node24 source and fresh consumer checks; full-container run `36481793994` passes build and offline runtime checks at source head `316d4e44`. Phase 3 validation is complete; optional Node26 failures remain documented and do not advertise support. Local storage cancellation remains historical evidence. Phase 4 begins with a narrowly scoped compatible/security patch batch.
 ## Objective and scope
 
 Maintain sfp Community Edition as a usable Salesforce artifact and release CLI while incrementally adopting current libraries and supported Node.js versions. Preserve observed behavior first, internalize the logger and sfprofiles second, and then upgrade in independently reviewable steps.
@@ -165,11 +165,11 @@ Reproduce the preceding checkpoint in a separate checkout with fresh dependencie
 
 ## Completion checklist
 
-- [ ] Baseline and inherited failures are reproducible and documented.
-- [ ] Offline characterization protects the CLI, logger, profiles, and representative artifact/release contracts.
+- [x] Baseline and inherited failures are reproducible and documented.
+- [x] Offline characterization protects the CLI, logger, profiles, and representative artifact/release contracts.
 - [x] Logger and sfprofiles are committed internal dependencies with verified provenance and working consumer packaging.
-- [ ] Supported Node/npm policy is consistent across development, CI, and containers.
+- [x] Supported Node/npm policy is consistent across development, CI, and containers.
 - [ ] Direct and internal dependencies reach verified latest stable releases, or have explicit justified deferrals.
-- [ ] Required tests, native-module checks, packed installation, and container checks pass from committed source.
-- [ ] External Salesforce validation status and release limitations are explicit.
+- [x] Required tests, native-module checks, packed installation, and container checks pass at the Phase 3 committed-source checkpoint (rerun after later batches).
+- [x] External Salesforce validation status and release limitations are explicit: no live Salesforce validation or release publication.
 - [ ] README, dependency ledger, validation report, and rollback checkpoints match the delivered state.

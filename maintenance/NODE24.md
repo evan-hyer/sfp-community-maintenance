@@ -70,6 +70,10 @@ See [Windows evidence](evidence/sqlite-windows-checkpoint.json) and
 [Linux evidence](evidence/sqlite-linux-checkpoint.json), including the shared
 artifact SHA512. Source dependency installations were fresh on both platforms.
 
-## Pending gates
+## Subsequent runtime-policy checkpoint
 
-- Exact runtime/npm policy, CI, Node 26 compatibility lane and container checks.
+Exact Node24.21.0/npm10.9.8 policy, required Windows/Linux CI, fresh production
+consumers and container checks pass at source head `316d4e44`. Node26 diagnostics
+remain nonblocking failures with recorded causes. See [runtime policy](RUNTIME.md)
+and [hosted evidence](evidence/runtime-policy-hosted.json). Live Salesforce and
+final release readiness remain unvalidated.
