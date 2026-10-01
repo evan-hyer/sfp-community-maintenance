@@ -12,6 +12,43 @@ const initialColor = chalk.level;
 const initialLevel = logger.logLevel;
 const initialDisabled = logger.isLogsDisabled;
 
+test('tmp default directory supports nested unsafe cleanup and repeated removal', () => {
+  const tmp = require('tmp');
+  const result = tmp.dirSync({ unsafeCleanup: true });
+  try {
+    assert.equal(path.dirname(fs.realpathSync(result.name)), fs.realpathSync(tmp.tmpdir));
+    fs.mkdirSync(path.join(result.name, 'nested'));
+    fs.writeFileSync(path.join(result.name, 'nested', 'artifact.txt'), 'artifact');
+    result.removeCallback();
+    assert.equal(fs.existsSync(result.name), false);
+    assert.doesNotThrow(() => result.removeCallback());
+  } finally {
+    result.removeCallback();
+  }
+});
+
+test('tmp rejects traversal and non-string options without creating paths', () => {
+  const tmp = require('tmp');
+  const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp-tmp-contract-'));
+  const base = path.join(fixture, 'base');
+  fs.mkdirSync(base);
+  try {
+    for (const option of ['prefix', 'postfix', 'template']) {
+      for (const value of ['../escape-XXXXXX', ['../escape-XXXXXX'], Buffer.from('../escape-XXXXXX'),
+        { includes: () => false, toString: () => '../escape-XXXXXX' }]) {
+        assert.throws(() => {
+          const result = tmp.dirSync({ tmpdir: base, [option]: value });
+          result.removeCallback();
+        }, /Relative value not allowed|must be a string/, `${option}: ${typeof value}`);
+        assert.deepEqual(fs.readdirSync(base), []);
+        assert.deepEqual(fs.readdirSync(fixture), ['base']);
+      }
+    }
+  } finally {
+    fs.rmSync(fixture, { recursive: true, force: true });
+  }
+});
+
 test('profile SQLite cache preserves JSON values, replaces keys and persists across connections', () => {
   const { default: SQLiteKeyValue } = require('@flxbl-io/sfprofiles/lib/utils/sqlitekv');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp-sqlite-contract-'));
