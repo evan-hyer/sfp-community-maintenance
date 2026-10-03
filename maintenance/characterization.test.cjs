@@ -371,6 +371,35 @@ test('build dependency batches preserve independent roots and reject cycles or m
   assert.throws(() => sorter.sort({ a: ['missing'] }), /Missing package/);
 });
 
+test('artifact and profile glob patterns preserve file and directory matches', () => {
+  const { globSync } = require('glob');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp glob '));
+  try {
+    for (const file of [
+      'pkg/core_sfpowerscripts_artifact_1.0.zip',
+      'pkg/feature_sfpowerscripts_artifact_1.0.tgz',
+      'pkg/unrelated.zip',
+      'pkg/profiles/Admin.profile-meta.xml',
+      'other/profiles/User.profile-meta.xml',
+    ]) {
+      const target = path.join(dir, file);
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.writeFileSync(target, 'fixture');
+    }
+    const relativeMatches = pattern => globSync(pattern, { cwd: dir, absolute: true })
+      .map(file => path.relative(dir, file)).sort();
+    assert.deepEqual(relativeMatches('**/*sfpowerscripts_artifact*.@(zip|tgz)'), [
+      path.join('pkg', 'core_sfpowerscripts_artifact_1.0.zip'),
+      path.join('pkg', 'feature_sfpowerscripts_artifact_1.0.tgz'),
+    ]);
+    assert.deepEqual(relativeMatches('**/profiles/'), [
+      path.join('other', 'profiles'), path.join('pkg', 'profiles'),
+    ]);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test('release ordering follows unique project packages without mutating input', () => {
   const Sorter = require('../lib/impl/release/ReleaseDefinitionSorter').default;
   const input = [

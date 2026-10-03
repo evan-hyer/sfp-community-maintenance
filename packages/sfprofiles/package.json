@@ -42,7 +42,7 @@
         "chalk": "^4.1.0",
         "diff-match-patch": "^1.0.5",
         "fs-extra": "^11.1.0",
-        "glob": "10.3.3",
+        "glob": "13.0.6",
         "ignore": "^5.1.8",
         "@jsforce/jsforce-node": "^3.9.1",
         "node-cache": "^5.1.2",

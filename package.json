@@ -45,7 +45,7 @@
         "fast-xml-parser": "5.11.2",
         "fs-extra": "^11.1.1",
         "git-url-parse": "^16.0.0",
-        "glob": "^10.3.3",
+        "glob": "13.0.6",
         "hot-shots": "^8.5.0",
         "ignore": "^5.1.6",
         "js-yaml": "5.4.2",
