@@ -394,6 +394,9 @@ test('local release YAML validates required fields and baseline-org constraints'
     const loaded = await Loader.loadReleaseDefinition('release.yml');
     assert.equal(loaded.release, 'local');
     assert.deepEqual(loaded.artifacts, { core: '1.0.0-1' });
+    fs.writeFileSync('release.yml', 'release: local\nartifacts:\n  <<: &base {core: 1.0.0-1}\n  feature: 2.0.0-1\n');
+    const merged = await Loader.loadReleaseDefinition('release.yml');
+    assert.deepEqual(merged.artifacts, { core: '1.0.0-1', feature: '2.0.0-1' });
     fs.writeFileSync('release.yml', 'release: local\n');
     await assert.rejects(Loader.loadReleaseDefinition('release.yml'), /schema requirements/);
     fs.writeFileSync('release.yml', 'release: local\nartifacts:\n  core: 1.0.0-1\nbaselineOrg: example\nskipIfAlreadyInstalled: false\n');
@@ -403,6 +406,27 @@ test('local release YAML validates required fields and baseline-org constraints'
     await assert.rejects(Loader.loadReleaseDefinition('missing.yml'), /Unable to read/);
   } finally {
     process.chdir(original);
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('generated release YAML preserves null spelling and key order', async () => {
+  const Generator = require('../lib/impl/release/ReleaseDefinitionGenerator').default;
+  const yaml = require('js-yaml');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp generated release '));
+  const generator = Object.create(Generator.prototype);
+  generator._releaseConfiguration = { releaseName: 'config', releasedefinitionProperties: { changelog: null } };
+  generator.releaseName = 'local';
+  generator.metadata = null;
+  generator.branch = '';
+  try {
+    const result = await generator.generateReleaseDefintion({ core: '1.0.0-1' }, {}, { getRepositoryPath: () => dir });
+    assert.match(result.releaseDefinitonYAML, /^release: local\nreleaseConfigName: config\nmetadata: ~\n/);
+    assert.match(result.releaseDefinitonYAML, /\nchangelog: ~\n$/);
+    assert.equal(fs.readFileSync(path.join(dir, 'local.yml'), 'utf8'), result.releaseDefinitonYAML);
+    assert.deepEqual(yaml.load(result.releaseDefinitonYAML, { schema: yaml.YAML11_SCHEMA }).artifacts,
+      { core: '1.0.0-1' });
+  } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
 });

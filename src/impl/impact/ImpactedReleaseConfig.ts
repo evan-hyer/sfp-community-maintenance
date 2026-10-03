@@ -10,7 +10,7 @@ export default class ImpactedRelaseConfigResolver {
         fs.readdirSync(configDir).forEach((file) => {
             const filePath = path.join(configDir, file);
             const fileContent = fs.readFileSync(filePath, 'utf8');
-            const releaseConfig = yaml.load(fileContent);
+            const releaseConfig = yaml.load(fileContent, { schema: yaml.YAML11_SCHEMA });
 
             if (releaseConfig.releaseName) {
                 let releaseImpactedPackages = [];

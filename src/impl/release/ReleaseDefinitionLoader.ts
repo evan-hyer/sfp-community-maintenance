@@ -33,9 +33,9 @@ export default class ReleaseDefinitionLoader {
                 let git = await Git.initiateRepo();
                 await git.fetch();
                 let releaseFile = await git.show([pathToReleaseDefinition]);
-                releaseDefinition = yaml.load(releaseFile);
+                releaseDefinition = yaml.load(releaseFile, { schema: yaml.YAML11_SCHEMA });
             } else {
-                releaseDefinition = yaml.load(fs.readFileSync(pathToReleaseDefinition, 'UTF8'));
+                releaseDefinition = yaml.load(fs.readFileSync(pathToReleaseDefinition, 'UTF8'), { schema: yaml.YAML11_SCHEMA });
             }
         } catch (error) {
             throw new Error(`Unable to read the release definition file due to ${JSON.stringify(error)}`);
