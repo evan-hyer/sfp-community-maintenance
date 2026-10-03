@@ -60,6 +60,40 @@ test('simple-git blocks protocol overrides regardless of config key casing', asy
   }
 });
 
+test('Splunk metrics retain request headers and payloads through axios', async () => {
+  const { SplunkMetricSender } = require('../lib/core/stats/nativeMetricSenderImpl/SplunkMetricSender');
+  const sender = new SplunkMetricSender(new VoidLogger());
+  const requests = [];
+  sender.initialize('https://metrics.example.test/ingest', 'fixture-key');
+  sender.instance.defaults.adapter = async config => {
+    requests.push(config);
+    return { status: 200, statusText: 'OK', headers: {}, data: {}, config };
+  };
+
+  sender.sendGaugeMetric('duration', 3, { stage: 'test' });
+  sender.sendCountMetric('deploys', ['stage:test']);
+  await new Promise(resolve => setImmediate(resolve));
+
+  assert.equal(requests.length, 2);
+  for (const request of requests) {
+    assert.equal(request.method, 'post');
+    assert.equal(request.baseURL, 'https://metrics.example.test/ingest');
+    assert.equal(request.url, '');
+    assert.equal(request.headers.get('Authorization'), 'fixture-key');
+    assert.equal(request.headers.get('Content-Type'), 'application/json');
+  }
+  const gauge = JSON.parse(requests[0].data);
+  const count = JSON.parse(requests[1].data);
+  assert.deepEqual({ ...gauge.event, timestamp: 0 },
+    { metric: 'sfp.duration', type: 'guage', value: 3, tags: { stage: 'test' }, timestamp: 0 });
+  assert.deepEqual({ ...count.event, timestamp: 0 },
+    { metric: 'sfp.deploys', type: 'count', tags: ['stage:test'], timestamp: 0 });
+  assert.equal(gauge.source, 'sfp');
+  assert.equal(count.sourcetype, 'metrics');
+  assert.equal(typeof gauge.event.timestamp, 'number');
+  assert.equal(typeof count.event.timestamp, 'number');
+});
+
 test('profile SQLite cache preserves JSON values, replaces keys and persists across connections', () => {
   const { default: SQLiteKeyValue } = require('@flxbl-io/sfprofiles/lib/utils/sqlitekv');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp-sqlite-contract-'));
