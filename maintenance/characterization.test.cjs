@@ -94,6 +94,32 @@ test('Splunk metrics retain request headers and payloads through axios', async (
   assert.equal(typeof count.event.timestamp, 'number');
 });
 
+test('Salesforce XML parsing and entitlement serialization retain their shapes', () => {
+  const { XMLParser, XMLBuilder } = require('fast-xml-parser');
+  const parser = new XMLParser();
+  const settings = parser.parse(
+    '<EntitlementSettings><enableEntitlementVersioning>true</enableEntitlementVersioning>' +
+    '<label>R&amp;D</label></EntitlementSettings>'
+  );
+  const manifest = parser.parse(
+    '<Package><types><members>A__c</members><name>CustomField</name></types>' +
+    '<version>61.0</version></Package>'
+  );
+  assert.deepEqual(settings, { EntitlementSettings: { enableEntitlementVersioning: true, label: 'R&D' } });
+  assert.deepEqual(manifest, { Package: { types: { members: 'A__c', name: 'CustomField' }, version: 61 } });
+
+  const builder = new XMLBuilder({ format: true, ignoreAttributes: false, attributeNamePrefix: '@_' });
+  const xml = builder.build({
+    EntitlementProcess: { '@_xmlns': 'urn:test', name: 'Approval', versionNumber: 2, versionMaster: 'v1' },
+  });
+  assert.equal(xml,
+    '<EntitlementProcess xmlns="urn:test">\n' +
+    '  <name>Approval</name>\n' +
+    '  <versionNumber>2</versionNumber>\n' +
+    '  <versionMaster>v1</versionMaster>\n' +
+    '</EntitlementProcess>\n');
+});
+
 test('profile SQLite cache preserves JSON values, replaces keys and persists across connections', () => {
   const { default: SQLiteKeyValue } = require('@flxbl-io/sfprofiles/lib/utils/sqlitekv');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp-sqlite-contract-'));
