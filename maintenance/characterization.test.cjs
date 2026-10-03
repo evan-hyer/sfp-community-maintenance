@@ -49,6 +49,17 @@ test('tmp rejects traversal and non-string options without creating paths', () =
   }
 });
 
+test('simple-git blocks protocol overrides regardless of config key casing', async () => {
+  const simpleGit = require('simple-git');
+  for (const key of ['protocol.allow', 'PROTOCOL.ALLOW', 'Protocol.Allow']) {
+    await assert.rejects(
+      simpleGit().raw(['-c', `${key}=always`, 'status', '--short']),
+      error => error.plugin === 'unsafe' && /Configuring protocol.allow is not permitted/.test(error.message),
+      key
+    );
+  }
+});
+
 test('profile SQLite cache preserves JSON values, replaces keys and persists across connections', () => {
   const { default: SQLiteKeyValue } = require('@flxbl-io/sfprofiles/lib/utils/sqlitekv');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp-sqlite-contract-'));
