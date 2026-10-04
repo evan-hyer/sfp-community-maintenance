@@ -60,6 +60,41 @@ test('simple-git blocks protocol overrides regardless of config key casing', asy
   }
 });
 
+test('patched WebSocket driver retains in-memory handshake and text delivery', async () => {
+  const websocket = require('websocket-driver');
+  assert.equal(require('websocket-driver/package.json').version, '0.7.5');
+  const server = websocket.server({ maxLength: 1024 });
+  const client = websocket.client('ws://localhost/fixture', { maxLength: 1024 });
+  client.io.pipe(server.io);
+  server.io.pipe(client.io);
+
+  await new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error('WebSocket handshake timed out')), 3000);
+    const finish = error => {
+      clearTimeout(timeout);
+      error ? reject(error) : resolve();
+    };
+    let received;
+    client.on('error', finish);
+    server.on('error', finish);
+    server.on('connect', () => server.start());
+    client.on('open', () => client.text('hello'));
+    server.on('message', event => {
+      received = event.data;
+      server.text('world');
+    });
+    client.on('message', event => {
+      try {
+        assert.deepEqual([received, event.data], ['hello', 'world']);
+        finish();
+      } catch (error) {
+        finish(error);
+      }
+    });
+    client.start();
+  });
+});
+
 test('repository URL parsing compares source and full name across Git transports', () => {
   const parse = require('git-url-parse');
   const ssh = parse('git@github.com:acme/repo.git');
