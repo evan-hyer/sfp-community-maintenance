@@ -65,6 +65,9 @@
         "tmp": "0.2.7",
         "xml2js": "^0.6.0"
     },
+    "overrides": {
+        "@datadog/datadog-api-client": "1.50.0"
+    },
     "devDependencies": {
         "@babel/core": "7.18.2",
         "@babel/plugin-proposal-nullish-coalescing-operator": "^7.17.12",
