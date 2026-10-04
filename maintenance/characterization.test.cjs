@@ -362,6 +362,18 @@ test('zip and tar artifacts round trip metadata and source through paths with sp
   }
 });
 
+test('ZIP archives with duplicate entry names are rejected before extraction', () => {
+  const Zip = require('adm-zip');
+  const zip = new Zip({ noSort: true });
+  zip.addFile('a.txt', Buffer.from('first'));
+  zip.addFile('b.txt', Buffer.from('second'));
+  const bytes = Buffer.from(zip.toBuffer());
+  for (let at = bytes.indexOf('a.txt'); at >= 0; at = bytes.indexOf('a.txt', at + 5)) {
+    bytes.write('b.txt', at);
+  }
+  assert.throws(() => new Zip(bytes, { noSort: true }), /Duplicate entry name/);
+});
+
 test('build dependency batches preserve independent roots and reject cycles or missing nodes', () => {
   const Sorter = require('../lib/impl/parallelBuilder/BatchingTopoSort').default;
   const sorter = new Sorter();
