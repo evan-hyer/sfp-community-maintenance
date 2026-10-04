@@ -374,6 +374,16 @@ test('ZIP archives with duplicate entry names are rejected before extraction', (
   assert.throws(() => new Zip(bytes, { noSort: true }).getEntries(), /Duplicate entry name/);
 });
 
+test('Lodash preserves deep clones and rejects unsafe template import keys', () => {
+  const lodash = require('lodash');
+  const original = { releases: [{ name: 'core', artifacts: ['core'] }] };
+  const clone = lodash.cloneDeep(original);
+  clone.releases[0].artifacts.push('feature');
+  assert.deepEqual(original.releases[0].artifacts, ['core']);
+  assert.throws(() => lodash.template('ok', { imports: { 'value=1': true } }),
+    /Invalid.*imports.*option/);
+});
+
 test('build dependency batches preserve independent roots and reject cycles or missing nodes', () => {
   const Sorter = require('../lib/impl/parallelBuilder/BatchingTopoSort').default;
   const sorter = new Sorter();
