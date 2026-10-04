@@ -1,0 +1,26 @@
+{
+  "captured": "2026-09-26",
+  "sourceCommit": "ebfa861330f945d7471097a1e366b9002504481d",
+  "node": "22.23.2",
+  "npm": "10.9.8",
+  "checkout": "Committed source only; fresh npm ci --offline with scripts enabled; clean git status after checks",
+  "platform": "win32-x64",
+  "checks": {
+    "install": 0,
+    "workspaceSyntax": 0,
+    "build": 0,
+    "characterizationRuns": [
+      28,
+      28
+    ],
+    "guard": 11,
+    "mutations": 3,
+    "cli": 4,
+    "jest": {
+      "suites": 40,
+      "passed": 193,
+      "failed": 0,
+      "skipped": 0
+    }
+  }
+}

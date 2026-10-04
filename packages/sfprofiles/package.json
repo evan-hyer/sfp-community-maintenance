@@ -1,0 +1,56 @@
+{
+    "name": "@flxbl-io/sfprofiles",
+    "version": "5.2.2",
+    "description": "Salesforce Profile management",
+    "keywords": [
+        "sfdx-plugin",
+        "salesforce",
+        "profiles",
+        "permissions"
+    ],
+    "author": "flxblio",
+    "homepage": "https://github.com/flxbl-io/sfprofiles",
+    "license": "MIT",
+    "main": "lib/sfprofiles",
+    "types": "lib/sfprofiles",
+    "files": [
+        "lib",
+        "resources",
+        "LICENSE",
+        "PROVENANCE.json",
+        "MAINTENANCE.md"
+    ],
+    "engines": {
+        "node": ">=24.21.0 <25"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/flxbl-io/sfprofiles.git"
+    },
+    "scripts": {
+        "build": "node ../../maintenance/check-vendor.cjs"
+    },
+    "bugs": {
+        "url": "https://github.com/flxbl-io/sfp/issues"
+    },
+    "dependencies": {
+        "@flxbl-io/sfp-logger": "file:../sfp-logger",
+        "@salesforce/core": "8.19.0",
+        "@salesforce/source-deploy-retrieve": "12.21.5",
+        "async-retry": "^1.3.3",
+        "better-sqlite3": "12.1.0",
+        "chalk": "^4.1.0",
+        "diff-match-patch": "^1.0.5",
+        "fs-extra": "^11.1.0",
+        "glob": "13.0.6",
+        "ignore": "^5.1.8",
+        "@jsforce/jsforce-node": "^3.9.1",
+        "node-cache": "^5.1.2",
+        "rimraf": "^5.0.1",
+        "simple-git": "^3.16.0",
+        "tslib": "2.1.0",
+        "xml-formatter": "^3.4.1",
+        "xml2js": "^0.6.0"
+    },
+    "private": true
+}

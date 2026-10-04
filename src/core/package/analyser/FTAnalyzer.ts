@@ -28,7 +28,7 @@ export default class FTAnalyser implements PackageAnalyzer {
             //read components mentioned in yaml
             if (fs.existsSync(ftYamlPath)) {
                 //convert yaml to json
-                ftFields = yaml.load(fs.readFileSync(ftYamlPath, { encoding: 'utf-8' })) as {[key: string]: string[]};
+                ftFields = yaml.load(fs.readFileSync(ftYamlPath, { encoding: 'utf-8' }), { schema: yaml.YAML11_SCHEMA }) as {[key: string]: string[]};
             }
 
 

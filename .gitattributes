@@ -1,0 +1,5 @@
+# Preserve the exact published source bytes across Windows/Linux checkouts.
+packages/sfp-logger/** -text
+packages/sfprofiles/** -text
+dockerfiles/*.sh text eol=lf
+maintenance/*.sh text eol=lf

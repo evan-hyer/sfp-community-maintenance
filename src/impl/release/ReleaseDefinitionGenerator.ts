@@ -33,7 +33,7 @@ export default class ReleaseDefinitionGenerator {
         private forcePush: boolean = false,
         private inMemoryMode:boolean = false
     ) {
-        this._releaseConfiguration = yaml.load(fs.readFileSync(pathToReleaseDefinition, 'utf8'));
+        this._releaseConfiguration = yaml.load(fs.readFileSync(pathToReleaseDefinition, 'utf8'), { schema: yaml.YAML11_SCHEMA });
         this.validateReleaseDefinitionGeneratorConfig(this._releaseConfiguration);
 
 
@@ -220,9 +220,7 @@ export default class ReleaseDefinitionGenerator {
          return releaseDefinition;
 
         let releaseDefinitonYAML = yaml.dump(releaseDefinition, {
-            styles: {
-                '!!null': 'canonical', // dump null as ~
-            },
+            schema: yaml.YAML11_SCHEMA.withTags({ ...yaml.nullYaml11Tag, represent: () => '~' }),
             sortKeys: false, // sort object keys
         });
 

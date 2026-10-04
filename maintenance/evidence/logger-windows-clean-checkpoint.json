@@ -1,0 +1,27 @@
+{
+  "captured": "2026-09-25",
+  "sourceCommit": "6510af658caebb8a52cbad06bfa066f43eca0bb9",
+  "node": "22.23.2",
+  "npm": "10.9.8",
+  "platform": "win32-x64",
+  "checkout": "Separate committed-source worktree, fresh npm ci --offline with scripts, clean git status after checks",
+  "checks": {
+    "install": 0,
+    "build": 0,
+    "realSqlite": 0,
+    "originalLoggerSourceHashes": 0,
+    "characterizationRuns": [
+      28,
+      28
+    ],
+    "guard": 11,
+    "mutations": 3,
+    "cli": 4,
+    "jest": {
+      "suites": 40,
+      "passed": 193,
+      "failed": 0,
+      "skipped": 0
+    }
+  }
+}

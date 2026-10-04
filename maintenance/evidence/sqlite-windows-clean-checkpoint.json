@@ -1,0 +1,59 @@
+{
+    "commit":  "a9be759b",
+    "date":  "2026-09-27",
+    "node":  "24.21.0",
+    "npm":  "10.9.8",
+    "platform":  "win32-x64",
+    "source":  "Fresh detached worktree; npm ci with lifecycle scripts",
+    "steps":  [
+                  {
+                      "name":  "install",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "syntax",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "build",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "contracts-first",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "contracts-second",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "guard",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "mutations",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "cli",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "jest",
+                      "exitCode":  0
+                  }
+              ],
+    "jest":  {
+                 "suites":  40,
+                 "passed":  193,
+                 "failed":  0,
+                 "skipped":  0
+             },
+    "contracts":  [
+                      29,
+                      29
+                  ],
+    "guard":  11,
+    "mutations":  3,
+    "cli":  4
+}

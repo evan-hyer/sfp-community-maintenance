@@ -1,0 +1,82 @@
+﻿{
+    "captured":  "2026-09-26",
+    "parent":  "d06c850c",
+    "node":  "24.21.0",
+    "npm":  "10.9.8",
+    "platform":  "linux-x64",
+    "os":  "Ubuntu26.04.1 LTS under WSL2",
+    "source":  "Focused candidate files applied to phase-2 checkout, fresh dependency installation with lifecycle scripts",
+    "steps":  [
+                  {
+                      "name":  "install",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "syntax",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "build",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "contracts-first",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "contracts-second",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "guard",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "mutations",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "cli",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "jest",
+                      "exitCode":  0
+                  }
+              ],
+    "characterizationRuns":  [
+                                 29,
+                                 29
+                             ],
+    "guard":  11,
+    "mutations":  3,
+    "cli":  4,
+    "jest":  {
+                 "suites":  40,
+                 "passed":  193,
+                 "failed":  0,
+                 "skipped":  0
+             },
+    "consumer":  {
+                     "installation":  "Upgrade of existing isolated production consumer; lifecycle scripts enabled; dev dependencies omitted",
+                     "node":  "24.21.0",
+                     "npm":  "10.9.8",
+                     "artifact":  "flxbl-io-sfp-39.8.0.tgz",
+                     "artifactBytes":  45622858,
+                     "artifactSha512":  "177b994fe53bf93e71b23a12ca28317eda2448606cfa1a3092333604a3dcac13b48f9f335cb4aa60a2048803f2779f2e686fb04c61eaddbb681e1dcf19c6cc8f",
+                     "checkerExit":  0,
+                     "cliPassed":  4,
+                     "aliases":  [
+                                     "sfp",
+                                     "sfpowerscripts"
+                                 ],
+                     "guardViolations":  0,
+                     "checks":  [
+                                    "Published implementation/resource hashes",
+                                    "Shared logger identity",
+                                    "Locked oclif and SQLite versions",
+                                    "Profile merge",
+                                    "Real SQLite database and cache operations"
+                                ]
+                 }
+}

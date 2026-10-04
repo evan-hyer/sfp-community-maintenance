@@ -1,35 +1,69 @@
-# Unique name for this workflow
-name: Validate PR and Run Tests
+﻿name: Maintenance validation
 
-# Definition when the workflow should run
 on:
-    workflow_dispatch:
-    pull_request:
-        types: [opened, synchronize, reopened]
-        branches:
-            - main
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
 
-# Jobs to be executed
+permissions:
+  contents: read
+
 jobs:
-    validate:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v3
-          - name: Use Node.js
-            uses: actions/setup-node@v3
-            with:
-              node-version: '20'
-              registry-url: 'https://registry.npmjs.org'
+  node24:
+    name: Required / ${{ matrix.os }} / Node 24
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm install --global npm@10.9.8
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build --workspaces
+      - run: npm run build
+      - run: npm run test:offline-guard
+      - run: npm run test:characterization
+      - run: npm run test:characterization
+      - run: npm run test:cli
+      - run: npm run test:mutations
+      - run: npm run test:offline -- --silent --verbose --coverage --detectOpenHandles
+      - run: npm run manifest
+      - run: npm run pack:maintenance
+      - run: npm run test:consumer
 
-          - name: 'Install Dependencies'
-            run: npm i         
-
-          - run: npm run build
-          - run: npm run test -- --colors
-
-          - name: Upload coverage reports to Codecov
-            uses: codecov/codecov-action@v3
-            env:
-             CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-
+  runtime-probe:
+    name: Diagnostic / ${{ matrix.os }} / Node 26
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # Compatibility probe only; Node 26 is outside the supported engines.
+          node-version: '26.10.0'
+          cache: npm
+      - run: npm install --global npm@10.9.8
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build --workspaces
+      - run: npm run build
+      - run: npm run test:offline-guard
+      - run: npm run test:characterization
+      - run: npm run test:characterization
+      - run: npm run test:cli
+      - run: npm run test:mutations
+      - run: npm run test:offline -- --silent --verbose --coverage --detectOpenHandles
+      - run: npm run manifest
+      - run: npm run pack:maintenance
+      - run: npm run test:consumer

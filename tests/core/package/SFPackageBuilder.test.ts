@@ -1,14 +1,17 @@
 import { jest, expect } from '@jest/globals';
 import SfpPackage, { PackageType, SfpPackageParams } from '../../../src/core/package/SfpPackage';
 import SfpPackageBuilder, { PackageCreationParams } from '../../../src/core/package/SfpPackageBuilder';
-import * as fs from "fs-extra";
+import fs from 'fs-extra';
 import { Logger } from '@flxbl-io/sfp-logger';
+import { ComponentSet } from '@salesforce/source-deploy-retrieve';
+import { AnalyzerRegistry } from '../../../src/core/package/analyser/AnalyzerRegistry';
+import path from 'path';
 
 
 let packageType = PackageType.Source;
 jest.mock('../../../src/core/project/ProjectConfig', () => {
     class ProjectConfig {
-        static getSFDXPackageDescriptor(projectDirectory, sfdx_package) {
+        static getPackageDescriptorFromConfig(sfdx_package, projectConfig) {
             return {
                 path: 'packages/domains/core',
                 package: 'core',
@@ -169,11 +172,21 @@ jest.mock('../../../src/core/package/packageCreators/CreateSourcePackageImpl', (
     return CreateSourcePackageImpl;
 });
 
-describe.skip('Given a sfdx package, build a sfp package', () => {
+describe('Given a sfdx package, build a sfp package', () => {
+    beforeEach(() => {
+        // Component parsing/analyzers have their own fixture contracts. This
+        // suite exercises the builder orchestration and manifest properties.
+        jest.spyOn(ComponentSet, 'fromSource').mockReturnValue(new ComponentSet());
+        jest.spyOn(AnalyzerRegistry, 'getAnalyzers').mockReturnValue([]);
+    });
+    afterEach(() => jest.restoreAllMocks());
+
     it('should build a sfp package', async () => {
+        const originalRead = fs.readFileSync as any;
         const fsextraMock = jest.spyOn(fs, 'readFileSync');
-        fsextraMock.mockImplementation((path: any, options: string | { encoding?: string; flag?: string }) => {
-            return packageManifestXML;
+        fsextraMock.mockImplementation((file: any, options: string | { encoding?: string; flag?: string }) => {
+            return path.normalize(String(file)) === path.join('mdapidir', 'package.xml')
+                ? packageManifestXML : originalRead(file, options);
         });
 
         let sfpPackage: SfpPackage = await SfpPackageBuilder.buildPackageFromProjectDirectory(
@@ -223,9 +236,11 @@ describe.skip('Given a sfdx package, build a sfp package', () => {
     });
 
     it('should build a sfp package when there is only one type', async () => {
+        const originalRead = fs.readFileSync as any;
         const fsextraMock = jest.spyOn(fs, 'readFileSync');
-        fsextraMock.mockImplementation((path: any, options: string | { encoding?: string; flag?: string }) => {
-            return packageManifestXML2;
+        fsextraMock.mockImplementation((file: any, options: string | { encoding?: string; flag?: string }) => {
+            return path.normalize(String(file)) === path.join('mdapidir', 'package.xml')
+                ? packageManifestXML2 : originalRead(file, options);
         });
 
         let sfpPackage: SfpPackage = await SfpPackageBuilder.buildPackageFromProjectDirectory(

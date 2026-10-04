@@ -1,0 +1,1 @@
+{"version":3,"file":"sqlitekv.d.ts","sourceRoot":"","sources":["../../src/utils/sqlitekv.ts"],"names":[],"mappings":"AAMA,MAAM,CAAC,OAAO,OAAO,cAAc;IAGnB,OAAO,CAAC,IAAI;IAFxB,OAAO,CAAC,MAAM,CAAC;gBAEK,IAAI,EAAE,MAAM;IAEzB,IAAI;IASJ,GAAG,CAAC,GAAG,EAAE,MAAM,GAAG,GAAG;IA4BrB,GAAG,CAAC,GAAG,EAAE,MAAM,EAAE,KAAK,EAAE,GAAG;CAiBrC"}

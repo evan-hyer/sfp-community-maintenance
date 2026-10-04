@@ -1,0 +1,88 @@
+{
+    "date":  "2026-09-27",
+    "parentCommit":  "810045e7",
+    "source":  "Candidate manifests and consumer harness copied into detached a9be759b Linux checkout; fresh npm ci with lifecycle scripts enabled",
+    "node":  "24.21.0",
+    "npm":  "10.9.8",
+    "platform":  "linux-x64 (Ubuntu 26.04.1, WSL2)",
+    "steps":  [
+                  {
+                      "name":  "install",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "syntax",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "build",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "contracts-first",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "contracts-second",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "guard",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "mutations",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "cli",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "jest",
+                      "exitCode":  0
+                  },
+                  {
+                      "name":  "consumer",
+                      "exitCode":  0
+                  }
+              ],
+    "jest":  {
+                 "suites":  40,
+                 "passed":  193,
+                 "failed":  0,
+                 "skipped":  0
+             },
+    "contracts":  [
+                      29,
+                      29
+                  ],
+    "guard":  11,
+    "mutations":  3,
+    "cli":  4,
+    "artifact":  {
+                     "name":  "flxbl-io-sfp-39.8.0.tgz",
+                     "bytes":  45626125,
+                     "sha512":  "83d5991090dc3e41de1207cb1a04b0524f2f980e582a4f256ee87cd7079ac3cb36e609237ea30368b7b9b7dcc1e4f30b8bed9b57f72eed0f840a7b831d0c1a3a",
+                     "builtOn":  "Windows"
+                 },
+    "consumer":  {
+                     "installation":  "Fresh isolated prefix; production dependencies; lifecycle scripts enabled",
+                     "result":  "pass",
+                     "checks":  [
+                                    "Original implementation/resource hashes",
+                                    "Shared logger identity",
+                                    "Locked dependency versions",
+                                    "Profile merge",
+                                    "Real native SQLite and cache operations",
+                                    "Four guarded CLI contracts",
+                                    "Both installed executable aliases"
+                                ]
+                 },
+    "logs":  ".maintenance/runtime-policy-linux-results",
+    "limitations":  [
+                        "Candidate files are not yet committed",
+                        "No remote CI or container results implied",
+                        "No live Salesforce operations"
+                    ]
+}

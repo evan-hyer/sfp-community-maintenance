@@ -1,3 +1,4 @@
+import path from 'path';
 import { jest, expect } from '@jest/globals';
 import { MockTestOrgData, TestContext,  } from '../../../../node_modules/@salesforce/core/lib/testSetup';
 import { ConsoleLogger } from '@flxbl-io/sfp-logger';
@@ -60,7 +61,7 @@ describe('Filter entitlements during deployment', () => {
 
         const virtualFs: VirtualDirectory[] = [
           {
-            dirPath: '/metadata/entitlementProcesses',
+            dirPath: path.normalize('/metadata/entitlementProcesses'),
             children: [
               {
                 name: 'testentitlement1_v1.entitlementProcess-meta.xml',
@@ -79,7 +80,7 @@ describe('Filter entitlements during deployment', () => {
         // resolve components of a virtual tree
         const virtualTree = new VirtualTreeContainer(virtualFs);
         const componentSet = ComponentSet.fromSource({
-            fsPaths: ['/metadata/entitlementProcesses'],
+            fsPaths: [path.normalize('/metadata/entitlementProcesses')],
             tree: virtualTree,
         });
         let entitlementVersionFilter:EntitlementVersionFilter=new EntitlementVersionFilter();
@@ -122,7 +123,7 @@ describe('Filter entitlements during deployment', () => {
 
         const virtualFs: VirtualDirectory[] = [
           {
-            dirPath: '/metadata/entitlementProcesses',
+            dirPath: path.normalize('/metadata/entitlementProcesses'),
             children: [
               {
                 name: 'testentitlement1_v1.entitlementProcess-meta.xml',
@@ -145,7 +146,7 @@ describe('Filter entitlements during deployment', () => {
         // resolve components of a virtual tree
         const virtualTree = new VirtualTreeContainer(virtualFs);
         const componentSet = ComponentSet.fromSource({
-            fsPaths: ['/metadata/entitlementProcesses'],
+            fsPaths: [path.normalize('/metadata/entitlementProcesses')],
             tree: virtualTree,
         });
         let entitlementVersionFilter:EntitlementVersionFilter=new EntitlementVersionFilter();
@@ -175,7 +176,7 @@ describe('Filter entitlements during deployment', () => {
 
         const virtualFs: VirtualDirectory[] = [
           {
-            dirPath: '/metadata/entitlementProcesses',
+            dirPath: path.normalize('/metadata/entitlementProcesses'),
             children: [
               {
                 name: 'testentitlement1_v1.entitlementProcess-meta.xml',
@@ -194,7 +195,7 @@ describe('Filter entitlements during deployment', () => {
         // resolve components of a virtual tree
         const virtualTree = new VirtualTreeContainer(virtualFs);
         const componentSet = ComponentSet.fromSource({
-            fsPaths: ['/metadata/entitlementProcesses'],
+            fsPaths: [path.normalize('/metadata/entitlementProcesses')],
             tree: virtualTree,
         });
         let entitlementVersionFilter:EntitlementVersionFilter=new EntitlementVersionFilter();
@@ -222,7 +223,7 @@ describe('Filter entitlements during deployment', () => {
 
         const virtualFs: VirtualDirectory[] = [
           {
-            dirPath: '/metadata/entitlementProcesses',
+            dirPath: path.normalize('/metadata/entitlementProcesses'),
             children: [
               {
                 name: 'TestEntitlement.entitlementProcess-meta.xml',
@@ -237,7 +238,7 @@ describe('Filter entitlements during deployment', () => {
         // resolve components of a virtual tree
         const virtualTree = new VirtualTreeContainer(virtualFs);
         const componentSet = ComponentSet.fromSource({
-            fsPaths: ['/metadata/entitlementProcesses'],
+            fsPaths: [path.normalize('/metadata/entitlementProcesses')],
             tree: virtualTree,
         });
         let entitlementVersionFilter:EntitlementVersionFilter=new EntitlementVersionFilter();
@@ -265,7 +266,7 @@ describe('Filter entitlements during deployment', () => {
 
         const virtualFs: VirtualDirectory[] = [
           {
-            dirPath: '/metadata/entitlementProcesses',
+            dirPath: path.normalize('/metadata/entitlementProcesses'),
             children: [
               {
                 name: 'TestEntitlement.entitlementProcess-meta.xml',
@@ -280,7 +281,7 @@ describe('Filter entitlements during deployment', () => {
         // resolve components of a virtual tree
         const virtualTree = new VirtualTreeContainer(virtualFs);
         const componentSet = ComponentSet.fromSource({
-            fsPaths: ['/metadata/entitlementProcesses'],
+            fsPaths: [path.normalize('/metadata/entitlementProcesses')],
             tree: virtualTree,
         });
         let entitlementVersionFilter:EntitlementVersionFilter=new EntitlementVersionFilter();
