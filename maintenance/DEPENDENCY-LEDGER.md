@@ -155,4 +155,11 @@
 
 - The root manifest declares and bundles `dotenv` 16.3.1, but no repository source, internal package, maintenance script, or test imports it. Removing this unused declaration does not change environment-variable handling in the CLI; existing configuration and packed-consumer checks cover startup behavior.
 - Lockfile/audit review: only the root declaration, bundle list, and now-orphaned `dotenv` package entry leave the lockfile. No other package version moves. The lockfile audit remains at 82 findings overall, including 3 critical elsewhere.
+- Required gate: clean hosted Windows/Ubuntu Node 24 source and packed-consumer checks pass in [review run 37211250172](https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/37211250172); [full-container run 37211248072](https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/37211248072) passes. Optional Node 26 diagnostics fail outside support policy. Batch accepted at `6f8a6951`.
+
+## Batch 22: `object-hash` release identity continuity
+
+- Direct runtime dependency: `object-hash` 2.2.0 locked under `^2.1.1` -> exact 3.0.0, the registry latest stable at review. The [upstream changelog](https://github.com/puleos/object-hash#changelog) says v3 changes hashes for signed versus unsigned typed arrays; the repository hashes plain release artifact arrays, not typed arrays.
+- Compatibility review: `ReleaseChangelogUpdater` persists `hashId` and compares it on later runs, so byte-for-byte continuity is required. Isolated v2.2.0 and v3.0.0 probes match for empty, single, reordered, and version-changed release artifact arrays. A focused offline contract fixes representative SHA-1 digests and sensitivity to artifact order/version.
+- Lockfile/audit review: root 3.0.0 satisfies `@oclif/table`'s nested requirement, so its duplicate 3.0.0 lock entry leaves. The 3.0.0 SHA512 matches registry metadata. The lockfile audit has no `object-hash` finding and remains at 82 findings overall, including 3 critical elsewhere.
 - Required gate: pending clean hosted Windows/Ubuntu Node 24 review and full-container results.

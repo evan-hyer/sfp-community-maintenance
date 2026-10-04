@@ -73,6 +73,22 @@ test('repository URL parsing compares source and full name across Git transports
   assert.throws(() => parse('not a url'), /URL parsing failed/);
 });
 
+test('release artifact hash IDs retain their persisted SHA-1 values', () => {
+  const hash = require('object-hash');
+  const core = {
+    name: 'core', from: undefined, to: 'f00dbabe', version: '1.2.3.4',
+    repoUrl: 'https://github.com/acme/core.git', latestCommitId: undefined, commits: undefined,
+  };
+  const ui = {
+    name: 'ui', from: undefined, to: 'abc12345', version: '2.0.0.1',
+    repoUrl: 'git@github.com:acme/ui.git', latestCommitId: undefined, commits: undefined,
+  };
+  assert.equal(hash([core]), '1c799185f186d20815d3f3cf9a5305246f96f6d3');
+  assert.equal(hash([core, ui]), '70de9b4a4dd68b88f7c1e936f667d42122802290');
+  assert.notEqual(hash([core, ui]), hash([ui, core]));
+  assert.notEqual(hash([core]), hash([{ ...core, version: '1.2.3.5' }]));
+});
+
 test('Splunk metrics retain request headers and payloads through axios', async () => {
   const { SplunkMetricSender } = require('../lib/core/stats/nativeMetricSenderImpl/SplunkMetricSender');
   const sender = new SplunkMetricSender(new VoidLogger());
