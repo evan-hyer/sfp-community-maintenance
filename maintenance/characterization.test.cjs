@@ -107,6 +107,37 @@ test('Splunk metrics retain request headers and payloads through axios', async (
   assert.equal(typeof count.event.timestamp, 'number');
 });
 
+test('DataDog metrics preserve gauge/count payloads and report async delivery errors offline', async () => {
+  const { DataDogMetricsSender } = require('../lib/core/stats/nativeMetricSenderImpl/DataDogMetricSender');
+  logger.logLevel = LoggerLevel.TRACE;
+  const messages = [];
+  const sender = new DataDogMetricsSender({ log: (...args) => messages.push(args) });
+  sender.initialize('datadoghq.eu', 'fixture-key');
+  const client = sender.nativeDataDogMetricsLogger;
+  assert.equal(client.flushIntervalSeconds, 0);
+  assert.equal(client.reporter.site, 'datadoghq.eu');
+  const submissions = [];
+  client.reporter = { report: async series => { submissions.push(series); } };
+  sender.sendGaugeMetric('duration', 3, { stage: 'test' });
+  sender.sendCountMetric('deploys', ['stage:test']);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(submissions.length, 2);
+  assert.equal(submissions[0][0].metric, 'sfpowerscripts.duration');
+  assert.equal(submissions[0][0].type, 'gauge');
+  assert.equal(submissions[0][0].points[0][1], 3);
+  assert.deepEqual(submissions[0][0].tags, ['stage:test']);
+  assert.equal(submissions[1][0].metric, 'sfpowerscripts.deploys');
+  assert.equal(submissions[1][0].type, 'count');
+  assert.equal(submissions[1][0].points[0][1], 1);
+  assert.deepEqual(submissions[1][0].tags, ['stage:test']);
+
+  client.reporter = { report: async () => { throw new Error('offline delivery failure'); } };
+  sender.sendCountMetric('failed', []);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(messages.length, 1);
+  assert.match(messages[0][0], /Unable to transmit DataDog metrics due to Error: offline delivery failure/);
+});
+
 test('Salesforce XML parsing and entitlement serialization retain their shapes', () => {
   const { XMLParser, XMLBuilder } = require('fast-xml-parser');
   const parser = new XMLParser();

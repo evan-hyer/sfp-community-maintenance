@@ -1,4 +1,4 @@
-import { BufferedMetricsLogger } from 'datadog-metrics';
+import type { BufferedMetricsLogger } from 'datadog-metrics';
 import SFPLogger, { Logger, LoggerLevel } from '@flxbl-io/sfp-logger';
 import { NativeMetricSender } from '../NativeMetricSender';
 
@@ -11,11 +11,15 @@ export class DataDogMetricsSender extends NativeMetricSender {
 
     public initialize(apiHost: string, apiKey: string) {
         try {
+            const { BufferedMetricsLogger } = require('datadog-metrics') as typeof import('datadog-metrics');
             this.nativeDataDogMetricsLogger = new BufferedMetricsLogger({
-                apiHost: apiHost,
+                site: apiHost,
                 apiKey: apiKey,
                 prefix: 'sfpowerscripts.',
                 flushIntervalSeconds: 0,
+                onError: (error: Error) => {
+                    SFPLogger.log('Unable to transmit DataDog metrics due to ' + error, LoggerLevel.TRACE, this.logger);
+                },
             });
         } catch (error) {
             SFPLogger.log('Unable to intialize native datadog logger' + error, LoggerLevel.TRACE, this.logger);
