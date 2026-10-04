@@ -138,6 +138,35 @@ test('DataDog metrics preserve gauge/count payloads and report async delivery er
   assert.match(messages[0][0], /Unable to transmit DataDog metrics due to Error: offline delivery failure/);
 });
 
+test('StatsD metrics retain their wire messages when Datadog environment variables are set', () => {
+  const StatsD = require('hot-shots');
+  const oldEnv = process.env.DD_ENV;
+  const oldHost = process.env.DD_AGENT_HOST;
+  process.env.DD_ENV = 'staging';
+  process.env.DD_AGENT_HOST = '127.0.0.1';
+  let client;
+  try {
+    client = new StatsD({
+      mock: true, host: '127.0.0.1', port: 8125, protocol: 'udp', prefix: 'sfpowerscripts.',
+      datadog: false, includeDataDogTags: false,
+    });
+    client.timing('elapsed', 45, { stage: 'test' });
+    client.gauge('value', 3, ['stage:test']);
+    client.increment('count', { stage: 'test' });
+    assert.deepEqual(client.mockBuffer, [
+      'sfpowerscripts.elapsed:45|ms|#stage:test',
+      'sfpowerscripts.value:3|g|#stage:test',
+      'sfpowerscripts.count:1|c|#stage:test',
+    ]);
+  } finally {
+    if (client) client.close();
+    if (oldEnv === undefined) delete process.env.DD_ENV;
+    else process.env.DD_ENV = oldEnv;
+    if (oldHost === undefined) delete process.env.DD_AGENT_HOST;
+    else process.env.DD_AGENT_HOST = oldHost;
+  }
+});
+
 test('Salesforce XML parsing and entitlement serialization retain their shapes', () => {
   const { XMLParser, XMLBuilder } = require('fast-xml-parser');
   const parser = new XMLParser();
