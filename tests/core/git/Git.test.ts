@@ -2,15 +2,17 @@ import { Logger } from '@flxbl-io/sfp-logger';
 import fs from 'fs-extra';
 import path from 'path';
 import Git from '../../../src/core/git/Git';
-import simplegit from 'simple-git';
+import { simpleGit } from 'simple-git';
 
 // Keep actual filesystem copying and ignore matching; stub only Git's process
 // boundary. These contracts do not need commits, a remote, or a network fetch.
-jest.mock('simple-git', () => jest.fn(() => ({
-    addConfig: jest.fn().mockResolvedValue(undefined),
-    getConfig: jest.fn().mockResolvedValue({ value: '/fixture/remote' }),
-    fetch: jest.fn().mockResolvedValue(undefined),
-})));
+jest.mock('simple-git', () => ({
+    simpleGit: jest.fn(() => ({
+        addConfig: jest.fn().mockResolvedValue(undefined),
+        getConfig: jest.fn().mockResolvedValue({ value: '/fixture/remote' }),
+        fetch: jest.fn().mockResolvedValue(undefined),
+    })),
+}));
 
 describe('Git repository copying with a mocked process boundary', () => {
     let originalCwd: string;
@@ -92,7 +94,7 @@ package-lock.json
         const tempRepoPath = git.getRepositoryPath();
 
         try {
-            const mockedClient = (simplegit as jest.Mock).mock.results[0].value;
+            const mockedClient = (simpleGit as jest.Mock).mock.results[0].value;
             expect(mockedClient.fetch).toHaveBeenCalledWith('origin');
             expect(mockedClient.addConfig).toHaveBeenCalledWith('safe.directory', tempRepoPath, false, 'global');
             // Files that should exist
