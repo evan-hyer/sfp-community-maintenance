@@ -20,3 +20,10 @@ See ../../maintenance/NODE24.md for validation and release-note review.
 2026-09-27 runtime-policy candidate: the private workspace engine declaration
 aligns with the root Node 24.21.0 target. Implementation bytes are unchanged.
 See ../../maintenance/RUNTIME.md for policy and remaining gates.
+
+2026-10-04 rimraf migration: `lib/impl/source/profileDiff.js` now uses the named
+`sync` export. The original default-wrapped call was incompatible with both the
+existing rimraf 5 and target rimraf 6. Its undeclared and unused
+`diff-match-patch-line-and-word` side-effect import was also removed; the file's
+own line-mode implementation uses `diff-match-patch` directly. `PROVENANCE.json`
+retains hashes of the published archive and separately records this patch's hash.

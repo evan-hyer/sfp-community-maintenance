@@ -529,6 +529,32 @@ test('forceignore filtering preserves negation and nested path matching', () => 
   assert.equal(matcher.ignores('important.tmp'), false);
 });
 
+test('rimraf removes stale profile-diff output before org-dependent work', async () => {
+  const rimraf = require('rimraf');
+  const ProfileDiff = require('@flxbl-io/sfprofiles/lib/impl/source/profileDiff').default;
+  const { Sfpowerkit } = require('@flxbl-io/sfprofiles/lib/utils/sfpowerkit');
+  const original = Sfpowerkit.getProjectDirectories;
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp rimraf '));
+  const output = path.join(dir, 'output');
+  const stopped = new Error('offline profile probe complete');
+  try {
+    fs.mkdirSync(output);
+    fs.writeFileSync(path.join(output, 'old.txt'), 'stale');
+    assert.equal(rimraf.sync(output), true);
+    assert.equal(fs.existsSync(output), false);
+    fs.mkdirSync(output);
+    fs.writeFileSync(path.join(output, 'old.txt'), 'stale');
+    Sfpowerkit.getProjectDirectories = async () => { throw stopped; };
+    const targetOrg = { getConnection: () => ({ getUsername: () => 'offline' }) };
+    const diff = new ProfileDiff([], null, targetOrg, output);
+    await assert.rejects(diff.diff(), error => error === stopped);
+    assert.equal(fs.existsSync(output), false);
+  } finally {
+    Sfpowerkit.getProjectDirectories = original;
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test('generated release YAML preserves null spelling and key order', async () => {
   const Generator = require('../lib/impl/release/ReleaseDefinitionGenerator').default;
   const yaml = require('js-yaml');

@@ -24,9 +24,13 @@ assert.equal(profileRequire('better-sqlite3/package.json').version, sourceLock.p
 for (const name of ['@flxbl-io/sfp-logger', '@flxbl-io/sfprofiles']) {
   const directory = path.dirname(consumer.resolve(`${name}/package.json`));
   const provenance = JSON.parse(fs.readFileSync(path.join(directory, 'PROVENANCE.json')));
+  const patched = provenance.maintenancePatchesSha256 || {};
+  for (const file of Object.keys(patched)) {
+    assert.ok(Object.hasOwn(provenance.originalFilesSha256, file), `${name}/${file} lacks original provenance`);
+  }
   for (const [file, hash] of Object.entries(provenance.originalFilesSha256)) {
     if (file === 'package.json') continue;
-    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(directory, file))).digest('hex'), hash, `${name}/${file}`);
+    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(directory, file))).digest('hex'), patched[file] || hash, `${name}/${file}`);
   }
   const internal = JSON.parse(fs.readFileSync(path.join(directory, 'package.json')));
   for (const spec of Object.values(internal.dependencies)) assert.doesNotMatch(spec, /^(file:|workspace:)/);

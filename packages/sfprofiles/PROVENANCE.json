@@ -147,5 +147,8 @@
     "lib/utils/zipDirectory.d.ts.map": "b9ee5dba320cc5b64924c62f93cd73a06653fd8c0209923eb6d052d5aaae69a8",
     "lib/utils/zipDirectory.js": "f7c6ac7d95f3ec70365df31f3d7a7fc2c16bd9db9a8551e3fa773660b0e2d872",
     "resources/metadatainfo.json": "9c395fd532a21797bb37b426e448d3a02c1061e43a78d4b5c21c81ef1224fe02"
+  },
+  "maintenancePatchesSha256": {
+    "lib/impl/source/profileDiff.js": "c288645bfb27d51db17774c50862b8ed98c716390cd1600e41ff5e8b95775d32"
   }
 }

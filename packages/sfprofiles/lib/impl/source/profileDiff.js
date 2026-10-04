@@ -37,9 +37,8 @@ const sfpowerkit_1 = require("../../utils/sfpowerkit");
 const metadataFiles_1 = __importDefault(require("../metadata/metadataFiles"));
 const sfp_logger_1 = __importStar(require("@flxbl-io/sfp-logger"));
 const diff_match_patch_1 = require("diff-match-patch");
-require("diff-match-patch-line-and-word"); // import globally to  enhanse the class
 const fileutils_1 = __importDefault(require("../../utils/fileutils"));
-const rimraf_1 = __importDefault(require("rimraf"));
+const rimraf_1 = require("rimraf");
 // import { ProgressBar } from '../../../ui/progressBar';
 // const dmp = new diff_match_patch();
 // https://github.com/google/diff-match-patch/wiki/Line-or-Word-Diffs#line-mode
@@ -70,7 +69,7 @@ class ProfileDiffImpl {
     async diff() {
         sfp_logger_1.default.log('Profile diff start. ', sfp_logger_1.LoggerLevel.INFO);
         if (this.outputFolder) {
-            rimraf_1.default.sync(this.outputFolder);
+            rimraf_1.sync(this.outputFolder);
         }
         let profileSource = null;
         //let profileXmlMapPromise: Promise<string[]> = null;
