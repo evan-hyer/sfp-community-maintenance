@@ -120,4 +120,12 @@
 
 - Internal `@flxbl-io/sfp-logger` declares `strip-ansi` `^6.0.0` but no logger source, declaration, test, or root application imports it. The logger's `FileLogger` uses its own ANSI-stripping expression, already covered by an offline characterization test.
 - Remove only the unused direct dependency from the private logger workspace. This avoids forcing an ESM-only `strip-ansi` 7 migration into a CommonJS vendor package. The lockfile changes only the logger workspace declaration; other packages still require their own `strip-ansi` copies. The lockfile audit has no `strip-ansi` finding (82 findings remain overall, including 3 critical elsewhere). The existing FileLogger ANSI contract also passes in a focused local probe.
-- Required gate: existing logger and packed-consumer contracts, clean hosted Windows/Ubuntu Node 24 source checks, and full container must pass before accepting the batch.
+- Required gate: existing logger and packed-consumer contracts and clean hosted Windows/Ubuntu Node 24 source checks pass in [review run 37184607045](https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/37184607045); [full-container run 37184604172](https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/37184604172) passes. Optional Node 26 diagnostics fail outside the support policy. Batch accepted at `0d9b17a4`.
+
+## Batch 17: `git-url-parse` repository identity
+
+- Direct runtime dependency: `git-url-parse` 16.0.0 locked under `^16.0.0` -> exact 16.1.0, the registry latest stable at review. Remove `@types/git-url-parse` 9.0.3 because the runtime package supplies `lib/index.d.ts`; the latest external types release is only a deprecated stub.
+- Reason: keep the Git URL parsing utility current within 16.x. The [16.1.0 release](https://github.com/IonicaBizau/git-url-parse/releases/tag/16.1.0) retains the CommonJS entry point and raises its `git-up` dependency range from 8.0 to 8.1. The application compares parsed `source` and `full_name` when checking artifact origins.
+- Compatibility review: isolated 16.0.0 and 16.1.0 probes match for HTTPS, SSH, scp-style URLs, distinct repositories/hosts, and invalid URL errors. A focused offline contract fixes the fields and error behavior used by `SfpPackageInquirer`.
+- Lockfile/audit review: the selected parser pulls `git-up` 8.1.1, `parse-path` 7.1.0, `is-ssh` 1.4.1, and `protocols` 2.0.2; the obsolete external type package leaves. All five new SHA512 values match the registry. The lockfile audit has no `git-url-parse` finding (82 findings remain overall, including 3 critical elsewhere).
+- Required gate: focused repository URL contract, clean hosted Windows/Ubuntu Node 24 source and packed-consumer checks, and full container must pass before accepting the batch.

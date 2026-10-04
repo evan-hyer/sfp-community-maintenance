@@ -60,6 +60,19 @@ test('simple-git blocks protocol overrides regardless of config key casing', asy
   }
 });
 
+test('repository URL parsing compares source and full name across Git transports', () => {
+  const parse = require('git-url-parse');
+  const ssh = parse('git@github.com:acme/repo.git');
+  const https = parse('https://github.com/acme/repo.git');
+  const different = parse('https://github.com/acme/other');
+  const host = parse('https://gitlab.example/acme/repo.git');
+  assert.deepEqual([ssh.source, ssh.full_name], ['github.com', 'acme/repo']);
+  assert.deepEqual([https.source, https.full_name], [ssh.source, ssh.full_name]);
+  assert.notEqual(different.full_name, ssh.full_name);
+  assert.notEqual(host.source, ssh.source);
+  assert.throws(() => parse('not a url'), /URL parsing failed/);
+});
+
 test('Splunk metrics retain request headers and payloads through axios', async () => {
   const { SplunkMetricSender } = require('../lib/core/stats/nativeMetricSenderImpl/SplunkMetricSender');
   const sender = new SplunkMetricSender(new VoidLogger());
