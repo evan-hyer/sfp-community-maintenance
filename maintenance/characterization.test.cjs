@@ -371,7 +371,7 @@ test('ZIP archives with duplicate entry names are rejected before extraction', (
   for (let at = bytes.indexOf('a.txt'); at >= 0; at = bytes.indexOf('a.txt', at + 5)) {
     bytes.write('b.txt', at);
   }
-  assert.throws(() => new Zip(bytes, { noSort: true }), /Duplicate entry name/);
+  assert.throws(() => new Zip(bytes, { noSort: true }).getEntries(), /Duplicate entry name/);
 });
 
 test('build dependency batches preserve independent roots and reject cycles or missing nodes', () => {
