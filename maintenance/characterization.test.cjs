@@ -89,6 +89,20 @@ test('release artifact hash IDs retain their persisted SHA-1 values', () => {
   assert.notEqual(hash([core]), hash([{ ...core, version: '1.2.3.5' }]));
 });
 
+test('dedent preserves multiline diagnostic messages and interpolated URLs', () => {
+  const dedent = require('dedent');
+  const url = 'https://example.my.salesforce.com';
+  assert.equal(dedent`Unable to fetch test execution results,
+                      Please check the results in the org by using the URL below
+                      ${url}/lightning/setup/ApexTestHistory/home
+                      Please try the test execution again`,
+    `Unable to fetch test execution results,\nPlease check the results in the org by using the URL below\n${url}/lightning/setup/ApexTestHistory/home\nPlease try the test execution again`);
+  assert.equal(dedent(`Unable to fetch any sfp artifacts in the org,skipping updates in the org
+                       - 1. sfp artifact package is not installed in the org
+                       - 2. The required prerequisite object is not deployed to this org`),
+    'Unable to fetch any sfp artifacts in the org,skipping updates in the org\n- 1. sfp artifact package is not installed in the org\n- 2. The required prerequisite object is not deployed to this org');
+});
+
 test('Splunk metrics retain request headers and payloads through axios', async () => {
   const { SplunkMetricSender } = require('../lib/core/stats/nativeMetricSenderImpl/SplunkMetricSender');
   const sender = new SplunkMetricSender(new VoidLogger());
