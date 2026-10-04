@@ -511,6 +511,24 @@ test('fs-extra preserves artifact copy, move, and JSON file behavior', async () 
   }
 });
 
+test('forceignore filtering preserves negation and nested path matching', () => {
+  const IgnoreFiles = require('../lib/core/ignore/IgnoreFiles').default;
+  const ignore = require('ignore');
+  const rules = '*.tmp\n!important.tmp\nforce-app/**/Secret.cls\nnode_modules/\n';
+  const paths = [
+    'force-app/main/default/classes/Account.cls',
+    'force-app/main/default/classes/Secret.cls',
+    'notes.tmp',
+    'important.tmp',
+    'node_modules/pkg/index.js',
+  ];
+  assert.deepEqual(new IgnoreFiles(rules).filter(paths),
+    ['force-app/main/default/classes/Account.cls', 'important.tmp']);
+  const matcher = ignore().add(rules);
+  assert.equal(matcher.ignores(path.join('force-app', 'main', 'default', 'classes', 'Secret.cls')), true);
+  assert.equal(matcher.ignores('important.tmp'), false);
+});
+
 test('generated release YAML preserves null spelling and key order', async () => {
   const Generator = require('../lib/impl/release/ReleaseDefinitionGenerator').default;
   const yaml = require('js-yaml');
