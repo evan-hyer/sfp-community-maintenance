@@ -461,6 +461,23 @@ test('local release YAML validates required fields and baseline-org constraints'
   }
 });
 
+test('all shipped JSON schemas compile and retain representative validation boundaries', () => {
+  const Ajv = require('ajv');
+  const fixtures = [
+    ['sfdx-project', { packageDirectories: [{ path: 'force-app', default: true }] }, {}],
+    ['release-defn', { release: 'local', artifacts: { core: '1.0.0' } }, {}],
+    ['release-config', {}, null],
+    ['pooldefinition', { tag: 'sample', maxAllocation: 1 }, {}],
+  ];
+  for (const [name, valid, invalid] of fixtures) {
+    const schema = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'resources', 'schemas', `${name}.schema.json`)));
+    const validate = new Ajv({ allErrors: true }).compile(schema);
+    assert.equal(validate(valid), true, `${name}: valid fixture`);
+    assert.equal(validate(invalid), false, `${name}: invalid fixture`);
+    assert.ok(validate.errors.length, `${name}: validation errors`);
+  }
+});
+
 test('generated release YAML preserves null spelling and key order', async () => {
   const Generator = require('../lib/impl/release/ReleaseDefinitionGenerator').default;
   const yaml = require('js-yaml');
