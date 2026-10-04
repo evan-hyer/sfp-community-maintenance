@@ -16,9 +16,9 @@ function run(command, args, options = {}) {
   if (result.error || result.status !== 0) throw result.error || new Error(`${command} failed: ${result.status}`);
 }
 try {
-  // Hosted Windows exceeded five minutes before npm emitted installation output.
+  // Hosted Windows consumer installs vary substantially with the bundled API client.
   // Keep the longer limit specific to installation; assertions retain five minutes.
-  const installTimeout = process.platform === 'win32' && process.env.GITHUB_ACTIONS === 'true' ? 900000 : 300000;
+  const installTimeout = process.platform === 'win32' && process.env.GITHUB_ACTIONS === 'true' ? 1200000 : 300000;
   console.log(`Installing fresh consumer (timeout ${installTimeout / 1000}s): ${prefix}`);
   run(process.execPath, [process.env.npm_execpath, 'install', '--prefix', prefix, '--omit=dev', '--no-audit', '--no-fund', '--foreground-scripts', '--loglevel=info', artifact], {
     timeout: installTimeout,
