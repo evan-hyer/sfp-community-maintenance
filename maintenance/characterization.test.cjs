@@ -489,6 +489,28 @@ test('artifact and package version comparisons retain prerelease and core orderi
   assert.equal(semver.compare(semver.coerce('1.2.3.4'), semver.coerce('1.2.2.NEXT')), 1);
 });
 
+test('fs-extra preserves artifact copy, move, and JSON file behavior', async () => {
+  const fse = require('fs-extra');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp filesystem '));
+  try {
+    const source = path.join(dir, 'source');
+    fse.ensureDirSync(path.join(source, 'nested'));
+    fse.outputFileSync(path.join(source, 'nested', 'artifact.txt'), 'artifact');
+    fse.writeJSONSync(path.join(source, 'metadata.json'), { version: 1 });
+    fse.copySync(source, path.join(dir, 'sync copy'));
+    await fse.copy(source, path.join(dir, 'async copy'));
+    await fse.move(path.join(dir, 'async copy', 'nested', 'artifact.txt'), path.join(dir, 'moved.txt'));
+    assert.equal(fse.readFileSync(path.join(dir, 'sync copy', 'nested', 'artifact.txt'), 'utf8'), 'artifact');
+    assert.deepEqual(fse.readJSONSync(path.join(dir, 'sync copy', 'metadata.json')), { version: 1 });
+    assert.equal(fse.readFileSync(path.join(dir, 'moved.txt'), 'utf8'), 'artifact');
+    assert.equal(fse.pathExistsSync(path.join(dir, 'async copy', 'nested', 'artifact.txt')), false);
+    await fse.remove(path.join(dir, 'async copy'));
+    assert.equal(fse.pathExistsSync(path.join(dir, 'async copy')), false);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test('generated release YAML preserves null spelling and key order', async () => {
   const Generator = require('../lib/impl/release/ReleaseDefinitionGenerator').default;
   const yaml = require('js-yaml');
