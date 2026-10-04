@@ -50,13 +50,20 @@ test('tmp rejects traversal and non-string options without creating paths', () =
 });
 
 test('simple-git blocks protocol overrides regardless of config key casing', async () => {
-  const simpleGit = require('simple-git');
+  const { simpleGit } = require('simple-git');
   for (const key of ['protocol.allow', 'PROTOCOL.ALLOW', 'Protocol.Allow']) {
     await assert.rejects(
       simpleGit().raw(['-c', `${key}=always`, 'status', '--short']),
       error => error.plugin === 'unsafe' && /Configuring protocol.allow is not permitted/.test(error.message),
       key
     );
+  }
+});
+
+test('vendored profile diff modules load the named simple-git factory', () => {
+  for (const name of ['diffUtil', 'diffImpl']) {
+    const module = require(`@flxbl-io/sfprofiles/lib/impl/diff/${name}`);
+    assert.equal(typeof module.default, 'function', name);
   }
 });
 

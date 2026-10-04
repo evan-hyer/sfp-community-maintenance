@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as rimraf from 'rimraf';
 import * as _ from 'lodash';
-import simplegit from 'simple-git';
+import { simpleGit } from 'simple-git';
 import SFPLogger, { Logger, LoggerLevel } from '@flxbl-io/sfp-logger';
 import ProjectConfig from '../../project/ProjectConfig';
 import MetadataFiles from '../../metadata/MetadataFiles';
@@ -12,7 +12,7 @@ import { MetadataResolver } from '@salesforce/source-deploy-retrieve';
 import GitDiffUtils, { DiffFile, DiffFileStatus } from '../../git/GitDiffUtil';
 
 const deleteNotSupported = ['RecordType'];
-const git = simplegit();
+const git = simpleGit();
 let sfdxManifest;
 
 export default class PackageComponentDiff {

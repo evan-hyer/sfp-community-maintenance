@@ -1,4 +1,4 @@
-import { SimpleGit } from 'simple-git/promise';
+import { SimpleGit } from 'simple-git';
 
 export default class GitIdentity {
     constructor(private git: SimpleGit) {}

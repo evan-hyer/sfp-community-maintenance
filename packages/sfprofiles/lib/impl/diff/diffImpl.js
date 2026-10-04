@@ -44,12 +44,12 @@ const diffUtil_1 = __importDefault(require("./diffUtil"));
 const sfpowerkit_1 = require("../../utils/sfpowerkit");
 const sfp_logger_1 = __importStar(require("@flxbl-io/sfp-logger"));
 const dxProjectManifestUtils_1 = require("../../utils/dxProjectManifestUtils");
-const simple_git_1 = __importDefault(require("simple-git"));
+const simple_git_1 = require("simple-git");
 const core_1 = require("@salesforce/core");
 core_1.Messages.importMessagesDirectory(__dirname);
 const messages = core_1.Messages.loadMessages('sfpowerkit', 'project_diff');
 const deleteNotSupported = ['RecordType'];
-const git = (0, simple_git_1.default)();
+const git = (0, simple_git_1.simpleGit)();
 const unsplitedMetadataExtensions = metadataInfo_1.UNSPLITED_METADATA.map((elem) => {
     return elem.sourceExtension;
 });

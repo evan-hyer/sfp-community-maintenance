@@ -149,6 +149,8 @@
     "resources/metadatainfo.json": "9c395fd532a21797bb37b426e448d3a02c1061e43a78d4b5c21c81ef1224fe02"
   },
   "maintenancePatchesSha256": {
+    "lib/impl/diff/diffImpl.js": "7c21b1f0046573c832282fe1052ebb8ae1379400800199f43e1ff18e7b11dc1c",
+    "lib/impl/diff/diffUtil.js": "85d3e78fba81584b6db3fd1483ce90f3b19ad6f4e704779c7a892ad8fc4629fc",
     "lib/impl/source/profileDiff.js": "c288645bfb27d51db17774c50862b8ed98c716390cd1600e41ff5e8b95775d32"
   }
 }

@@ -1,5 +1,5 @@
 import SFPLogger, { Logger, LoggerLevel } from '@flxbl-io/sfp-logger';
-import simplegit, { SimpleGit } from 'simple-git';
+import { simpleGit, SimpleGit } from 'simple-git';
 import fs = require('fs-extra');
 import path = require('path');
 import ignore from 'ignore';
@@ -15,10 +15,10 @@ export default class Git {
 
     private constructor(private projectDir?: string, private logger?: Logger) {
         if (this.projectDir) {
-            this._git = simplegit(this.projectDir);
+            this._git = simpleGit(this.projectDir);
             this.repositoryLocation = this.projectDir;
         } else {
-            this._git = simplegit();
+            this._git = simpleGit();
             this.repositoryLocation = process.cwd();
         }
     }

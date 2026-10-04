@@ -33,9 +33,9 @@ const metadataFiles_1 = __importDefault(require("../metadata/metadataFiles"));
 const metadataInfo_1 = require("../metadata/metadataInfo");
 const metadataInfo_2 = require("../metadata/metadataInfo");
 const sfp_logger_1 = __importStar(require("@flxbl-io/sfp-logger"));
-const simple_git_1 = __importDefault(require("simple-git"));
+const simple_git_1 = require("simple-git");
 const SEP = /\/|\\/;
-const git = (0, simple_git_1.default)();
+const git = (0, simple_git_1.simpleGit)();
 class DiffUtil {
     static async isFormulaField(diffFile) {
         let content = await git.show(['--raw', diffFile.revisionFrom]);
