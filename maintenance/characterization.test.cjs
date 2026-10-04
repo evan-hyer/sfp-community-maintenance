@@ -62,8 +62,15 @@ test('simple-git blocks protocol overrides regardless of config key casing', asy
 
 test('vendored profile diff modules load the named simple-git factory', () => {
   for (const name of ['diffUtil', 'diffImpl']) {
-    const module = require(`@flxbl-io/sfprofiles/lib/impl/diff/${name}`);
-    assert.equal(typeof module.default, 'function', name);
+    try {
+      const module = require(`@flxbl-io/sfprofiles/lib/impl/diff/${name}`);
+      assert.equal(typeof module.default, 'function', name);
+    } catch (error) {
+      if (process.env.GITHUB_ACTIONS) {
+        console.error(`::error title=Profile diff ${name} load::${String(error.stack || error).replace(/\r?\n/g, '%0A')}`);
+      }
+      throw error;
+    }
   }
 });
 
