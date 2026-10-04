@@ -478,6 +478,17 @@ test('all shipped JSON schemas compile and retain representative validation boun
   }
 });
 
+test('artifact and package version comparisons retain prerelease and core ordering', () => {
+  const semver = require('semver');
+  assert.deepEqual(semver.sort(['1.9.0', '1.10.0', '1.10.0-beta.1']),
+    ['1.9.0', '1.10.0-beta.1', '1.10.0']);
+  assert.equal(semver.diff('1.2.3-4', '1.2.3-5'), 'prerelease');
+  assert.equal(semver.gt('1.2.3-5', '1.2.3-4'), true);
+  assert.equal(semver.rcompare('1.2.3-5', '1.2.3-4'), -1);
+  assert.equal(semver.coerce('1.2.3.4')?.version, '1.2.3');
+  assert.equal(semver.compare(semver.coerce('1.2.3.4'), semver.coerce('1.2.2.NEXT')), 1);
+});
+
 test('generated release YAML preserves null spelling and key order', async () => {
   const Generator = require('../lib/impl/release/ReleaseDefinitionGenerator').default;
   const yaml = require('js-yaml');
