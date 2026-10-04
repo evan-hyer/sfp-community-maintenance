@@ -22,3 +22,7 @@ Bare npm pack is diagnostic only: npm10 misplaces nested workspace dependencies.
 aligns with the root Node 24.21.0 target. Implementation bytes are unchanged;
 this is a maintenance support policy, not a claim that the original code
 requires Node 24 features. See ../../maintenance/RUNTIME.md.
+
+2026-10-04 dependency cleanup: removed the unused direct `strip-ansi`
+declaration. The published logger implementation strips ANSI in `FileLogger`
+without importing this package; implementation bytes remain unchanged.
