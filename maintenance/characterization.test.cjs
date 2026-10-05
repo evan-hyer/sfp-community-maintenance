@@ -65,6 +65,16 @@ test('vendored profile diff utility loads the named simple-git factory', () => {
   assert.equal(typeof module.default, 'function');
 });
 
+test('root and vendored profiles share the supported Jsforce runtime', () => {
+  const jsforce = require('@jsforce/jsforce-node');
+  const profilesDir = path.dirname(require.resolve('@flxbl-io/sfprofiles/package.json'));
+  assert.equal(require('@jsforce/jsforce-node/package.json').version, '3.10.28');
+  assert.equal(require.resolve('@jsforce/jsforce-node', { paths: [profilesDir] }), require.resolve('@jsforce/jsforce-node'));
+  assert.equal(typeof jsforce.Connection, 'function');
+  const connection = new jsforce.Connection({ instanceUrl: 'https://example.invalid', accessToken: 'offline-token' });
+  assert.equal(typeof connection.request, 'function');
+});
+
 test('patched WebSocket driver retains in-memory handshake and text delivery', async () => {
   const websocket = require('websocket-driver');
   assert.equal(require('websocket-driver/package.json').version, '0.7.5');

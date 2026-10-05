@@ -19,7 +19,7 @@
         "@flxbl-io/sfdx-process-wrapper": "3.0.0",
         "@flxbl-io/sfp-logger": "file:packages/sfp-logger",
         "@flxbl-io/sfprofiles": "file:packages/sfprofiles",
-        "@jsforce/jsforce-node": "^3.2.0",
+        "@jsforce/jsforce-node": "3.10.28",
         "@newrelic/telemetry-sdk": "^0.6.0",
         "@oclif/core": "^4.5.2",
         "@oclif/plugin-commands": "4.1.32",
