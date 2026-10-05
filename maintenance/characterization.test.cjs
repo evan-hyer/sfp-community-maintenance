@@ -84,6 +84,23 @@ test('root and vendored profiles share Salesforce Core and SDR majors', () => {
   assert.equal(typeof require('@salesforce/source-deploy-retrieve').ComponentSet, 'function');
 });
 
+test('oclif AWS clients load without the vulnerable nested XML parser', () => {
+  const { S3Client } = require('@aws-sdk/client-s3');
+  const { CloudFrontClient } = require('@aws-sdk/client-cloudfront');
+  const config = {
+    region: 'us-east-1',
+    credentials: { accessKeyId: 'offline', secretAccessKey: 'offline' },
+  };
+  for (const Client of [S3Client, CloudFrontClient]) {
+    const client = new Client(config);
+    assert.equal(typeof client.send, 'function');
+    client.destroy();
+  }
+  const lock = require('../package-lock.json');
+  assert.equal(lock.packages['node_modules/@aws-sdk/core/node_modules/fast-xml-parser'], undefined);
+  assert.equal(lock.packages['node_modules/fast-xml-parser'].version, '5.11.2');
+});
+
 test('patched WebSocket driver retains in-memory handshake and text delivery', async () => {
   const websocket = require('websocket-driver');
   assert.equal(require('websocket-driver/package.json').version, '0.7.5');
