@@ -1,5 +1,5 @@
 import ProjectConfig from '../project/ProjectConfig';
-import simplegit, { SimpleGit, LogOptions } from 'simple-git';
+import { simpleGit, SimpleGit, LogOptions } from 'simple-git';
 import { Changelog } from './interfaces/GenericChangelogInterfaces';
 import SFPLogger, { LoggerLevel } from '@flxbl-io/sfp-logger';
 
@@ -18,9 +18,9 @@ export default class GeneratePackageChangelog {
     public async exec(): Promise<Changelog> {
         let git: SimpleGit;
         if (this.project_directory != null) {
-            git = simplegit(this.project_directory);
+            git = simpleGit(this.project_directory);
         } else {
-            git = simplegit();
+            git = simpleGit();
         }
 
         let packageDescriptor;

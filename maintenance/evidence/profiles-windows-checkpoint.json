@@ -1,0 +1,49 @@
+{
+  "captured": "2026-09-26",
+  "parent": "f92b65f3",
+  "node": "22.23.2",
+  "npm": "10.9.8",
+  "platform": "win32-x64",
+  "sourceForm": "Published sfprofiles5.2.2 JS/declarations/resources; non-manifest source bytes unchanged",
+  "runtimeGraph": "Original versions/integrity preserved after workspace relocation. Rejected npm-generated minimatch9.0.9 and restored9.0.5 before accepted checks.",
+  "checks": {
+    "syntaxBuild": 0,
+    "rootBuild": 0,
+    "characterizationRuns": [
+      28,
+      28
+    ],
+    "guard": 11,
+    "mutations": 3,
+    "jest": {
+      "suites": 40,
+      "passed": 193,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 159.868
+    },
+    "consumerInstall": {
+      "flags": "--omit=dev --offline --no-audit --no-fund",
+      "exitCode": 0,
+      "scriptsEnabled": true,
+      "outsideCheckout": true
+    },
+    "consumerSourceResourceHashes": 0,
+    "consumerProfileMerge": 0,
+    "consumerSharedLoggerAndLockedVersions": 0,
+    "consumerSqlite": 0,
+    "consumerCli": 4,
+    "executableAliases": [
+      "sfp --version",
+      "sfpowerscripts --version"
+    ]
+  },
+  "artifact": {
+    "bytes": 45695836,
+    "sha512": "eb97d4557f8e8b89706f9bb98a3e0aa456120c5ddd84315ef3b27929804fe0c30e78e84133caab1c0672dcda95fac5e657cbb676fa3669eb54ada346a02d1563"
+  },
+  "pending": [
+    "Fresh committed-source Windows/Linux reproduction",
+    "Linux consumption of the same Windows-built artifact"
+  ]
+}

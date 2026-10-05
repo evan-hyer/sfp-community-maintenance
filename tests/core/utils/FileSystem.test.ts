@@ -6,10 +6,10 @@ describe('Given a search directory', () => {
     it('should return nested files', () => {
         const resourcesDir = path.join(__dirname, 'resources');
         let files = FileSystem.readdirRecursive(path.join(resourcesDir, 'a'), false, false);
-        expect(files).toEqual(expectedFiles);
+        expect(files).toEqual(expectedFiles.map((elem) => path.normalize(elem)));
 
         files = FileSystem.readdirRecursive(path.join(resourcesDir, 'a'), true, false);
-        expect(files).toEqual(expectedFilesIncludingDirs);
+        expect(files).toEqual(expectedFilesIncludingDirs.map((elem) => path.normalize(elem)));
 
         files = FileSystem.readdirRecursive(path.join(resourcesDir, 'a'), false, true);
         expect(files).toEqual(expectedFiles.map((elem) => path.join(resourcesDir, 'a', elem)));

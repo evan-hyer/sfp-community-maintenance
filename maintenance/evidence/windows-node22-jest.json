@@ -1,0 +1,384 @@
+{
+  "captured": "2026-09-21",
+  "upstream": "3838dd0f6dd72da9ab11a93693758fbaec55ec90",
+  "platform": "win32",
+  "architecture": "x64",
+  "os": "Windows_NT 10.0.19045",
+  "node": "22.23.2",
+  "npm": "10.9.8",
+  "lockfileSha256": "b4a434182a33529465dd94c3b106e188c3f3b31d837b21221e6982c618431dfd",
+  "command": "node maintenance/run-offline.cjs jest --silent --verbose --coverage --detectOpenHandles --json --outputFile=../jest-22.json",
+  "exitCode": 1,
+  "counts": {
+    "numTotalTestSuites": 40,
+    "numPassedTestSuites": 34,
+    "numFailedTestSuites": 5,
+    "numPendingTestSuites": 1,
+    "numTotalTests": 193,
+    "numPassedTests": 173,
+    "numFailedTests": 18,
+    "numPendingTests": 2
+  },
+  "suites": [
+    {
+      "file": "tests/impl/changelog/WorkItemUpdater.test.ts",
+      "status": "passed",
+      "passed": 1,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/dependencies/TransitiveDependencyResolver.test.ts",
+      "status": "passed",
+      "passed": 13,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/deploymentFilters/EntitlementVersionFilter.test.ts",
+      "status": "failed",
+      "passed": 0,
+      "skipped": [],
+      "failures": [
+        {
+          "name": "Filter entitlements during deployment Should return a component set by filtering entitlement versions which are existing in the org",
+          "error": "LibraryError: \\metadata\\entitlementProcesses\\testentitlement2_v1.entitlementProcess: File or folder not found\n    at VirtualTreeContainer.isDirectory (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\treeContainers.ts:267:11)\n    at sortDirsFirst (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:131:19)\n    at Array.sort (<anonymous>)\n    at MetadataResolver.getComponentsFromPathRecursive (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:84:8)\n    at MetadataResolver.getComponentsFromPath (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:59:19)\n    at buildComponents (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\collections\\componentSet.ts:177:42)\n    at Function.fromSource (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\collections\\componentSet.ts:182:5)\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\deploymentFilters\\EntitlementVersionFilter.test.ts:81:43)"
+        },
+        {
+          "name": "Filter entitlements during deployment Should only return component sets when the version number is higher than whats existing in the org",
+          "error": "LibraryError: \\metadata\\entitlementProcesses\\testentitlement2_v1.entitlementProcess-meta.xml: File or folder not found\n    at VirtualTreeContainer.isDirectory (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\treeContainers.ts:267:11)\n    at sortDirsFirst (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:131:19)\n    at Array.sort (<anonymous>)\n    at MetadataResolver.getComponentsFromPathRecursive (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:84:8)\n    at MetadataResolver.getComponentsFromPath (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:59:19)\n    at buildComponents (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\collections\\componentSet.ts:177:42)\n    at Function.fromSource (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\collections\\componentSet.ts:182:5)\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\deploymentFilters\\EntitlementVersionFilter.test.ts:147:43)"
+        },
+        {
+          "name": "Filter entitlements during deployment should return all components when there are no existing versions in the org",
+          "error": "LibraryError: \\metadata\\entitlementProcesses\\testentitlement2_v1.entitlementProcess: File or folder not found\n    at VirtualTreeContainer.isDirectory (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\treeContainers.ts:267:11)\n    at sortDirsFirst (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:131:19)\n    at Array.sort (<anonymous>)\n    at MetadataResolver.getComponentsFromPathRecursive (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:84:8)\n    at MetadataResolver.getComponentsFromPath (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:59:19)\n    at buildComponents (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\collections\\componentSet.ts:177:42)\n    at Function.fromSource (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\collections\\componentSet.ts:182:5)\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\deploymentFilters\\EntitlementVersionFilter.test.ts:196:43)"
+        },
+        {
+          "name": "Filter entitlements during deployment should return all components when entitlement versioning is not enabled in the org",
+          "error": "LibraryError: \\metadata\\entitlementProcesses\\TestEntitlement.entitlementProcess-meta.xml: File or folder not found\n    at VirtualTreeContainer.isDirectory (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\treeContainers.ts:267:11)\n    at MetadataResolver.getComponentsFromPathRecursive (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:89:21)\n    at MetadataResolver.getComponentsFromPath (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:59:19)\n    at buildComponents (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\collections\\componentSet.ts:177:42)\n    at Function.fromSource (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\collections\\componentSet.ts:182:5)\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\deploymentFilters\\EntitlementVersionFilter.test.ts:239:43)"
+        },
+        {
+          "name": "Filter entitlements during deployment should return the same components when unable to fetch entitlement settings",
+          "error": "LibraryError: \\metadata\\entitlementProcesses\\TestEntitlement.entitlementProcess-meta.xml: File or folder not found\n    at VirtualTreeContainer.isDirectory (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\treeContainers.ts:267:11)\n    at MetadataResolver.getComponentsFromPathRecursive (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:89:21)\n    at MetadataResolver.getComponentsFromPath (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\resolve\\metadataResolver.ts:59:19)\n    at buildComponents (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\collections\\componentSet.ts:177:42)\n    at Function.fromSource (<checkout>\\node_modules\\@salesforce\\source-deploy-retrieve\\src\\collections\\componentSet.ts:182:5)\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\deploymentFilters\\EntitlementVersionFilter.test.ts:282:43)"
+        }
+      ]
+    },
+    {
+      "file": "tests/ProjectValidation.test.ts",
+      "status": "passed",
+      "passed": 8,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/analysers/FTAnalyzer.test.ts",
+      "status": "failed",
+      "passed": 4,
+      "skipped": [],
+      "failures": [
+        {
+          "name": "FT Analyzer  When a yaml is provided, package has no feed enabled fields, a sfpPackage with combined additional properties should be created",
+          "error": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: undefined\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\analysers\\FTAnalyzer.test.ts:198:46)"
+        },
+        {
+          "name": "FT Analyzer  When a yaml is provided, package has no feed enabled fields, a sfpPackage with combined additional properties should be created",
+          "error": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: undefined\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\analysers\\FTAnalyzer.test.ts:278:46)"
+        },
+        {
+          "name": "FT Analyzer  When no yaml is provided, package has feed enabled fields, a sfpPackage with combined additional properties should be created",
+          "error": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: undefined\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\analysers\\FTAnalyzer.test.ts:358:46)"
+        }
+      ]
+    },
+    {
+      "file": "tests/core/package/analysers/FHTAnalyzer.test.ts",
+      "status": "failed",
+      "passed": 4,
+      "skipped": [],
+      "failures": [
+        {
+          "name": "FHT Analyzer  When a yaml is provided, package has no history enabled fields, a sfpPackage with combined additional properties should be created",
+          "error": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: undefined\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\analysers\\FHTAnalyzer.test.ts:197:47)"
+        },
+        {
+          "name": "FHT Analyzer  When a yaml is provided, package has no history enabled fields, a sfpPackage with combined additional properties should be created",
+          "error": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: undefined\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\analysers\\FHTAnalyzer.test.ts:276:47)"
+        },
+        {
+          "name": "FHT Analyzer  When no yaml is provided, package has history enabled fields, a sfpPackage with combined additional properties should be created",
+          "error": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: undefined\n    at Object.<anonymous> (<checkout>\\tests\\core\\package\\analysers\\FHTAnalyzer.test.ts:355:47)"
+        }
+      ]
+    },
+    {
+      "file": "tests/core/package/SFPackageBuilder.test.ts",
+      "status": "skipped",
+      "passed": 0,
+      "skipped": [
+        "Given a sfdx package, build a sfp package should build a sfp package",
+        "Given a sfdx package, build a sfp package should build a sfp package when there is only one type"
+      ],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/dependencies/PackageDependencyResolver.test.ts",
+      "status": "passed",
+      "passed": 8,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/coverage/PackageTestCoverage.test.ts",
+      "status": "passed",
+      "passed": 7,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/impl/changelog/OrgUpdater.test.ts",
+      "status": "passed",
+      "passed": 4,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/PackageManifest.test.ts",
+      "status": "passed",
+      "passed": 13,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/project/ProjectConfig.test.ts",
+      "status": "passed",
+      "passed": 12,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/PackageDiffImpl.test.ts",
+      "status": "passed",
+      "passed": 8,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/git/Git.test.ts",
+      "status": "failed",
+      "passed": 0,
+      "skipped": [],
+      "failures": [
+        {
+          "name": "Git Integration Tests should correctly copy repository respecting .gitignore",
+          "error": "Error: Error: Child processes are disabled during offline validation\n    at GitExecutorChain.onFatalException (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:78:63)\n    at GitExecutorChain.<anonymous> (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:69:21)\n    at Generator.throw (<anonymous>)\n    at rejected (<checkout>\\node_modules\\simple-git\\dist\\cjs\\index.js:62:29)"
+        },
+        {
+          "name": "Git Integration Tests should respect .gitignore for 2 ignored directory",
+          "error": "Error: Error: Child processes are disabled during offline validation\n    at GitExecutorChain.onFatalException (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:78:63)\n    at GitExecutorChain.<anonymous> (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:69:21)\n    at Generator.throw (<anonymous>)\n    at rejected (<checkout>\\node_modules\\simple-git\\dist\\cjs\\index.js:62:29)"
+        },
+        {
+          "name": "Git Integration Tests should handle files in .gitignore correctly",
+          "error": "Error: Error: Child processes are disabled during offline validation\n    at GitExecutorChain.onFatalException (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:78:63)\n    at GitExecutorChain.<anonymous> (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:69:21)\n    at Generator.throw (<anonymous>)\n    at rejected (<checkout>\\node_modules\\simple-git\\dist\\cjs\\index.js:62:29)"
+        },
+        {
+          "name": "Git Integration Tests should copy empty directories if not ignored",
+          "error": "Error: Error: Child processes are disabled during offline validation\n    at GitExecutorChain.onFatalException (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:78:63)\n    at GitExecutorChain.<anonymous> (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:69:21)\n    at Generator.throw (<anonymous>)\n    at rejected (<checkout>\\node_modules\\simple-git\\dist\\cjs\\index.js:62:29)"
+        },
+        {
+          "name": "Git Integration Tests should handle non specific test files",
+          "error": "Error: Error: Child processes are disabled during offline validation\n    at GitExecutorChain.onFatalException (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:78:63)\n    at GitExecutorChain.<anonymous> (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:69:21)\n    at Generator.throw (<anonymous>)\n    at rejected (<checkout>\\node_modules\\simple-git\\dist\\cjs\\index.js:62:29)"
+        },
+        {
+          "name": "Git Integration Tests should handle symlinks correctly",
+          "error": "Error: Error: Child processes are disabled during offline validation\n    at GitExecutorChain.onFatalException (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:78:63)\n    at GitExecutorChain.<anonymous> (<checkout>\\node_modules\\simple-git\\src\\lib\\runners\\git-executor-chain.ts:69:21)\n    at Generator.throw (<anonymous>)\n    at rejected (<checkout>\\node_modules\\simple-git\\dist\\cjs\\index.js:62:29)"
+        }
+      ]
+    },
+    {
+      "file": "tests/impl/changelog/CommitUpdater.test.ts",
+      "status": "passed",
+      "passed": 3,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/permsets/AssignPermissionSets.test.ts",
+      "status": "passed",
+      "passed": 3,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/org/ArtifactsToOrg.test.ts",
+      "status": "passed",
+      "passed": 6,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/utils/Delay.test.ts",
+      "status": "passed",
+      "passed": 17,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/impl/release/ReleaseDefinitionSorter.test.ts",
+      "status": "passed",
+      "passed": 4,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/impl/dependency/ShrinkImpl.test.ts",
+      "status": "passed",
+      "passed": 2,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/impl/parallelBuilder/BuildCollections.test.ts",
+      "status": "passed",
+      "passed": 4,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/permsets/PermissionSetFetcher.test.ts",
+      "status": "passed",
+      "passed": 3,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/coverage/IndividualClassCoverage.test.ts",
+      "status": "passed",
+      "passed": 2,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/impl/release/ReleaseDefinition.test.ts",
+      "status": "passed",
+      "passed": 8,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/propertyFetchers/DestructiveManifestPathFetcher.test.ts",
+      "status": "passed",
+      "passed": 2,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/git/GitTags.test.ts",
+      "status": "passed",
+      "passed": 3,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/apextest/ApexTestSuite.test.ts",
+      "status": "passed",
+      "passed": 3,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/impl/parallelBuilder/UndirectedGraph.test.ts",
+      "status": "passed",
+      "passed": 8,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/Package2VersionFetcher.test.ts",
+      "status": "passed",
+      "passed": 1,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/propertyFetchers/AssignPermissionSetFetcher.test.ts",
+      "status": "passed",
+      "passed": 2,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/artifacts/ArtifactsFromFileSystem.test.ts",
+      "status": "passed",
+      "passed": 3,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/org/ListAllPackages.test.ts",
+      "status": "passed",
+      "passed": 1,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/propertyFetchers/ReconcileProfilePropertyFetcher.test.ts",
+      "status": "passed",
+      "passed": 1,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/SfpPackageInquirer.test.ts",
+      "status": "passed",
+      "passed": 3,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/package/packageMerger/PackageMergeManager.test.ts",
+      "status": "passed",
+      "passed": 1,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/permsets/PermissionSetGroupUpdateAwaiter.test.ts",
+      "status": "passed",
+      "passed": 1,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/utils/extractDomainFromUrl.test.ts",
+      "status": "passed",
+      "passed": 5,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/utils/FileSystem.test.ts",
+      "status": "failed",
+      "passed": 0,
+      "skipped": [],
+      "failures": [
+        {
+          "name": "Given a search directory should return nested files",
+          "error": "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  - 6\n+ Received  + 6\n\n  Array [\n-   \"b/b1.file\",\n-   \"b/c/c1.file\",\n-   \"b/c/c2.file\",\n-   \"b/d/d1.file\",\n-   \"b/d/x/x1.file\",\n-   \"b/e/e1.file\",\n+   \"b\\\\b1.file\",\n+   \"b\\\\c\\\\c1.file\","
+        }
+      ]
+    },
+    {
+      "file": "tests/core/queryHelper/ChunkCollection.test.ts",
+      "status": "passed",
+      "passed": 3,
+      "skipped": [],
+      "failures": []
+    },
+    {
+      "file": "tests/core/utils/ChunkArray.test.ts",
+      "status": "passed",
+      "passed": 2,
+      "skipped": [],
+      "failures": []
+    }
+  ]
+}

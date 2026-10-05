@@ -1,0 +1,1 @@
+{"version":3,"file":"profileSync.d.ts","sourceRoot":"","sources":["../../../src/impl/source/profileSync.ts"],"names":[],"mappings":"AAIA,OAAO,cAAc,EAAE,EAAE,aAAa,EAAqB,MAAM,kBAAkB,CAAC;AAOpF,MAAM,CAAC,OAAO,OAAO,WAAY,SAAQ,cAAc;IACtC,IAAI,CAAC,UAAU,EAAE,MAAM,EAAE,EAAE,cAAc,CAAC,EAAE,MAAM,EAAE,EAAE,QAAQ,CAAC,EAAE,OAAO,GAAG,OAAO,CAAC,aAAa,CAAC;CAsGjH"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"dxProjectManifestUtils.d.ts","sourceRoot":"","sources":["../../src/utils/dxProjectManifestUtils.ts"],"names":[],"mappings":"AAGA,qBAAa,sBAAsB;IAGZ,OAAO,CAAC,aAAa;IAFxC,OAAO,CAAC,uBAAuB,CAAM;gBAEV,aAAa,EAAE,MAAM;IAEzC,4BAA4B,IAAI,IAAI;IAoB3C,OAAO,CAAC,eAAe;CAG1B"}

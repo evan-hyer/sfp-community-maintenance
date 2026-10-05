@@ -18,6 +18,8 @@ export default class SFPStatsSender {
             port: port == null ? 8125 : Number(port),
             protocol: protocol == 'tcp' ? 'tcp' : 'udp',
             prefix: 'sfpowerscripts.',
+            datadog: false,
+            includeDataDogTags: false,
         };
         SFPStatsSender.client = new StatsDClient(options);
     }

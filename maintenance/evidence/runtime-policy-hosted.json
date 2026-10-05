@@ -1,0 +1,353 @@
+{
+  "recordedAt": "2026-09-28T20:46:59.712Z",
+  "scope": "Hosted GitHub Actions results; no live Salesforce authentication",
+  "fullContainer": {
+    "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479417903",
+    "headSha": "1c80124fbcfdf2dc81db2a91b07f60e0ab594e49",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "completedAt": "2026-09-28T20:33:28Z",
+        "conclusion": "success",
+        "databaseId": 109121104407,
+        "name": "full-container",
+        "startedAt": "2026-09-28T20:28:18Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-28T20:28:20Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-28T20:28:19Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:28:22Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-09-28T20:28:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:28:24Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-node@v4",
+            "number": 3,
+            "startedAt": "2026-09-28T20:28:22Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:29:25Z",
+            "conclusion": "success",
+            "name": "Build the local fork artifact",
+            "number": 4,
+            "startedAt": "2026-09-28T20:28:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:18Z",
+            "conclusion": "success",
+            "name": "Build full image",
+            "number": 5,
+            "startedAt": "2026-09-28T20:29:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:25Z",
+            "conclusion": "success",
+            "name": "Validate full image without external networking",
+            "number": 6,
+            "startedAt": "2026-09-28T20:33:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:25Z",
+            "conclusion": "success",
+            "name": "Record result",
+            "number": 7,
+            "startedAt": "2026-09-28T20:33:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:25Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-node@v4",
+            "number": 13,
+            "startedAt": "2026-09-28T20:33:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:25Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-09-28T20:33:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-28T20:33:25Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-09-28T20:33:25Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479417903/job/109121104407"
+      }
+    ],
+    "log": {
+      "localLog": ".maintenance/hosted-job-109121104407.log",
+      "sha256": "5becc9ba3813fee47b38a3b192eb1b5aaa4eed2e4856fbe289693c90acc63143",
+      "excerpts": [
+        "2026-09-28T20:29:25.5354683Z 3ae185f4d6b089c67b9fec4df43374384517775ff1180788eb4491ffb54fc78534cfdcb31d1d56e13a6bfccd7272ea190b05fb6151589e816f72387f2b1f2f0a  .maintenance/flxbl-io-sfp-39.8.0.tgz",
+        "2026-09-28T20:33:18.0359046Z         \"Id\": \"sha256:111324e0049a9e5438a2c756a0f6a8c339631e0965cd16ada07356e387e3400f\",",
+        "2026-09-28T20:33:19.9148297Z Consumer paths, shared logger, locked oclif, source/resource hashes, profile merge and real SQLite pass.",
+        "2026-09-28T20:33:21.0091142Z ℹ tests 4",
+        "2026-09-28T20:33:24.5889594Z Puppeteer 24.10.0 data-page PASS: Chrome/137.0.7151.55",
+        "2026-09-28T20:33:24.9366752Z ChromeDriver local status PASS"
+      ]
+    }
+  },
+  "review": {
+    "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543",
+    "headSha": "1c80124fbcfdf2dc81db2a91b07f60e0ab594e49",
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs": [
+      {
+        "name": "Required / windows-latest / Node 24",
+        "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543/job/109122157959",
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "name": "Diagnostic / ubuntu-latest / Node 26",
+        "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543/job/109122158084",
+        "status": "completed",
+        "conclusion": "failure",
+        "completedAt": "2026-09-28T20:32:13Z",
+        "currentSteps": [
+          {
+            "completedAt": "2026-09-28T20:32:10Z",
+            "conclusion": "failure",
+            "name": "Run npm ci --no-audit --no-fund",
+            "number": 5,
+            "startedAt": "2026-09-28T20:31:09Z",
+            "status": "completed"
+          }
+        ]
+      },
+      {
+        "name": "Diagnostic / windows-latest / Node 26",
+        "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543/job/109122158292",
+        "status": "completed",
+        "conclusion": "failure",
+        "completedAt": "2026-09-28T20:33:25Z",
+        "currentSteps": [
+          {
+            "completedAt": "2026-09-28T20:33:21Z",
+            "conclusion": "failure",
+            "name": "Run npm ci --no-audit --no-fund",
+            "number": 5,
+            "startedAt": "2026-09-28T20:31:33Z",
+            "status": "completed"
+          }
+        ]
+      },
+      {
+        "name": "Required / ubuntu-latest / Node 24",
+        "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36479740543/job/109122158423",
+        "status": "completed",
+        "conclusion": "success",
+        "completedAt": "2026-09-28T20:33:25Z",
+        "currentSteps": []
+      }
+    ],
+    "windowsRequired": "Source checks and packaging passed. Fresh consumer npm install hit the harness 300-second timeout (ETIMEDOUT); consumer assertions did not run. Underlying installation delay remains undiagnosed.",
+    "node26": {
+      "ubuntu": {
+        "cause": "better-sqlite3 native build fails against Node26 V8: PropertyCallbackInfo<v8::Value> has no member This. This is an observed compilation incompatibility on this runner.",
+        "log": {
+          "localLog": ".maintenance/hosted-job-109122158084.log",
+          "sha256": "1a1790f726696a52d28d486d4da5b2e3afad57f11c1c28f1d9f832cbd1d806b8",
+          "excerpts": [
+            "2026-09-28T20:32:10.6200188Z npm error path /home/runner/work/sfp-community-maintenance/sfp-community-maintenance/node_modules/better-sqlite3",
+            "2026-09-28T20:32:10.6229868Z npm error prebuild-install warn install No prebuilt binaries found (target=26.10.0 runtime=node arch=x64 libc= platform=linux)",
+            "2026-09-28T20:32:10.6246896Z npm error ./src/util/binder.lzz:40:37: error: ‘class v8::Object’ has no member named ‘GetPrototype’; did you mean ‘GetPrototypeV2’?",
+            "2026-09-28T20:32:10.6247920Z npm error ./src/util/binder.lzz:49:62: error: ‘class v8::Object’ has no member named ‘GetPrototype’; did you mean ‘GetPrototypeV2’?",
+            "2026-09-28T20:32:10.6257302Z npm error ./src/better_sqlite3.lzz:68:34: error: ‘class v8::Context’ has no member named ‘GetIsolate’",
+            "2026-09-28T20:32:10.6272446Z npm error ./src/objects/database.lzz:416:89: error: ‘const class v8::PropertyCallbackInfo<v8::Value>’ has no member named ‘This’",
+            "2026-09-28T20:32:10.6274257Z npm error ./src/objects/database.lzz:420:77: error: ‘const class v8::PropertyCallbackInfo<v8::Value>’ has no member named ‘This’",
+            "2026-09-28T20:32:10.6282822Z npm error ./src/objects/statement.lzz:322:81: error: ‘const class v8::PropertyCallbackInfo<v8::Value>’ has no member named ‘This’"
+          ]
+        }
+      },
+      "windows": {
+        "cause": "better-sqlite3 has no Node26 prebuilt; node-gyp cannot identify usable Visual Studio. Log reports PowerShell discovery output-buffer RangeError and unknown VS18 Enterprise version. Not proof of source compatibility/incompatibility on a correctly detected Windows compiler.",
+        "log": {
+          "localLog": ".maintenance/hosted-job-109122158292.log",
+          "sha256": "6fa302ff082963df7403d925da17ed42626fcf474bb427f784058a720acf7217",
+          "excerpts": [
+            "2026-09-28T20:33:20.6557813Z npm error prebuild-install warn install No prebuilt binaries found (target=26.10.0 runtime=node arch=x64 libc= platform=win32)\r",
+            "2026-09-28T20:33:20.6570188Z npm error gyp ERR! find VS Failure details: RangeError [ERR_CHILD_PROCESS_STDIO_MAXB\r",
+            "2026-09-28T20:33:20.6571387Z npm error gyp ERR! find VS unknown version \"undefined\" found at \"C:\\Program Files\\Microsoft Visual Studio\\18\\Enterprise\"\r",
+            "2026-09-28T20:33:20.6572234Z npm error gyp ERR! find VS could not find a version of Visual Studio 2017 or newer to use\r"
+          ]
+        }
+      },
+      "classification": "Optional continue-on-error diagnostics; Node26 remains outside supported engines."
+    },
+    "windowsFailure": {
+      "localLog": ".maintenance/hosted-job-109122157959.log",
+      "sha256": "e63bc31bf06734e6665367ee674b02ebc9b80cfbe7b30555fe1710d1e47fff42",
+      "next": "Add npm installation diagnostics and review bounded installation timeout before rerunning required Windows validation."
+    }
+  },
+  "latestValidatedCheckpoint": {
+    "recordedAt": "2026-09-29T00:07:40.325Z",
+    "headSha": "316d4e440cb02f0d2f1a5b252f6b4cee7a2011e6",
+    "review": {
+      "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481800782",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "Diagnostic / windows-latest / Node 26",
+          "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481800782/job/109128976067",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-09-28T20:48:37Z",
+          "completedAt": "2026-09-28T20:51:09Z",
+          "durationSeconds": 152,
+          "log": {
+            "path": ".maintenance/hosted-job-109128976067.log",
+            "sha256": "7969a3b92270e7cf850d6c5a9ec4ab0b84463b02dbd4d2e7f5bace54b900e734",
+            "excerpts": [
+              "2026-09-28T20:48:44.2671187Z HEAD is now at d629d4f Merge 316d4e440cb02f0d2f1a5b252f6b4cee7a2011e6 into 3838dd0f6dd72da9ab11a93693758fbaec55ec90\r",
+              "2026-09-28T20:51:04.6239485Z npm error prebuild-install warn install No prebuilt binaries found (target=26.10.0 runtime=node arch=x64 libc= platform=win32)\r",
+              "2026-09-28T20:51:04.6250138Z npm error gyp ERR! find VS Failure details: RangeError [ERR_CHILD_PROCESS_STDIO_MAXB\r",
+              "2026-09-28T20:51:04.6250853Z npm error gyp ERR! find VS unknown version \"undefined\" found at \"C:\\Program Files\\Microsoft Visual Studio\\18\\Enterprise\"\r"
+            ]
+          }
+        },
+        {
+          "name": "Required / ubuntu-latest / Node 24",
+          "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481800782/job/109128976478",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-28T20:48:36Z",
+          "completedAt": "2026-09-28T20:51:39Z",
+          "durationSeconds": 183,
+          "log": {
+            "path": ".maintenance/hosted-job-109128976478.log",
+            "sha256": "70ab3df793c863f70464184e4926556664eb3cf50d2b0b68f8e77076f1891d37",
+            "excerpts": [
+              "2026-09-28T20:48:39.4992151Z HEAD is now at d629d4f Merge 316d4e440cb02f0d2f1a5b252f6b4cee7a2011e6 into 3838dd0f6dd72da9ab11a93693758fbaec55ec90",
+              "2026-09-28T20:49:10.6759382Z ℹ tests 29",
+              "2026-09-28T20:49:12.0843504Z ℹ tests 29",
+              "2026-09-28T20:49:18.8056009Z ℹ tests 4",
+              "2026-09-28T20:50:30.4210859Z Test Suites: 40 passed, 40 total",
+              "2026-09-28T20:50:30.4211180Z Tests:       193 passed, 193 total",
+              "2026-09-28T20:51:07.4102362Z Installing fresh consumer (timeout 300s): /tmp/sfp-consumer-RJinoH",
+              "2026-09-28T20:51:33.1889149Z Fresh consumer installation completed; starting assertions.",
+              "2026-09-28T20:51:33.7762187Z Consumer paths, shared logger, locked oclif, source/resource hashes, profile merge and real SQLite pass.",
+              "2026-09-28T20:51:35.5071045Z ℹ tests 4",
+              "2026-09-28T20:51:35.7812356Z Fresh production consumer, CLI and aliases pass."
+            ]
+          }
+        },
+        {
+          "name": "Diagnostic / ubuntu-latest / Node 26",
+          "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481800782/job/109128976564",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-09-28T20:48:36Z",
+          "completedAt": "2026-09-28T20:50:21Z",
+          "durationSeconds": 105,
+          "log": {
+            "path": ".maintenance/hosted-job-109128976564.log",
+            "sha256": "da6ddce1f351b00d784fb68365b19e4df49beb55545719d1d199096578b617c1",
+            "excerpts": [
+              "2026-09-28T20:48:39.3662305Z HEAD is now at d629d4f Merge 316d4e440cb02f0d2f1a5b252f6b4cee7a2011e6 into 3838dd0f6dd72da9ab11a93693758fbaec55ec90",
+              "2026-09-28T20:50:18.0855296Z npm error prebuild-install warn install No prebuilt binaries found (target=26.10.0 runtime=node arch=x64 libc= platform=linux)",
+              "2026-09-28T20:50:18.0895322Z npm error ./src/util/binder.lzz:40:37: error: ‘class v8::Object’ has no member named ‘GetPrototype’; did you mean ‘GetPrototypeV2’?",
+              "2026-09-28T20:50:18.0897592Z npm error ./src/util/binder.lzz:49:62: error: ‘class v8::Object’ has no member named ‘GetPrototype’; did you mean ‘GetPrototypeV2’?",
+              "2026-09-28T20:50:18.0912101Z npm error ./src/better_sqlite3.lzz:68:34: error: ‘class v8::Context’ has no member named ‘GetIsolate’",
+              "2026-09-28T20:50:18.0934130Z npm error ./src/objects/database.lzz:416:89: error: ‘const class v8::PropertyCallbackInfo<v8::Value>’ has no member named ‘This’",
+              "2026-09-28T20:50:18.0936851Z npm error ./src/objects/database.lzz:420:77: error: ‘const class v8::PropertyCallbackInfo<v8::Value>’ has no member named ‘This’",
+              "2026-09-28T20:50:18.0950541Z npm error ./src/objects/statement.lzz:322:81: error: ‘const class v8::PropertyCallbackInfo<v8::Value>’ has no member named ‘This’"
+            ]
+          }
+        },
+        {
+          "name": "Required / windows-latest / Node 24",
+          "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481800782/job/109128976742",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-28T20:48:36Z",
+          "completedAt": "2026-09-28T21:05:23Z",
+          "durationSeconds": 1007,
+          "log": {
+            "path": ".maintenance/hosted-job-109128976742.log",
+            "sha256": "c48383b453592289c9218b69708043808dbf030bed4ced65338c0a7b000b1456",
+            "excerpts": [
+              "2026-09-28T20:48:43.1484097Z HEAD is now at d629d4f Merge 316d4e440cb02f0d2f1a5b252f6b4cee7a2011e6 into 3838dd0f6dd72da9ab11a93693758fbaec55ec90\r",
+              "2026-09-28T20:51:18.4448788Z ℹ tests 29\r",
+              "2026-09-28T20:51:21.3081363Z ℹ tests 29\r",
+              "2026-09-28T20:51:32.1277324Z ℹ tests 4\r",
+              "2026-09-28T20:52:52.0185548Z Test Suites: 40 passed, 40 total\r",
+              "2026-09-28T20:52:52.0185990Z Tests:       193 passed, 193 total\r",
+              "2026-09-28T20:57:27.8209375Z Installing fresh consumer (timeout 900s): C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\sfp-consumer-CIxt9p\r",
+              "2026-09-28T21:05:00.8038670Z Fresh consumer installation completed; starting assertions.\r",
+              "2026-09-28T21:05:01.8111468Z Consumer paths, shared logger, locked oclif, source/resource hashes, profile merge and real SQLite pass.\r",
+              "2026-09-28T21:05:04.8063837Z ℹ tests 4\r",
+              "2026-09-28T21:05:05.2824644Z Fresh production consumer, CLI and aliases pass.\r"
+            ]
+          }
+        }
+      ]
+    },
+    "fullContainer": {
+      "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481793994",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "full-container",
+          "url": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481793994/job/109129457313",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-09-28T20:49:52Z",
+          "completedAt": "2026-09-28T20:54:27Z",
+          "durationSeconds": 275,
+          "log": {
+            "path": ".maintenance/hosted-job-109129457313.log",
+            "sha256": "510390386891042d0b849b67056fb2167fa5c9c730c06c9c7794891de75be8b3",
+            "excerpts": [
+              "2026-09-28T20:51:00.8105241Z 8ad37551a823614fa8ea16c91685aa3e1bfde8f5755a52b1eec74db14237659f1fb5700ac4d037aa1a95114fb2235d14d0307b74199a7879676c3ef74708b8d9  .maintenance/flxbl-io-sfp-39.8.0.tgz",
+              "2026-09-28T20:54:17.0673690Z         \"Id\": \"sha256:452f6d67fbd78c3fabfff5acb437f9b5bf4432d0b6df4637fab9f0525869eb76\",",
+              "2026-09-28T20:54:17.9719899Z Consumer paths, shared logger, locked oclif, source/resource hashes, profile merge and real SQLite pass.",
+              "2026-09-28T20:54:19.6929088Z ℹ tests 4",
+              "2026-09-28T20:54:23.2768083Z Puppeteer 24.10.0 data-page PASS: Chrome/137.0.7151.55",
+              "2026-09-28T20:54:23.3761552Z ChromeDriver local status PASS"
+            ]
+          }
+        }
+      ],
+      "artifactSha512": "8ad37551a823614fa8ea16c91685aa3e1bfde8f5755a52b1eec74db14237659f1fb5700ac4d037aa1a95114fb2235d14d0307b74199a7879676c3ef74708b8d9",
+      "imageId": "sha256:452f6d67fbd78c3fabfff5acb437f9b5bf4432d0b6df4637fab9f0525869eb76"
+    },
+    "interpretation": {
+      "requiredNode24": "Windows and Ubuntu clean checkout source and fresh consumer gates pass; 193 Jest tests/40 suites, 29 contracts twice, guard11, mutations3, CLI4, native cache/hashes/aliases.",
+      "checkout": "PR review tests the synthetic merge checkout d629d4f of head316d4e44 into upstream3838dd0f; full-container push workflow checks head316d4e44 directly.",
+      "artifacts": "Hosted jobs build their own tarballs. The listed SHA512 belongs to the full-container job, not the earlier shared Windows-built local artifact.",
+      "windowsInstall": "Installation completed in about453 seconds, exceeding the earlier300-second cap and within the new900-second hosted Windows installation cap. Assertions retain300-second caps. No underlying product error observed in successful retry.",
+      "node26": "Optional install diagnostics still fail: Ubuntu better-sqlite3 V8 compilation incompatibility; Windows no prebuilt and VS discovery failure. Node26 unsupported.",
+      "scope": "Linux amd64 full image; no live Salesforce validation, publishing, ARM64 or other OS claim."
+    }
+  }
+}

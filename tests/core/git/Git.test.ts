@@ -2,14 +2,25 @@ import { Logger } from '@flxbl-io/sfp-logger';
 import fs from 'fs-extra';
 import path from 'path';
 import Git from '../../../src/core/git/Git';
-import simplegit from 'simple-git';
+import { simpleGit } from 'simple-git';
 
-describe('Git Integration Tests', () => {
+// Keep actual filesystem copying and ignore matching; stub only Git's process
+// boundary. These contracts do not need commits, a remote, or a network fetch.
+jest.mock('simple-git', () => ({
+    simpleGit: jest.fn(() => ({
+        addConfig: jest.fn().mockResolvedValue(undefined),
+        getConfig: jest.fn().mockResolvedValue({ value: '/fixture/remote' }),
+        fetch: jest.fn().mockResolvedValue(undefined),
+    })),
+}));
+
+describe('Git repository copying with a mocked process boundary', () => {
     let originalCwd: string;
     let testRepoDir: string;
     let logger: Logger;
     
     beforeEach(async () => {
+        jest.clearAllMocks();
         originalCwd = process.cwd();
         testRepoDir = fs.mkdtempSync(path.join(__dirname, 'test-repo-'));
         process.chdir(testRepoDir);
@@ -18,26 +29,12 @@ describe('Git Integration Tests', () => {
 
     afterEach(async () => {
         process.chdir(originalCwd);
-        const remoteDir = await simplegit(testRepoDir).getConfig('remote.origin.url');
         await fs.remove(testRepoDir);
-        if (remoteDir.value) {
-            await fs.remove(remoteDir.value);
-        }
     });
 
     async function createTestRepository() {
-        // Initialize a local git repository
-        const git = simplegit(testRepoDir);
-        await git.init();
-        
-        await git.addConfig('user.name', 'Test User');
-        await git.addConfig('user.email', 'test@example.com');
-        // Create local repository to be used as remote
-        const remoteDir = fs.mkdtempSync(path.join(__dirname, 'remote-'));
-        await simplegit(remoteDir).init();
-        
-        // Add remote pointing to local bare repo
-        await git.addRemote('origin', remoteDir);
+        await fs.ensureDir(path.join(testRepoDir, '.git'));
+        await fs.writeFile(path.join(testRepoDir, '.git', 'HEAD'), 'ref: refs/heads/main\n');
 
         // Create .gitignore first
         const gitignoreContent = `node_modules/
@@ -54,8 +51,6 @@ package-lock.json
 *.test.ts`;
 
         await fs.writeFile(path.join(testRepoDir, '.gitignore'), gitignoreContent);
-        await git.add('.gitignore');
-        await git.commit('Add gitignore');
 
         // Create test files that should be included
         const filesToInclude = {
@@ -71,8 +66,6 @@ package-lock.json
             await fs.writeFile(path.join(testRepoDir, filePath), content);
         }
 
-        await git.add('.');
-        await git.commit('Add included files');
 
         // Create files that should be excluded
         const filesToExclude = {
@@ -101,6 +94,9 @@ package-lock.json
         const tempRepoPath = git.getRepositoryPath();
 
         try {
+            const mockedClient = (simpleGit as jest.Mock).mock.results[0].value;
+            expect(mockedClient.fetch).toHaveBeenCalledWith('origin');
+            expect(mockedClient.addConfig).toHaveBeenCalledWith('safe.directory', tempRepoPath, false, 'global');
             // Files that should exist
             const shouldExist = [
                 'package.json',
@@ -153,7 +149,7 @@ package-lock.json
           const ignoredFile1= path.join(tempRepoPath, 'node_modules/test.txt');
           const exists1 = fs.existsSync(ignoredFile1);
 
-          const ignoredFile2 = path.join(tempRepoPath, 'node_module/test3.txt');
+          const ignoredFile2 = path.join(tempRepoPath, 'node_modules/test3.txt');
           const exists2 = fs.existsSync(ignoredFile2);
           console.log('Ignored file exists?', exists1);
           console.log('Ignored file path:', ignoredFile1);

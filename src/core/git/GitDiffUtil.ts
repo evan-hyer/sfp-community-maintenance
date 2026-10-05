@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import * as _ from 'lodash';
 
 import { LoggerLevel } from '@salesforce/core';
-import simplegit, { SimpleGit } from 'simple-git';
+import { simpleGit, SimpleGit } from 'simple-git';
 import SFPLogger, { Logger } from '@flxbl-io/sfp-logger';
 const SEP = /\/|\\/;
 
@@ -19,7 +19,7 @@ export interface DiffFile {
     addedEdited: DiffFileStatus[];
 }
 
-const git: SimpleGit = simplegit();
+const git: SimpleGit = simpleGit();
 
 export default class GitDiffUtils {
     private gitTreeRevisionTo: {

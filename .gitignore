@@ -24,9 +24,18 @@ packages/sfp-cli/oclif.manifest.json
 packages/apexlink/tests/resources/core-crm/apexlink.json
 packages/apexlink/tests/resources/feature-mgmt/apexlink.json
 .nx
+.maintenance/
 .idea/
 .sfpowerscripts
 
 
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
+
+# Published implementation maintained as source for the internal logger.
+!packages/sfp-logger/lib/
+!packages/sfp-logger/lib/**
+
+# Published sfprofiles implementation is maintained source.
+!packages/sfprofiles/lib/
+!packages/sfprofiles/lib/**

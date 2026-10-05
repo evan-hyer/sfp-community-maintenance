@@ -1,0 +1,52 @@
+name: Full container validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [maintenance/container-validation]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: full-container-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  full-container:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.21.0'
+      - name: Build the local fork artifact
+        run: |
+          npm install --global npm@10.9.8
+          npm ci --no-audit --no-fund
+          npm run build --workspaces
+          npm run build
+          npm run manifest
+          npm run pack:maintenance
+          sha512sum .maintenance/flxbl-io-sfp-39.8.0.tgz
+      - name: Build full image
+        run: |
+          df -h /
+          docker build --progress=plain --build-arg GIT_COMMIT="$GITHUB_SHA" \
+            -f dockerfiles/sfp.Dockerfile -t sfp-maintenance:full .
+          docker image inspect sfp-maintenance:full
+      - name: Validate full image without external networking
+        run: |
+          timeout 900s docker run --rm --network none --shm-size=256m \
+            --mount "type=bind,src=$GITHUB_WORKSPACE,dst=/validation,readonly" \
+            sfp-maintenance:full bash /validation/maintenance/full-container-check.sh
+      - name: Record result
+        if: always()
+        env:
+          RESULT: ${{ job.status }}
+        run: |
+          printf 'Full container validation: **%s**\n\nCommit: `%s`\n' "$RESULT" "$GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          printf '\nSee job logs for artifact SHA512, image details, and checks. No image or artifact was published.\n' >> "$GITHUB_STEP_SUMMARY"

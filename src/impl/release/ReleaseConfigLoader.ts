@@ -16,7 +16,7 @@ export default class ReleaseConfigLoader {
     }
 
     public constructor(private logger: Logger, pathToReleaseDefinition: string, private isExplicitDependencyCheckEnabled:boolean=false) {
-        this._releaseConfig = yaml.load(fs.readFileSync(pathToReleaseDefinition, 'utf8'));
+        this._releaseConfig = yaml.load(fs.readFileSync(pathToReleaseDefinition, 'utf8'), { schema: yaml.YAML11_SCHEMA });
         this.validateReleaseDefinitionGeneratorConfig(this._releaseConfig);
 
         // Easy to handle here than with schema

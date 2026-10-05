@@ -30,7 +30,7 @@ export default class FHTAnalyser implements PackageAnalyzer {
             //read components mentioned in yaml
             if (fs.existsSync(fhtYamlPath)) {
                 //convert yaml to json
-                fhtFields = yaml.load(fs.readFileSync(fhtYamlPath, { encoding: 'utf-8' })) as {[key: string]: string[]};
+                fhtFields = yaml.load(fs.readFileSync(fhtYamlPath, { encoding: 'utf-8' }), { schema: yaml.YAML11_SCHEMA }) as {[key: string]: string[]};
             }
 
 

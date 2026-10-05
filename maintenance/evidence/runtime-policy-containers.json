@@ -1,0 +1,108 @@
+{
+    "recordedAt":  "2026-09-27T22:15:24.9466790Z",
+    "checkout":  "060cea7fac54970575fe5e380e89a388ecfa0ab4 plus uncommitted runtime candidate",
+    "scope":  "Local Docker on Ubuntu 26.04 WSL2; Linux amd64; no remote CI or live Salesforce",
+    "docker":  "29.8.1",
+    "containerd":  "2.3.6",
+    "runc":  "1.5.1",
+    "base":  "ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3",
+    "artifact":  {
+                     "sha512":  "83d5991090dc3e41de1207cb1a04b0524f2f980e582a4f256ee87cd7079ac3cb36e609237ea30368b7b9b7dcc1e4f30b8bed9b57f72eed0f840a7b831d0c1a3a",
+                     "path":  ".maintenance/flxbl-io-sfp-39.8.0.tgz",
+                     "bytes":  45626125
+                 },
+    "runtime":  {
+                    "nodeArchiveSha256":  "fd8e59d5a511510f6a298afb548f18c7d2b1be404d8b4a27d94fbe49f56cb2d6",
+                    "node":  "24.21.0",
+                    "npm":  "10.9.8"
+                },
+    "lite":  {
+                 "testedImage":  "sha256:105f46fda016ac7ffd236c07b838a6614b74b2aee68703045cc3f2ea042783be",
+                 "checks":  [
+                                "network none",
+                                "consumer locked versions and shared logger",
+                                "original source/resource SHA256 hashes",
+                                "profile merge",
+                                "real SQLite and native cache",
+                                "4 CLI tests, zero failures/skips",
+                                "sfp and sfpowerscripts aliases"
+                            ],
+                 "originalWrapperNote":  "PowerShell wrapper exit differs from completed Docker log; cached confirmation captured native exit explicitly",
+                 "build":  "All stages and image export completed; cached confirmation Docker exit 0",
+                 "warning":  "8 inherited legacy LABEL-format warnings",
+                 "checksExit":  0,
+                 "originalWrapperExit":  1,
+                 "logs":  [
+                              ".maintenance/docker-lite-build.log",
+                              ".maintenance/docker-lite-build-confirm.log",
+                              ".maintenance/docker-lite-check.log",
+                              ".maintenance/docker-lite-inspect.json"
+                          ],
+                 "cachedConfirmationImage":  "sha256:6887d41832f629aca9839aaecbacee6518e1e1830f20ff2af02281d414bf141b",
+                 "imageConfig":  "sha256:93d5a67b8642de82d53bef7d5c97e332a2d95f3199708e2be143b38a3194dde9",
+                 "result":  "pass"
+             },
+    "full":  {
+                 "retainedVersions":  {
+                                          "browserforce":  "5.0.0",
+                                          "scanner":  "4.7.0",
+                                          "salesforceCli":  "2.100.4",
+                                          "sfdmu":  "4.38.0",
+                                          "yarn":  "1.22.22"
+                                      },
+                 "log":  ".maintenance/docker-full-apt-diagnostic.log",
+                 "hostFreeBytes":  1441681408,
+                 "result":  "storage watchdog cancellation during image export; runtime unvalidated",
+                 "aptDiagnostic":  "Simulation only on same Ubuntu24.04 lite base. chromium-driver has no direct candidate but resolves to chromium-chromedriver 2:1snap1-0ubuntu2 and chromium-browser/snapd/systemd; simulation exit0. No full recipe apt failure observed.",
+                 "remaining":  [
+                                   "browser recipe decision and actual build",
+                                   "offline consumer/CLI/native checks",
+                                   "Salesforce CLI/plugin/Java/browser/driver startup checks without authentication"
+                               ],
+                 "browserCandidate":  {
+                                          "validated":  false,
+                                          "version":  "137.0.7151.55",
+                                          "puppeteer":  "24.10.0",
+                                          "revisionSource":  "https://unpkg.com/puppeteer-core@24.10.0/lib/esm/puppeteer/revisions.js",
+                                          "metadataSource":  "https://googlechromelabs.github.io/chrome-for-testing/137.0.7151.55.json",
+                                          "chromeSha256":  "ffedd41a261f26e2e60e5d1692e0955c292caffafd15865344d21b845554a3d4",
+                                          "driverSha256":  "57b44a6b5193511898eb1c26b3eae8378a763a6d09e7687b801a799d58e7e90d",
+                                          "checksumProvenance":  "locally observed official HTTPS downloads; not independent signature verification",
+                                          "aptEstimate":  {
+                                                              "installationPerformed":  false,
+                                                              "downloadMB":  248,
+                                                              "installedMB":  1000,
+                                                              "log":  ".maintenance/full-apt-size.log"
+                                                          },
+                                          "syntaxCheck":  "sh -n passes",
+                                          "deferred":  "actual full build; browser/Puppeteer/driver and external tools startup; modern browser/plugin upgrade"
+                                      },
+                 "buildAttempt":  {
+                                      "recordedAt":  "2026-09-28T03:43:12.0737256Z",
+                                      "exit":  130,
+                                      "completed":  "All Dockerfile RUN stages passed, including browser checksum/version checks, sfp aliases and pinned external-tool/plugin installation",
+                                      "stoppedAt":  "image export, after exporting layers",
+                                      "cause":  "Host C free1321271296 bytes crossed1.25GiB watchdog reserve; recorded Docker build client cancelled",
+                                      "runtimeChecks":  "Skipped: build exit130; no completed full image or runtime smoke result",
+                                      "logs":  [
+                                                   ".maintenance/docker-full-build.log",
+                                                   ".maintenance/docker-full-watchdog.log",
+                                                   ".maintenance/docker-full-build.exit",
+                                                   ".maintenance/docker-full-check-status.txt"
+                                               ],
+                                      "cleanup":  "Only four authorized obsolete generated dependency directories and two unused154 research ZIPs removed; no Docker deletion",
+                                      "warning":  "8 inherited legacy LABEL-format warnings"
+                                  }
+             },
+    "hostedValidation": {
+        "result": "pass",
+        "run": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481793994",
+        "headSha": "316d4e440cb02f0d2f1a5b252f6b4cee7a2011e6",
+        "job": "https://github.com/evan-hyer/sfp-community-maintenance/actions/runs/36481793994/job/109129457313",
+        "completedAt": "2026-09-28T20:54:27Z",
+        "artifactSha512": "8ad37551a823614fa8ea16c91685aa3e1bfde8f5755a52b1eec74db14237659f1fb5700ac4d037aa1a95114fb2235d14d0307b74199a7879676c3ef74708b8d9",
+        "imageId": "sha256:452f6d67fbd78c3fabfff5acb437f9b5bf4432d0b6df4637fab9f0525869eb76",
+        "evidence": "runtime-policy-hosted.json#latestValidatedCheckpoint",
+        "note": "Hosted full-image build and offline runtime checks pass. Earlier local storage cancellation and hosted results retained as history."
+    }
+}
