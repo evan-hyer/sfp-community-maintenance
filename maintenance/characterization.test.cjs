@@ -75,6 +75,17 @@ test('root and vendored profiles share the supported Jsforce runtime', () => {
   assert.equal(typeof connection.request, 'function');
 });
 
+test('root and vendored profiles share Salesforce Core and SDR majors', () => {
+  const profilesDir = path.dirname(require.resolve('@flxbl-io/sfprofiles/package.json'));
+  for (const name of ['@salesforce/core', '@salesforce/source-deploy-retrieve']) {
+    assert.equal(require.resolve(name, { paths: [profilesDir] }), require.resolve(name), name);
+  }
+  assert.equal(require('@salesforce/core/package.json').version, '9.3.0');
+  assert.equal(require('@salesforce/source-deploy-retrieve/package.json').version, '13.4.3');
+  assert.equal(typeof require('@salesforce/core').Org, 'function');
+  assert.equal(typeof require('@salesforce/source-deploy-retrieve').ComponentSet, 'function');
+});
+
 test('patched WebSocket driver retains in-memory handshake and text delivery', async () => {
   const websocket = require('websocket-driver');
   assert.equal(require('websocket-driver/package.json').version, '0.7.5');
