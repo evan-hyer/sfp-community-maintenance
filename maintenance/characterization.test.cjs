@@ -109,6 +109,15 @@ test('get-uri selects the patched Basic FTP client', () => {
   assert.equal(typeof require('basic-ftp').Client, 'function');
 });
 
+test('Ink resolves a patched ws server API', () => {
+  const WebSocket = require('ws');
+  assert.equal(require('ws/package.json').version, '8.22.0');
+  assert.equal(typeof WebSocket, 'function');
+  const server = new WebSocket.Server({ noServer: true });
+  assert.equal(typeof server.handleUpgrade, 'function');
+  server.close();
+});
+
 test('patched WebSocket driver retains in-memory handshake and text delivery', async () => {
   const websocket = require('websocket-driver');
   assert.equal(require('websocket-driver/package.json').version, '0.7.5');
