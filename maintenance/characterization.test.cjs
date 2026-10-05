@@ -101,6 +101,14 @@ test('oclif AWS clients load without the vulnerable nested XML parser', () => {
   assert.equal(lock.packages['node_modules/fast-xml-parser'].version, '5.11.2');
 });
 
+test('get-uri selects the patched Basic FTP client', () => {
+  const getUriDir = path.dirname(require.resolve('get-uri'));
+  assert.equal(require.resolve('basic-ftp', { paths: [getUriDir] }), require.resolve('basic-ftp'));
+  assert.equal(require('basic-ftp/package.json').version, '6.2.2');
+  assert.equal(typeof require('get-uri').getUri, 'function');
+  assert.equal(typeof require('basic-ftp').Client, 'function');
+});
+
 test('patched WebSocket driver retains in-memory handshake and text delivery', async () => {
   const websocket = require('websocket-driver');
   assert.equal(require('websocket-driver/package.json').version, '0.7.5');
