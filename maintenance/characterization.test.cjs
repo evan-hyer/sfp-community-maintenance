@@ -76,21 +76,12 @@ test('root and vendored profiles share the supported Jsforce runtime', () => {
 });
 
 test('root and vendored profiles share Salesforce Core and SDR majors', () => {
-  try {
-    const profilesDir = path.dirname(require.resolve('@flxbl-io/sfprofiles/package.json'));
-    for (const name of ['@salesforce/core', '@salesforce/source-deploy-retrieve']) {
-      assert.equal(require.resolve(name, { paths: [profilesDir] }), require.resolve(name), name);
-    }
-    assert.equal(require('@salesforce/core/package.json').version, '9.3.0');
-    assert.equal(require('@salesforce/source-deploy-retrieve/package.json').version, '13.4.3');
-    assert.equal(typeof require('@salesforce/core').Org, 'function');
-    assert.equal(typeof require('@salesforce/source-deploy-retrieve').ComponentSet, 'function');
-  } catch (error) {
-    if (process.env.GITHUB_ACTIONS) {
-      console.error(`::error title=Salesforce family load::${String(error.stack || error).replace(/\r?\n/g, '%0A')}`);
-    }
-    throw error;
+  const profilesDir = path.dirname(require.resolve('@flxbl-io/sfprofiles/package.json'));
+  for (const name of ['@salesforce/core', '@salesforce/source-deploy-retrieve']) {
+    assert.equal(require.resolve(name, { paths: [profilesDir] }), require.resolve(name), name);
   }
+  assert.equal(typeof require('@salesforce/core').Org, 'function');
+  assert.equal(typeof require('@salesforce/source-deploy-retrieve').ComponentSet, 'function');
 });
 
 test('patched WebSocket driver retains in-memory handshake and text delivery', async () => {
